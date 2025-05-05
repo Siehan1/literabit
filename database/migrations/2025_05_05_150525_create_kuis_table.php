@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('kuis', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_buku');
+            $table->char('pertanyaan');
+            $table->char('jawaban');
             $table->timestamps();
+
+            $table->foreign('id_buku')->references('id')->on('buku');
         });
     }
 
