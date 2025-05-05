@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('buku', function (Blueprint $table) {
-            $table->increments('id')->primary();
+            $table->id();
             $table->char('judul')->nullable();
             $table->char('pengarang')->nullable();
             $table->char('sinopsis');
+            $table->unsignedBigInteger('id_genre');
             $table->foreign('id_genre')->references('id')->on('genre');
             $table->char('cover');
             $table->timestamps();
