@@ -9,5 +9,7 @@
 </head>
 <body>
     <x-navbar></x-navbar>
+
+    <x-Footer></x-Footer>
 </body>
 </html>
