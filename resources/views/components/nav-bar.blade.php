@@ -1,7 +1,7 @@
-<header class="flex flex-row justify-between item-center lg:mx-7 mx-4 h-20 text-teks font-poppins">
+<header class="flex flex-row justify-between item-center lg:px-7 lg:pb-2 text-teks font-poppins pb-2 px-4 border-b-2 border-gray-300">
     <!-- Logo dan Brand -->
     <div class="inline-flex justify-center items-center gap-2 pt-2">
-        <a href="#" class="flex item-center pt-3"><img src="{{asset('asset/images/icon.svg')}}" alt="LiteraBit Logo" class="lg:w-14 lg:h-max w-10"></a>
+        <a href="#" class="flex item-center pt-3"><img src="{{asset('asset/images/icon.svg')}}" alt="LiteraBit Logo" class="lg:w-11 lg:h-max w-10"></a>
         <div class="w-24 inline-flex flex-col justify-start items-start">
             <span class="self-stretch justify-start text-primary text-base font-bold font-['Poppins'] leading-tight">LittleRabbit</span>
             <span class="LittleReadingHabit self-stretch justify-start text-orange-300 text-[10.24px] font-normal font-['Poppins'] leading-3">Little Reading Habbit</span>
