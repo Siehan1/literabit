@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
-    @vite('resources/css/app.css')
+    <link rel="icon" href="{{ asset('asset/images/icon.svg') }}" type="image/svg+xml">
+    @vite(['resources/css/app.css','resources/js/navbar.js'])
 </head>
 <body>
     <x-navbar></x-navbar>
+
+    <x-Footer></x-Footer>
 </body>
 </html>
