@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('history', function (Blueprint $table) {
+        Schema::create('kuis', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_buku');
-            $table->integer('hal_terakhir');
-            $table->date('tanggal_terakhir');
+            $table->foreignId('buku_id')->constrained(
+                table: 'bukus', indexName: 'kuis_buku_id'
+            );
+            $table->string('pertanyaan');
+            $table->string('jawaban');
             $table->timestamps();
-
-            $table->foreign('id_buku')->references('id')->on('buku');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('history');
+        Schema::dropIfExists('kuis');
     }
 };
