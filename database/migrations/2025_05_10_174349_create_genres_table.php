@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('resume', function (Blueprint $table) {
+        Schema::create('genres', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_buku');
-            $table->unsignedBigInteger('id_user');
-            $table->text('resume');
+            $table->string('nama_genre');
             $table->timestamps();
-
-            $table->foreign('id_buku')->references('id')->on('buku');
-            $table->foreign('id_user')->references('id')->on('users');
         });
     }
 
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('resume');
+        Schema::dropIfExists('genres');
     }
 };
