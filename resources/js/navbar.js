@@ -47,3 +47,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+// scrolll navbar
+let lastScrollTop = 0;
+let navbar = document.querySelector('header');
+let timer = null;
+
+window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Menghilangkan navbar saat scroll ke bawah
+    if (scrollTop > lastScrollTop) {
+        navbar.style.transform = 'translateY(-100%)';
+        navbar.style.transition = 'transform 0.3s ease-in-out';
+    } 
+    // Menampilkan navbar saat scroll ke atas
+    else {
+        navbar.style.transform = 'translateY(0)';
+        navbar.style.transition = 'transform 0.3s ease-in-out';
+    }
+    
+    lastScrollTop = scrollTop;
+
+    // Clear timer yang ada
+    if (timer !== null) {
+        clearTimeout(timer);
+    }
+
+    // Set timer baru untuk menampilkan navbar setelah scroll berhenti
+    timer = setTimeout(function() {
+        navbar.style.transform = 'translateY(0)';
+    }, 150); // Waktu tunggu 150ms setelah scroll berhenti
+});

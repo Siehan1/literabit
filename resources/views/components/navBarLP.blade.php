@@ -1,4 +1,4 @@
-<header class="flex flex-row justify-between item-center lg:px-7 lg:pb-2 text-teks font-poppins pb-2 px-4 border-b-2 border-gray-300">
+<header class="flex flex-row justify-between item-center lg:px-7 lg:pb-2 text-teks font-poppins pb-2 px-4 border-b-2 border-gray-300 fixed top-0 left-0 right-0 bg-white z-50 transition-transform duration-300">
     <!-- Logo dan Brand -->
     <div class="inline-flex justify-center items-center gap-2 pt-2">
         <a href="#" class="flex item-center pt-3"><img src="{{asset('asset/images/icon.svg')}}" alt="LiteraBit Logo" class="lg:w-11 lg:h-max w-10"></a>

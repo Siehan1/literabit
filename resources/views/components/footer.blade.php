@@ -41,8 +41,7 @@
             <div class="w-auto text-teks font-poppins text-4 font-medium lg:text-[20px] lg:w-[430px] lg:pl-6">
                 <p>Membangun Kebiasaan Membaca dengan Quiz interaktif dan puzzle menyenangkan</p>
             </div>
-            <div class="pb-6 flex flex-wrap gap-6 w-auto  lg:gap-10 pt-6 lg:pt-0">
-                
+            <div class="pb-6 flex flex-wrap gap-6 w-auto  lg:gap-10 pt-6 lg:pt-0 lg:pr-7">
                 <div class="flex flex-col leading-4">
                     <h4 class="text-teks text-base">Tentang Kami</h4>
                     @foreach ([
@@ -83,12 +82,11 @@
                     @endforeach
                 </div>            
             </div>
-    
         </div>
        
         <div class="border-t border-gray-200">
             <div class="py-4">
-                <p class="text-teks text-xs text-start">
+                <p class="text-teks text-xs text-start lg:pl-7">
                     &copy; {{ date('Y') }} Little Rabbit. All rights reserved.
                 </p>
             </div>
