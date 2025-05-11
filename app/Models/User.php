@@ -12,17 +12,37 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
 
+    public function histories(): HasMany
+    {
+        return $this->hasMany(History::class);
+    }
+    /**
+     * Get all of the comments for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+
+    /**
+     * Get all of the resumes for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function resumes(): HasMany
+    {
+        return $this->hasMany(Resume::class);
+    }
+    
     /**
      * The attributes that should be hidden for serialization.
      *

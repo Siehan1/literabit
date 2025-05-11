@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('buku', function (Blueprint $table) {
+        Schema::create('resumes', function (Blueprint $table) {
             $table->id();
-            $table->char('judul')->nullable();
-            $table->char('pengarang')->nullable();
-            $table->char('sinopsis');
-            $table->unsignedBigInteger('id_genre');
-            $table->foreign('id_genre')->references('id')->on('genre');
-            $table->char('cover');
+            $table->foreignId('buku_id')->constrained(
+                table: 'bukus', indexName: 'resume_buku_id'
+            );
+            $table->foreignId('user_id')->constrained(
+                table: 'users', indexName: 'resume_user_id'
+            );
+            $table->text('resume');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('buku');
+        Schema::dropIfExists('resumes');
     }
 };
