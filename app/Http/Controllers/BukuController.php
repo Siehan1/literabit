@@ -11,7 +11,58 @@ class BukuController extends Controller
      */
     public function index()
     {
-        //
+        $buku = [
+            [
+                'cover' => 'buku/image1.png',
+                'judul' => 'Si cemong coak',
+                'penulis' => 'Tere Liye',
+                'profile' => 'profile_penulis/pro1.svg',
+                'genre' => 'adventure'
+            ],
+            [
+                'cover' => 'buku/image2.png',
+                'judul' => 'Buku Dua',
+                'penulis' => 'Tere Liye',
+                'profile' => 'profile_penulis/pro1.svg',
+                'genre' => 'adventure'
+            ],
+            [
+                'cover' => 'buku/image3.png',
+                'judul' => 'Buku Tiga',
+                'penulis' => 'Tere Liye',
+                'profile' => 'profile_penulis/pro1.svg',
+                'genre' => 'adventure'
+            ],
+            [
+                'cover' => 'buku/image4.png',
+                'judul' => 'Buku Empat',
+                'penulis' => 'Tere Liye',
+                'profile' => 'profile_penulis/pro1.svg',
+                'genre' => 'adventure'
+            ],
+            [
+                'cover' => 'buku/image5.png',
+                'judul' => 'Buku Lima',
+                'penulis' => 'Tere Liye',
+                'profile' => 'profile_penulis/pro1.svg',
+                'genre' => 'adventure'
+            ],
+            [
+                'cover' => 'buku/image6.png',
+                'judul' => 'Buku Enam',
+                'penulis' => 'Tere Liye',
+                'profile' => 'profile_penulis/pro1.svg',
+                'genre' => 'adventure'
+            ],
+            [
+                'cover' => 'buku/image7.png',
+                'judul' => 'Buku Tujuh',
+                'penulis' => 'Tere Liye',
+                'profile' => 'profile_penulis/pro1.svg',
+                'genre' => 'adventure'
+            ]
+        ];
+        return view('index', compact('buku'));
     }
 
     /**
