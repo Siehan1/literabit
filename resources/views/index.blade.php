@@ -10,8 +10,19 @@
 <body>
     <x-nav-bar-l-p></x-nav-bar-l-p>
     <main class="pt-24">
-        <section id="beranda" class="min-h-screen">
+        <section id="beranda" class="min-h-auto mb-4">
             <x-herolp></x-herolp>
+        </section>
+        <section class="bg-primary-300 p-4">
+            @foreach (array_slice($buku,0,1) as $bukuItem)
+                <x-card-buku 
+                    :cover="$bukuItem['cover']"
+                    :judul="$bukuItem['judul']"
+                    :penulis="$bukuItem['penulis']"
+                    :profile="$bukuItem['profile']"
+                    :genre="$bukuItem['genre']"
+                ></x-card-buku>
+            @endforeach
         </section>
         
     </main>

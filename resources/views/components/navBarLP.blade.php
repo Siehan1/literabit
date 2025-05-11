@@ -20,8 +20,8 @@
         <ul class="flex flex-col lg:flex-row gap-8 mb-4 lg:mb-0 mt-20 lg:mt-0">
             @foreach ([
                 'Beranda' => '#beranda',
-                'Tentang' => '#tentang',
                 'Buku' => '#buku',
+                'Tentang' => '#tentang',
                 'Testimoni' => '#testimoni',
                 'Kontak' => '#kontak'
             ] as $text => $link)

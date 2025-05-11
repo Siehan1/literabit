@@ -20,7 +20,8 @@
     --color-primary-900: #462702;
     --color-primary-950: #231401;
     --color-hover: #E2A255;
-
+    --shadow-prim: -4px 3px 0px rgba(188, 135, 71, 0.50);
+    /* [-4px_3px_0px_0px_rgba(188,135,71,0.50)] */
     /* color green */
     /* --color-secondary: #secondary; */
     --color-secondary-50: #f4fbf5;
