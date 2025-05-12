@@ -18,9 +18,9 @@
 
             <!-- Developer Card 2 -->
             <div class="flex flex-col items-center">
-                <a href="https://instagram.com/asep_nadhirin" target="_blank" class="transition-transform duration-300 hover:scale-110">
+                <a href="https://instagram.com/as3p.n" target="_blank" class="transition-transform duration-300 hover:scale-110">
                     <div class="w-24 h-24 md:w-32 md:h-32 lg:w-48 lg:h-48 mb-2 md:mb-3 lg:mb-4 overflow-hidden rounded-full">
-                        <img src="{{ asset('profile_penulis/pro1.svg') }}" alt="Asep Nadhirin" class="w-full h-full object-cover">
+                        <img src="{{ asset('dev_foto/Asep Nadhirin.jpg') }}" alt="Asep Nadhirin" class="w-full h-full object-cover">
                     </div>
                 </a>
                 <h3 class="text-base md:text-lg lg:text-xl font-semibold">Asep Nadhirin</h3>
