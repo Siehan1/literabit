@@ -21,6 +21,11 @@
         {{-- tentang section --}}
         <x-about-l-p></x-about-l-p>
 
+        {{-- testimoni section --}}
+        <x-testimoni></x-testimoni>
+
+        <x-dev-l-r></x-dev-l-r>
+
     </main>
     <x-Footer></x-Footer>
 </body>

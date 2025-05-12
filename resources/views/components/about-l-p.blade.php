@@ -1,4 +1,4 @@
-<section class="min-h-screen mb-4 font-poppins text-teks">
+<section class="min-h-screen mb-4 font-poppins text-teks" id="tentang">
     {{-- 3 --}}
     <div class="flex flex-col md:flex-row lg:flex-row items-center justify-center gap-10 lg:gap-20 px-4 md:px-8 lg:px-16 mb-11">
         <img src="{{ asset('asset/images/kelinci_baca.svg') }}" alt="kelinci baca" class="w-52 md:w-64 lg:w-96">
