@@ -19,7 +19,7 @@
         <x-popular-l-p :buku="$buku"></x-popular-l-p>
 
         {{-- tentang section --}}
-        
+        <x-about-l-p></x-about-l-p>
 
     </main>
     <x-Footer></x-Footer>
