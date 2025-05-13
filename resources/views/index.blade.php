@@ -24,6 +24,7 @@
         {{-- testimoni section --}}
         <x-testimoni></x-testimoni>
 
+        <!-- develop -->
         <x-dev-l-r></x-dev-l-r>
 
     </main>
