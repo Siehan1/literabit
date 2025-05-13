@@ -11,5 +11,9 @@ Route::get('/login', function () {
     return view('login.login');
 });
 
+Route::get('/beranda',function (){
+    return view('beranda.beranda');
+});
+
 Route::get('/', [BukuController::class, 'index']);
 Route::get('/index', [BukuController::class, 'index']);
