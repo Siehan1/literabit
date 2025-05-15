@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('name');
             $table->string('email')->unique();
-            $table->boolean('is_admin')->default(false);;
-            $table->string('bookmark')->nullable();
+            $table->boolean('is_admin')->default(false);
             $table->string('profil')->nullable();
-            $table->integer('point')->nullable();
+            $table->integer('level')->default(0);
+            $table->integer('xp')->nullable();
             $table->string('password', 100);
             $table->rememberToken();
             $table->timestamps();
