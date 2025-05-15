@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kuis', function (Blueprint $table) {
+        Schema::create('badges', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('buku_id')->constrained(
-                table: 'bukus', indexName: 'kuis_buku_id'
-            );
-            $table->string('pertanyaan');
+            $table->string('nama_badge');
+            $table->text('description');
+            $table->string('icon_path');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kuis');
+        Schema::dropIfExists('badges');
     }
 };
