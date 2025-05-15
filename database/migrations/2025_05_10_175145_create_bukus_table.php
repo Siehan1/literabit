@@ -17,11 +17,12 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('sinopsis');
             $table->string('penulis');
-            $table->string('isi');
+            $table->string('pdf_path');
+            $table->integer('level_required');
             $table->foreignId('genre_id')->constrained(
                 table: 'genres', indexName: 'bukus_genre_id'
             );
-            $table->string('cover')->nullable();
+            $table->string('cover_path');
             $table->timestamps();
         });
     }

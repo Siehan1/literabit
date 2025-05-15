@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kuis', function (Blueprint $table) {
+        Schema::create('level_tresholds', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('buku_id')->constrained(
-                table: 'bukus', indexName: 'kuis_buku_id'
-            );
-            $table->string('pertanyaan');
+            $table->integer('level');
+            $table->integer('required_xp');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kuis');
+        Schema::dropIfExists('level_tresholds');
     }
 };
