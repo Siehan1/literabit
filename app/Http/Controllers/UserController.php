@@ -10,7 +10,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function beranda()
     {
         $users = User::all();
         return view('beranda.beranda',compact('users'));
