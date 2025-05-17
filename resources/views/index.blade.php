@@ -16,7 +16,8 @@
         </section>
 
         {{-- buku section --}}
-        <x-popular-l-p :buku="$buku"></x-popular-l-p>
+        <x-popular-l-p :buku="$bukus"></x-popular-l-p>
+        
 
         {{-- tentang section --}}
         <x-about-l-p></x-about-l-p>
