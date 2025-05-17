@@ -10,10 +10,14 @@ class adminController extends Controller
 {
     public function index(){
         $users = User::all();
-        return view('admin.admin', compact('users'));
+        return view('admin.dashboard.admin', compact('users'));
+    }
+    public function showBuku(){
+        $bukus = Buku::all();
+        return view('admin.buku.tableBuku', compact('bukus'));
     }
     public function upload(){
         $bukus = Buku::all();
-        return view('admin.uploadbuku', compact('bukus'));
+        return view('admin.buku.uploadbuku', compact('bukus'));
     }
 }

@@ -46,6 +46,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 // });
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::get('/uploadbuku', [AdminController::class, 'upload'])->name('upload');
+Route::get('/tableBuku', [AdminController::class, 'showBuku'])->name('tableBuku');
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
