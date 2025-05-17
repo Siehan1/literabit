@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - LittleRabbit</title>
+    <title>Registrasi - LittleRabbit</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="font-poppins text-teks bg-wave min-h-screen flex items-center justify-center">
@@ -24,30 +24,33 @@
 
                 {{-- form --}}
                 <div class="lg:w-1/2">
-                    <div class="flex flex-col items-center lg:items-start gap-3 mb-5">
-                        <h3 class="text-xl md:text-2xl text-center lg:text-left font-bold">Selamat Datang Kembali!</h3>
-                        <p class="text-center lg:text-left text-sm md:text-[14px] text-sec">Silakan login untuk melanjutkan ke akun Anda dan nikmati berbagai cerita buku yang kami sediakan</p>
+                    <div class="flex flex-col items-center lg:items-start gap-3 mb-8">
+                        <h3 class="text-xl md:text-2xl text-center lg:text-left font-bold">Selamat Datang!</h3>
+                        <p class="text-center lg:text-left text-sm md:text-[14px] text-sec">Silakan registrasi untuk melanjutkan ke akun Anda dan nikmati berbagai cerita buku yang kami sediakan</p>
                     </div>
-                    @if ($errors->any())
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 flex flex-row gap-1.5">
-                                @foreach ($errors->all() as $error)
-                                    <i class="bi bi-exclamation-triangle-fill text-red-700 "></i>
-                                    <span>{{$error}}</span>
-                                @endforeach
-                        </div>
-                    @endif
+
                     
-                    <form class="space-y-4" action="{{ route('login.post') }}" method="POST">
+                    <form class="space-y-4" action="{{ route('register') }}" method="POST">
                         @csrf
                         <div class="flex flex-col gap-2">
+                            <label for="name" class="text-sm font-medium">Nama</label>
+                            <input type="text" id="name" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="Nama Lengkap" autofocus name="name">
+                        </div>
+                        
+                        <div class="flex flex-col gap-2">
+                            <label for="username" class="text-sm font-medium">Username</label>
+                            <input type="text" id="username" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="Username" autofocus name="username">
+                        </div>
+
+                        <div class="flex flex-col gap-2">
                             <label for="email" class="text-sm font-medium">Email</label>
-                            <input type="email" id="email"  required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="JhonDhoe@gmail.com" autofocus name="email">
+                            <input type="email" id="email" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="JhonDhoe@gmail.com" autofocus name="email">
                         </div>
 
                         <div class="flex flex-col gap-2">
                             <label for="password" class="text-sm font-medium">Password</label>
                             <div class="relative">
-                                <input type="password" id="password" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" name="password">
+                                <input type="password" id="password" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="Password" name="password">
                                 <button type="button" class="toggle-password absolute right-3 top-1/2 -translate-y-1/2 text-sec hover:text-primary transition-colors duration-200">
                                     <!-- Icon Mata Tertutup -->
                                     <svg xmlns="http://www.w3.org/2000/svg" id="eyeClose" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -62,21 +65,15 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <input type="checkbox" id="remember" class="w-4 h-4 rounded border-2 border-primary text-primary focus:ring-primary">
-                                <label for="remember" class="text-sm">Ingat saya</label>
-                            </div>
-                            <a href="#" class="text-sm text-primary hover:text-hover transition-colors duration-200">Lupa password?</a>
-                        </div>
+                        
 
                         <button type="submit" class="w-full bg-primary text-white py-2.5 rounded-xl font-medium hover:bg-hover transition-colors duration-200 shadow-[0px_4px_0px_0px_rgba(201,144,75,1.00)]">
-                            Masuk
+                            Daftar
                         </button>
 
                         <p class="text-center text-sm">
-                            Belum punya akun? 
-                            <a href="{{ route('register') }}" class="text-primary hover:text-hover transition-colors duration-200">Daftar sekarang</a>
+                            Sudah punya akun? 
+                            <a href="{{ route('login') }}" class="text-primary hover:text-hover transition-colors duration-200">Login!</a>
                         </p>
                     </form>
                 </div>
