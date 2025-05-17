@@ -39,7 +39,7 @@
 
     <!-- Tombol Login dan Hamburger -->
     <div class="flex flex-row gap-2 md:gap-3 items-center">
-        <a href="#" class="bg-primary px-3 md:px-6 lg:px-9 py-1.5 md:py-2 rounded-4xl text-sm md:text-base font-medium transition-colors ease-in duration-200 hover:bg-hover shadow-[0px_4px_0px_0px_rgba(201,144,75,1.00)]">Login</a>
+        <a href="/login" class="bg-primary px-3 md:px-6 lg:px-9 py-1.5 md:py-2 rounded-4xl text-sm md:text-base font-medium transition-colors ease-in duration-200 hover:bg-hover shadow-[0px_4px_0px_0px_rgba(201,144,75,1.00)]">Login</a>
         <button class="group lg:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3" class="lg:hidden block fill-teks group-hover:fill-primary transition-colors duration-200">
                 <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
