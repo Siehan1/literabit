@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\layout;
+namespace App\View\Components\dashboardComponent;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -21,6 +21,6 @@ class cardAdmin extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.layout.card-admin');
+        return view('components.dashboardComponent.card-admin');
     }
 }

@@ -17,16 +17,17 @@ class BukuSeeder extends Seeder
     {
         $genres = Genre::all();
 
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $judul = "Judul Buku ke-$i";
             Buku::create([
                 'judul' => $judul,
                 'slug' => Str::slug($judul),
                 'sinopsis' => "Ini sinopsis dari buku ke-$i",
                 'penulis' => "Penulis $i",
-                'isi' => "Isi lengkap dari buku ke-$i",
+                'pdf_path' => "ini path ke - $i",
+                'level_required' => rand(1, 5),
                 'genre_id' => $genres->random()->id,
-                'cover' => null,
+                'cover_path' => "ini cover ke - $i",
             ]);
         }
     }
