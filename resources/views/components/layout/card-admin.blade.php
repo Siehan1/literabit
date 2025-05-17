@@ -1,10 +1,14 @@
-<div class="bg-white w-60 p-2 rounded flex flex-col shadow">
-    <div>
-        <h3 class="text-[18px] text-sec">{{ $header ?? "Total"}}</h3>
-        <h2 class="text-5xl font-bold text-teks">
+<div class="bg-white w-60 p-6 rounded-xl flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+    <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-2">
+            <h3 class="text-lg font-medium text-gray-600">{{ $header ?? "Total"}}</h3>
+            <div class="flex-grow"></div>
+            {{ $icon ?? '' }}
+        </div>
+        <h2 class="text-4xl font-bold text-primary-600">
             {{ $subheader ?? "subheader" }}
         </h2>
-        <p class="text-[16px] text-secondary-700">
+        <p class="text-sm text-gray-500">
             {{ $paragraph ?? "isi card" }}
         </p>
     </div>
