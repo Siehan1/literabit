@@ -31,3 +31,8 @@ Route::get('/login',[AuthController::class,'showlogin'])->name('login');
 Route::post('/login',[AuthController::class,'login'])->name('login.post');
 Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
+
+// route dashboard admin
+Route::get('/admin',function(){
+    return view ('admin.dashboardAdmin');
+});
