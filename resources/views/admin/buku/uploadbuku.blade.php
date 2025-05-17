@@ -3,8 +3,23 @@
     <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
             <h2 class="text-2xl font-bold text-primary mb-8 text-center">Upload Buku Baru</h2>
-
-            <form action="" method="POST" enctype="multipart/form-data" class="space-y-6">
+            
+            @if(session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 flex flex-row gap-1.5">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>{{ session('success') }}</span>
+                    
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 flex flex-row gap-1.5">
+                        @foreach ($errors->all() as $error)
+                            <i class="bi bi-exclamation-triangle-fill text-red-700 "></i>
+                            <span>{{$error}}</span>
+                        @endforeach
+                </div>
+            @endif
+            <form action="{{route('upload')}}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Judul Buku -->
@@ -32,7 +47,7 @@
                             class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200"
                             name="genre">
                             <option value="" disabled selected>Pilih genre buku</option>
-                            <option value="fiksi">Fiksi</option>
+                            <option value="1">Fiksi</option>
                             <option value="non-fiksi">Non-Fiksi</option>
                             <option value="misteri">Misteri</option>
                             <option value="romance">Romance</option>
@@ -46,9 +61,9 @@
                     <!-- Level -->
                     <div class="space-y-2">
                         <label for="level" class="block text-sm font-medium text-teks">Level Minimum <span class="text-red-500">*</span></label>
-                        <input type="number" id="level" required
-                            class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200"
-                            placeholder="Masukkan level minimum"
+                        <input type="number" id="level" required 
+                            class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" 
+                            placeholder="Masukkan level minimum" 
                             name="level" min="1">
                     </div>
 

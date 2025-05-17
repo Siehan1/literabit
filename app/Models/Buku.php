@@ -14,9 +14,10 @@ class Buku extends Model
         'slug',
         'sinopsis',
         'penulis',
-        'isi',
+        'pdf_path',
         'genre_id',
-        'cover',
+        'cover_path',
+        'level_required'
     ];
 
     public function genre()
