@@ -24,12 +24,20 @@
 
                 {{-- form --}}
                 <div class="lg:w-1/2">
-                    <div class="flex flex-col items-center lg:items-start gap-3 mb-8">
+                    <div class="flex flex-col items-center lg:items-start gap-3 mb-5">
                         <h3 class="text-xl md:text-2xl text-center lg:text-left font-bold">Selamat Datang Kembali!</h3>
                         <p class="text-center lg:text-left text-sm md:text-[14px] text-sec">Silakan login untuk melanjutkan ke akun Anda dan nikmati berbagai cerita buku yang kami sediakan</p>
                     </div>
 
-                    
+                    @if ($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 flex flex-row gap-1.5">
+                                @foreach ($errors->all() as $error)
+                                    <i class="bi bi-exclamation-triangle-fill text-red-700 "></i>
+                                    <span>{{$error}}</span>
+                                @endforeach
+                        </div>
+                    @endif
+
                     <form class="space-y-4" action="{{ route('login.post') }}" method="POST">
                         @csrf
                         <div class="flex flex-col gap-2">
