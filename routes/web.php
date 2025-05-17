@@ -37,5 +37,9 @@ Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
 Route::get('/admin',function(){
     return view ('admin.admin');
 });
+Route::get('/uploadBuku', function(){
+    return view('admin.uploadbuku');
+});
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
