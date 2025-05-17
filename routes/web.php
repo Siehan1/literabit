@@ -12,17 +12,17 @@ Route::get('/', function () {
 });
 
 // route to login
-Route::get('/login', function () {
-    return view('login.login');
-});
+// Route::get('/login', function () {
+//     return view('login.login');
+// });
 
 // route to beranda
-Route::get('/beranda',function (){
-    return view('beranda.beranda');
-});
+// Route::get('/beranda',function (){
+//     return view('beranda.beranda');
+// });
 
 // route to get data users
-Route::get('/beranda', [UserController::class, 'index']);
+// Route::get('/beranda', [UserController::class, 'index']);
 // route to get data buku
 Route::get('/', [BukuController::class, 'index']);
 Route::get('/index', [BukuController::class, 'index']);
@@ -32,6 +32,10 @@ Route::get('/login',[AuthController::class,'showlogin'])->name('login');
 Route::post('/login',[AuthController::class,'login'])->name('login.post');
 Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
+
+// register
+Route::get('/register', [AuthController::class, 'showRegist'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 // route dashboard admin
 // Route::get('/admin',function(){

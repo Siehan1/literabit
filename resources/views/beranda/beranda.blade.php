@@ -8,5 +8,7 @@
 </head>
 <body>
     <x-utama.navside></x-utama.navside>
+    {{$users}}<br>
+    <a href="{{ route('logout') }}">Logout</a>
 </body>
 </html>
