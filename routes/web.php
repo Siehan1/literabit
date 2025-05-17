@@ -35,14 +35,16 @@ Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
 
 // route dashboard admin
-Route::get('/admin',function(){
-    return view ('admin.admin');
-});
-Route::get('/uploadBuku', function(){
-    return view('admin.uploadbuku');
-});
+// Route::get('/admin',function(){
+//     return view ('admin.admin');
+// });
+// Route::get('/uploadBuku', function(){
+//     return view('admin.uploadbuku');
+// });
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::get('/uploadbuku', [AdminController::class, 'upload'])->name('upload');
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 // route kuis
 // Route::get('/kuis/intro/{id_buku}', [KuisController::class, 'intro'])->name('kuis.intro');
