@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 
 // route to landing page
 Route::get('/', function () {
@@ -34,5 +35,7 @@ Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
 
 // route dashboard admin
 Route::get('/admin',function(){
-    return view ('admin.dashboardAdmin');
+    return view ('admin.admin');
 });
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
