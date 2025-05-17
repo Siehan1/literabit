@@ -17,7 +17,7 @@
             @foreach (array_slice($buku, 0, 4) as $index => $books)
                 <div class="transform {{ $rotate[$index] }}">
                     <x-card-buku
-                        :cover="$books['cover']"
+                        :cover="$books['cover_path']"
                         :judul="$books['judul']"
                         :penulis="$books['penulis']"
                         :profile="$books['profile']"
