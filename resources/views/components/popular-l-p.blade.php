@@ -12,9 +12,19 @@
             @php
                 $rotate = ['rotate-3', '-rotate-2', 'rotate-2', '-rotate-3','rotate-6']
             @endphp
+            @foreach ($buku->take(4) as $index => $books)
+            <div class="transform {{ $rotate[$index] }}">
+                <x-card-buku
+                    :cover="$books->cover_path"
+                    :judul="$books->judul"
+                    :penulis="$books->penulis"
+                    :profile="$books['profile']"
+                    :genre="$books->genre->nama_genre"
+                ></x-card-buku>
+            </div>
+            @endforeach
 
-
-            @foreach (array_slice($buku, 0, 4) as $index => $books)
+            {{-- @foreach (array_slice($buku, 0, 4) as $index => $books)
                 <div class="transform {{ $rotate[$index] }}">
                     <x-card-buku
                         :cover="$books['cover_path']"
@@ -24,7 +34,7 @@
                         :genre="$books['genre']"
                     ></x-card-buku>
                 </div>
-            @endforeach
+            @endforeach --}}
         </div>
     </div>
     <img src="{{ asset('asset/images/waveP.svg') }}" alt="" class="w-full rotate-180 -mt-2">

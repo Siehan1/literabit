@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('is_admin')->default(false);
             $table->string('profil')->nullable();
             $table->integer('level')->default(0);
-            $table->integer('xp')->nullable();
+            $table->integer('xp')->default(0);
             $table->string('password', 100);
             $table->rememberToken();
             $table->timestamps();

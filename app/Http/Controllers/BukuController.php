@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Buku;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Spatie\PdfToImage\Pdf;
 
 class BukuController extends Controller
 {
@@ -12,61 +15,65 @@ class BukuController extends Controller
      */
     public function index()
     {
-        $bukus = [
-            [
-                'cover_path' => 'buku/image1.png',
-                'judul' => 'Si cemong coak',
-                'penulis' => 'Tere Liye',
-                'profile' => 'profile_penulis/pro1.svg',
-                'genre' => 'adventure'
-            ],
-            [
-                'cover_path' => 'buku/image2.png',
-                'judul' => 'Buku Dua',
-                'penulis' => 'Tere Liye',
-                'profile' => 'profile_penulis/pro1.svg',
-                'genre' => 'adventure'
-            ],
-            [
-                'cover_path' => 'buku/image3.png',
-                'judul' => 'Buku Tiga',
-                'penulis' => 'Tere Liye',
-                'profile' => 'profile_penulis/pro1.svg',
-                'genre' => 'adventure'
-            ],
-            [
-                'cover_path' => 'buku/image4.png',
-                'judul' => 'Buku Empat',
-                'penulis' => 'Tere Liye',
-                'profile' => 'profile_penulis/pro1.svg',
-                'genre' => 'adventure'
-            ],
-            [
-                'cover_path' => 'buku/image5.png',
-                'judul' => 'Buku Lima',
-                'penulis' => 'Tere Liye',
-                'profile' => 'profile_penulis/pro1.svg',
-                'genre' => 'adventure'
-            ],
-            [
-                'cover_path' => 'buku/image6.png',
-                'judul' => 'Buku Enam',
-                'penulis' => 'Tere Liye',
-                'profile' => 'profile_penulis/pro1.svg',
-                'genre' => 'adventure'
-            ],
-            [
-                'cover_path' => 'buku/image7.png',
-                'judul' => 'Buku Tujuh',
-                'penulis' => 'Tere Liye',
-                'profile' => 'profile_penulis/pro1.svg',
-                'genre' => 'adventure'
-            ]
-        ];
+        // $bukus = [
+        //     [
+        //         'cover_path' => 'buku/image1.png',
+        //         'judul' => 'Si cemong coak',
+        //         'penulis' => 'Tere Liye',
+        //         'profile' => 'profile_penulis/pro1.svg',
+        //         'genre' => 'adventure'
+        //     ],
+        //     [
+        //         'cover_path' => 'buku/image2.png',
+        //         'judul' => 'Buku Dua',
+        //         'penulis' => 'Tere Liye',
+        //         'profile' => 'profile_penulis/pro1.svg',
+        //         'genre' => 'adventure'
+        //     ],
+        //     [
+        //         'cover_path' => 'buku/image3.png',
+        //         'judul' => 'Buku Tiga',
+        //         'penulis' => 'Tere Liye',
+        //         'profile' => 'profile_penulis/pro1.svg',
+        //         'genre' => 'adventure'
+        //     ],
+        //     [
+        //         'cover_path' => 'buku/image4.png',
+        //         'judul' => 'Buku Empat',
+        //         'penulis' => 'Tere Liye',
+        //         'profile' => 'profile_penulis/pro1.svg',
+        //         'genre' => 'adventure'
+        //     ],
+        //     [
+        //         'cover_path' => 'buku/image5.png',
+        //         'judul' => 'Buku Lima',
+        //         'penulis' => 'Tere Liye',
+        //         'profile' => 'profile_penulis/pro1.svg',
+        //         'genre' => 'adventure'
+        //     ],
+        //     [
+        //         'cover_path' => 'buku/image6.png',
+        //         'judul' => 'Buku Enam',
+        //         'penulis' => 'Tere Liye',
+        //         'profile' => 'profile_penulis/pro1.svg',
+        //         'genre' => 'adventure'
+        //     ],
+        //     [
+        //         'cover_path' => 'buku/image7.png',
+        //         'judul' => 'Buku Tujuh',
+        //         'penulis' => 'Tere Liye',
+        //         'profile' => 'profile_penulis/pro1.svg',
+        //         'genre' => 'adventure'
+        //     ]
+        // ];
+        $bukus = Buku::with('genre')->latest()->get();
         return view('index', compact('bukus'));
     }
 
-    
+    public function showBuku(){
+        $bukus = Buku::with('genre')->get();
+        return view('admin.buku.tableBuku', compact('bukus'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -81,7 +88,49 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'judul' => 'required|max:255|unique:bukus',
+            'penulis' => 'required|max:255',
+            'genre' => 'required',
+            'level' => 'required',
+            'sinopsis' => 'required',
+            'pdf_file' => 'required|mimes:pdf|max:10000'
+        ]);
+        $slug = Str::slug($request['judul']);
+        $file = $request->file('pdf_file');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('buku', $filename, 'public');
+
+        $path = Storage::disk('public')->path("buku/{$filename}");
+
+        if (!file_exists($path)) {
+            \Log::error("File tidak ditemukan setelah disimpan: $path");
+            return back()->withErrors(['msg' => 'File PDF tidak ditemukan setelah disimpan: ' . $path]);
+        }
+
+        $pathPdf = storage_path("app/public/buku/{$filename}");
+        $outputPath = public_path("storage/cover/{$filename}.jpg");
+
+        // Ghostscript command untuk convert halaman pertama PDF ke JPEG
+        $command = "gswin64c -sDEVICE=jpeg -o \"$outputPath\" -sPageList=1 -dJPEGQ=80 -r150 \"$pathPdf\"";
+        exec($command, $output, $result);
+
+        if ($result !== 0) {
+            return back()->withErrors(['msg' => 'Gagal generate thumbnail. Ghostscript error code: ' . $result]);
+        }
+
+        Buku::create([
+            'judul' => $request->judul,
+            'slug' => $slug,
+            'sinopsis' => $request->sinopsis,
+            'penulis' => $request->penulis,
+            'genre_id' => $request->genre,
+            'pdf_path' => "buku/{$filename}",
+            'cover_path' => "cover/{$filename}.jpg",
+            'level_required' => $request->level,
+        ]);
+
+        return redirect()->route('tableBuku')->with('success', 'Buku berhasil diupload.');
     }
 
     /**

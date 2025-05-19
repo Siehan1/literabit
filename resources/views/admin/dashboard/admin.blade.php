@@ -26,6 +26,7 @@
         {{-- table berisi data data user --}}
         <x-dashboardComponent.table>
             <x-slot name="thead">
+                <th class="px-6 py-3 text-left text-[14px] font-semibold uppercase w-1/5">No</th>
                 <th class="px-6 py-3 text-left text-[14px] font-semibold uppercase w-1/5">Username</th>
                 <th class="px-6 py-3 text-left text-[14px] font-semibold uppercase w-1/5">Email</th>
                 <th class="px-6 py-3 text-left text-[14px] font-semibold uppercase w-1/5">Level</th>
@@ -33,8 +34,9 @@
                 <th class="px-6 py-3 text-left text-[14px] font-semibold uppercase w-1/5">Bergabung pada</th>
             </x-slot>
 
-            @foreach ($users as $user)
+            @foreach ($users as $index => $user)
             <tr class="{{ $loop->even ? 'bg-amber-50':'' }}">
+                <td class="px-6 py-3 text-left w-1/5">{{ $index+1 }}</td>
                 <td class="px-6 py-3 text-left w-1/5">{{$user->username}}</td>
                 <td class="px-6 py-3 text-left w-1/5">{{$user->email}}</td>
                 <td class="px-6 py-3 text-left w-1/5">{{$user->level}}</td>
@@ -42,7 +44,7 @@
                 <td class="px-6 py-3 text-left w-1/5">{{$user->created_at}}</td>
             </tr>
         @endforeach
-        </x-dashboardComponent.table>
+    </x-dashboardComponent.table>
     </div>
 
     {{-- tabel berisi data data buku --}}

@@ -4,13 +4,6 @@
         <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
             <h2 class="text-2xl font-bold text-primary mb-8 text-center">Upload Buku Baru</h2>
             
-            @if(session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 flex flex-row gap-1.5">
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span>{{ session('success') }}</span>
-                    
-                </div>
-            @endif
             @if ($errors->any())
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 flex flex-row gap-1.5">
                         @foreach ($errors->all() as $error)
@@ -47,14 +40,17 @@
                             class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200"
                             name="genre">
                             <option value="" disabled selected>Pilih genre buku</option>
-                            <option value="1">Fiksi</option>
+                            @foreach ($genres as $genre)
+                            <option value="{{ $genre->id }}">{{ $genre->nama_genre }}</option>
+                            @endforeach
+                            {{-- <option value="1">Fiksi</option>
                             <option value="non-fiksi">Non-Fiksi</option>
                             <option value="misteri">Misteri</option>
                             <option value="romance">Romance</option>
                             <option value="petualangan">Petualangan</option>
                             <option value="pendidikan">Pendidikan</option>
                             <option value="sejarah">Sejarah</option>
-                            <option value="sains">Sains</option>
+                            <option value="sains">Sains</option> --}}
                         </select>
                     </div>
 
