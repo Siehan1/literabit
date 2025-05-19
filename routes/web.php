@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KuisController;
+use App\Http\Controllers\GenreController;
 
 // route to landing page
 Route::get('/', function () {
@@ -46,9 +47,15 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 //     return view('admin.uploadbuku');
 // });
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-Route::get('/uploadbuku', [AdminController::class, 'upload'])->name('upload');
-Route::post('/uploadbuku', [AdminController::class, 'upload'])->name('upload');
-Route::get('/tableBuku', [AdminController::class, 'showBuku'])->name('tableBuku');
+
+
+Route::get('/uploadbuku', [AdminController::class, 'showUpload'])->name('upload');
+Route::post('/uploadbuku', [BukuController::class, 'store'])->name('upload');
+Route::get('/tableBuku', [BukuController::class, 'showBuku'])->name('tableBuku');
+Route::delete('/hapus/{slug}', [BukuController::class, 'destroy'])->name('buku.destroy');
+
+Route::get('tableGenre', [GenreController::class, 'index'])->name('tableGenre');
+
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
