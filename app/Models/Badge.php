@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Badge extends Model
 {
-    //
+    protected $fillable = [
+        'nama_badge',
+        'description',
+        'icon_path',
+    ];
 }
