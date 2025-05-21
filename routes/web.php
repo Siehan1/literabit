@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KuisController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\badgesController;
 
 // route to landing page
 Route::get('/', function () {
@@ -55,9 +56,13 @@ Route::get('/tableBuku', [BukuController::class, 'showBuku'])->name('tableBuku')
 Route::delete('/hapus/{slug}', [BukuController::class, 'destroy'])->name('buku.destroy');
 
 Route::get('tableGenre', [GenreController::class, 'index'])->name('tableGenre');
-
-
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
+// router badges
+Route::get('/uploadBadges',[badgesController::class,'indexUpload'])->name('Badges');
+Route::post('/uploadBadges',[badgesController::class,'store'])->name('Badges');
+Route::get('/tableBadges',[badgesController::class,'indexBadges'])->name('tableBadges');
+Route::get('/tableBadges',[badgesController::class,'showBadges'])->name('tableBadges');
 
 // route kuis
 // Route::get('/kuis/intro/{id_buku}', [KuisController::class, 'intro'])->name('kuis.intro');
