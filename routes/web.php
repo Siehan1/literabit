@@ -6,6 +6,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\badgesController;
+use App\Http\Controllers\quizController; 
 
 // route to landing page
 Route::get('/', function () {
@@ -45,6 +47,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 // Route::get('/uploadBuku', function(){
 //     return view('admin.uploadbuku');
 // });
+
+
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 
@@ -54,7 +58,16 @@ Route::get('/tableBuku', [BukuController::class, 'showBuku'])->name('tableBuku')
 Route::delete('/hapus/{slug}', [BukuController::class, 'destroy'])->name('buku.destroy');
 
 Route::get('tableGenre', [GenreController::class, 'index'])->name('tableGenre');
-
-
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
+// router badges
+Route::get('/uploadBadges',[badgesController::class,'indexUpload'])->name('Badges');
+Route::post('/uploadBadges',[badgesController::class,'store'])->name('Badges');
+Route::get('/tableBadges',[badgesController::class,'indexBadges'])->name('tableBadges');
+Route::get('/tableBadges',[badgesController::class,'showBadges'])->name('tableBadges');
+
+// Route untuk Kuis
+Route::get('/admin/kuis', [quizController::class, 'index'])->name('tableKuis'); // Rute untuk menampilkan daftar kuis
+Route::get('/admin/kuis/create', [quizController::class, 'create'])->name('uploadKuis'); // Rute untuk form tambah kuis
+Route::post('/admin/kuis', [quizController::class, 'store'])->name('storeKuis'); // Rute untuk menyimpan kuis
 

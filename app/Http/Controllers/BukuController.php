@@ -104,7 +104,7 @@ class BukuController extends Controller
         $path = Storage::disk('public')->path("buku/{$filename}");
 
         if (!file_exists($path)) {
-            \Log::error("File tidak ditemukan setelah disimpan: $path");
+            \Illuminate\Support\Facades\Log::error("File tidak ditemukan setelah disimpan: $path");
             return back()->withErrors(['msg' => 'File PDF tidak ditemukan setelah disimpan: ' . $path]);
         }
 

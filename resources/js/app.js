@@ -126,15 +126,40 @@ document.addEventListener('DOMContentLoaded', () => {
 const inputFile = document.getElementById('pdf_file');
 const uploadContent = document.getElementById('uploadContent');
 
-inputFile.addEventListener('change', function () {
-    if (inputFile.files.length > 0) {
-        const fileName = inputFile.files[0].name;
-        uploadContent.innerHTML = `
-            <svg class="w-8 h-8 mb-2 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
-            <p class="mb-1 text-sm font-semibold text-green-600">File berhasil diunggah!</p>
-            <p class="text-xs text-gray-500 truncate">${fileName}</p>
-        `;
-    }
-});
+if (inputFile) { // Tambahkan pengecekan elemen ada
+    inputFile.addEventListener('change', function () {
+        if (inputFile.files.length > 0) {
+            const fileName = inputFile.files[0].name;
+            uploadContent.innerHTML = `
+                <svg class="w-8 h-8 mb-2 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <p class="mb-1 text-sm font-semibold text-green-600">File berhasil diunggah!</p>
+                <p class="text-xs text-gray-500 truncate">${fileName}</p>
+            `;
+        }
+    });
+}
+
+
+// change name icon 
+const inputIcon = document.getElementById('icon_path');
+const iconContent = document.getElementById('uploadIcon');
+
+if (inputIcon) { // Tambahkan pengecekan elemen ada
+    inputIcon.addEventListener('change', function () {
+        if(inputIcon.files.length > 0){
+            const fileName = inputIcon.files[0].name;
+            iconContent.innerHTML = `
+                    <svg class="w-8 h-8 mb-2 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <p class="mb-1 text-sm font-semibold text-green-600">Icon berhasil diunggah!</p>
+                    <p class="text-xs text-gray-500 truncate">${fileName}</p>`;
+        }
+    });
+
+
+
+    
+}
