@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('kuis_id')->constrained(
                 table: 'kuis', indexName: 'choice_kuis_id'
             );
-            $table->string('choice');
+            // Ganti nama kolom dari 'choice' menjadi 'choice_text'
+            $table->string('choice_text');
             $table->boolean('is_correct')->default(false);
             $table->timestamps();
         });
