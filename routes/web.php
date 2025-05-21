@@ -8,14 +8,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KuisController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\badgesController;
-use App\Http\Controllers\quizController; 
-use App\Http\Controllers\LevelTresholdController;
-use App\Http\Controllers\misionTemplate;
-use App\Http\Controllers\dailyMision; // Import dailyMision controller
-use App\Http\Controllers\KuisController;
-use App\Http\Controllers\ProfilController;
-use App\Http\Controllers\ReadingLessonController;
-use App\Http\Controllers\ReadingLesson;
 
 // route to landing page
 Route::get('/', function () {
@@ -127,4 +119,9 @@ Route::get('/profil', function () {
 
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil');Route::view('/kuis/hasil', 'kuis.hasil');
 Route::view('/kuis/gagal/{slug}', 'kuis.gagal')->name('kuis.gagal');
+
+// Route untuk Kuis
+Route::get('/admin/kuis', [quizController::class, 'index'])->name('tableKuis'); // Rute untuk menampilkan daftar kuis
+Route::get('/admin/kuis/create', [quizController::class, 'create'])->name('uploadKuis'); // Rute untuk form tambah kuis
+Route::post('/admin/kuis', [quizController::class, 'store'])->name('storeKuis'); // Rute untuk menyimpan kuis
 
