@@ -17,12 +17,16 @@
             <th class="px-6 py-3 text-center text-[14px] font-semibold uppercase w-1/6">Tanggal</th>
             <th class="px-6 py-3 text-center text-[14px] font-semibold uppercase w-1/6">Tipe</th>
             <th class="px-6 py-3 text-center text-[14px] font-semibold uppercase w-1/6">Deskripsi</th>
+<<<<<<< HEAD
             <th class="px-6 py-3 text-center text-[14px] font-semibold uppercase w-1/6">status</th>
+=======
+>>>>>>> 5d58ca7 (mission tinggal ud)
             <th class="px-6 py-3 text-center text-[14px] font-semibold uppercase w-1/6">Aksi</th>
         </x-slot>
 
         @foreach ($misions as $i)
             <tr>
+<<<<<<< HEAD
                 <td class="px-6 py-4 text-sm text-gray-800 w-1/6 text-center">
                     {{ date('Y-m-d', strtotime($i->tanggal)) }}
                 </td>
@@ -45,6 +49,26 @@
                         <button type="submit" class=""><i class="bi bi-trash3-fill text-red-500 text-[24px]"></i></button>
                         <a href="{{ route('editDaily', $i->id) }}" class="text-sky-700"><i class="bi bi-pencil-square text-[24px]"></i></a>
                     </form>
+=======
+                <td class="px-6 py-4 text-sm text-gray-800 w-1/4 text-center">
+                    {{ date('Y-m-d', strtotime($i->tanggal)) }}
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-800 w-1/4 text-center">
+                    {{$i->template->type ?? 'No Template'}}
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-800 w-1/4 text-center">
+                    {{$i->template->deskripsi ?? 'No Description'}}
+                </td>
+                <td class="px-5 py-3 text-left w-1/6">
+                    {{-- Ubah action form delete --}}
+                    <form action="{{ route('deleteDaily', $i->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class=""><i class="bi bi-trash3-fill text-red-500"></i></button>
+                    </form>
+                    {{-- <a href=""><i class="bi bi-pencil-square"></i></a>|
+                    <a href=""></a> --}}
+>>>>>>> 5d58ca7 (mission tinggal ud)
                 </td>
             </tr>
         @endforeach

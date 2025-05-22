@@ -20,8 +20,11 @@ class misionAsignment extends Model
 
     public function user(){
         return $this->belongsTo(User::class, 'user_id'); 
+<<<<<<< HEAD
     }
     public function template(){
         return $this->belongsTo(misionTemplate::class,'template_id');
+=======
+>>>>>>> 5d58ca7 (mission tinggal ud)
     }
 }
