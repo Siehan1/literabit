@@ -5,6 +5,7 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\KuisController;
 
 // route to landing page
 Route::get('/', function () {
@@ -42,4 +43,22 @@ Route::get('/uploadBuku', function(){
 });
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+// route kuis
+// Route::get('/kuis/intro/{id_buku}', [KuisController::class, 'intro'])->name('kuis.intro');
+// Route::get('/kuis/{id_buku}', [KuisController::class, 'show'])->name('kuis.mulai');
+
+// Route::get('/kuis/{id_buku}/soal/{nomor}', [KuisController::class, 'tampilSoal'])->name('kuis.next');
+
+// Route::get('/kuis/{id_buku}/hasil', [KuisController::class, 'tampilHasil'])->name('kuis.hasil');
+// Route::get('/kuis/{id_buku}/gagal', [KuisController::class, 'gagal'])->name('kuis.gagal');
+
+// Route::post('/api/kuis/jawab', [KuisController::class, 'submitJawaban'])->name('api.kuis.jawab');
+
+// Route::get('/kuis/{id_buku}/hasil', [KuisController::class, 'tampilHasil'])->name('kuis.hasil');
+
+// Route::get('/kuis/{id_buku}/gagal', [KuisController::class, 'gagal'])->name('kuis.gagal');
+
+Route::get('/kuis/soal/{id_buku}/{nomor}', [KuisController::class, 'tampilSoal'])->name('kuis.soal');
+Route::view('/kuis/intro', 'kuis.intro');
 
