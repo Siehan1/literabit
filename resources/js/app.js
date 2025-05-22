@@ -161,5 +161,22 @@ if (inputIcon) { // Tambahkan pengecekan elemen ada
 
 
 
+// Move this code outside of the icon input event listener
+document.addEventListener('DOMContentLoaded', function() {
+    const successMessage = document.getElementById('success');
     
+    if (successMessage) {
+        // Add initial fade-out animation
+        successMessage.style.transition = 'opacity 0.5s ease-out';
+        
+        setTimeout(function() {
+            successMessage.style.opacity = '0';
+            
+            // Remove element after fade animation
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 500);
+        }, 3000);
+    }
+});
 }
