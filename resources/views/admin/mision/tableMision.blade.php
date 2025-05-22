@@ -22,6 +22,14 @@
                 <td class="px-5 py-3 text-left w-1/6">{{ $t->deskripsi }}</td>
                 <td class="px-5 py-3 text-left w-1/6">{{ $t->jumlah_target }}</td>
                 <td class="px-5 py-3 text-left w-1/6">{{ $t->xp_reward }}</td>
+                <td class="px-5 py-3 text-left w-1/6">
+                    {{-- Gunakan variabel loop yang baru --}}
+                    <form action="{{ route('destroyMission', $t->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class=""><i class="bi bi-trash3-fill"></i></button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </x-slot>
