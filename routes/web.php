@@ -11,6 +11,7 @@ use App\Http\Controllers\badgesController;
 use App\Http\Controllers\quizController; 
 use App\Http\Controllers\LevelTresholdController;
 use App\Http\Controllers\misionTemplate;
+use App\Http\Controllers\dailyMision; // Import dailyMision controller
 
 // route to landing page
 Route::get('/', function () {
@@ -134,7 +135,24 @@ Route::get('/tableLevel',[LevelTresholdController::class,'index'])->name('tableL
 Route::delete('/admin/level-tresholds/{levelTreshold}', [levelTresholdController::class, 'destroy'])->name('destroyLevel');
 
 // mission
-Route::get('mision',[misionTemplate::class,'index'])->name('mission');
-Route::get('uploadTemplateMision',[misionTemplate::class,'create'])->name('uploadTemplate');
-Route::post('uploadTemplateMission',[misionTemplate::class,'store'])->name('storeTemplate');
-Route::delete('/admin/mission-templates/{template}', [misionTemplate::class, 'destroy'])->name('destroyMission');
+// mission template routes
+Route::get('mision/template',[misionTemplate::class,'index'])->name('missionTemplate.index'); // Ganti nama route agar konsisten
+Route::get('uploadTemplateMision',[misionTemplate::class,'create'])->name('missionTemplate.create'); // Ganti nama route
+Route::post('uploadTemplateMission',[misionTemplate::class,'store'])->name('missionTemplate.store'); // Ganti nama route
+Route::delete('/admin/mission-templates/{template}', [misionTemplate::class, 'destroy'])->name('missionTemplate.destroy'); // Ganti nama route
+
+// Daily Mission Routes (Tambahkan ini)
+// Route::resource('admin/daily-missions', dailyMision::class)->names([
+//     'index' => 'dailyMission.index',
+//     'create' => 'dailyMission.create',
+//     'store' => 'dailyMission.store',
+//     'show' => 'dailyMission.show',
+//     'edit' => 'dailyMission.edit',
+//     'update' => 'dailyMission.update',
+//     'destroy' => 'dailyMission.destroy',
+// ]);
+
+Route::get('tableDaily',[dailyMision::class,'index'])->name('tableDaily');
+Route::get('uploadDaily',[dailyMision::class,'create'])->name('uploadDaily');
+Route::post('uploadDaily',[dailyMision::class,'store'])->name('uploadDaily');
+Route::delete('/admin/daily-missions/{daily}', [dailyMision::class, 'destroy'])->name('deleteDaily'); 

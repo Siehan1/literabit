@@ -44,6 +44,7 @@ class dailyMision extends Controller
                         ->with('success', 'Daily mission deleted successfully');
     }
 
+<<<<<<< HEAD
     public function edit($id)
     {
         $mission = misionDaily::findOrFail($id);
@@ -63,4 +64,6 @@ class dailyMision extends Controller
                         ->with('success', 'Daily mission updated successfully');
     }
 
+=======
+>>>>>>> 5d58ca7 (mission tinggal ud)
 }
