@@ -10,6 +10,7 @@ use App\Http\Controllers\GenreController;
 use App\Http\Controllers\badgesController;
 use App\Http\Controllers\quizController; 
 use App\Http\Controllers\LevelTresholdController;
+use App\Http\Controllers\misionTemplate;
 
 // route to landing page
 Route::get('/', function () {
@@ -131,3 +132,8 @@ Route::get('/uploadLevel',[LevelTresholdController::class,'create'])->name('uplo
 Route::post('uploadLevel',[LevelTresholdController::class,'store'])->name('storeLevel');
 Route::get('/tableLevel',[LevelTresholdController::class,'index'])->name('tableLevel');
 Route::delete('/admin/level-tresholds/{levelTreshold}', [levelTresholdController::class, 'destroy'])->name('destroyLevel');
+
+// mission
+Route::get('mision',[misionTemplate::class,'index'])->name('mission');
+Route::get('uploadTemplateMision',[misionTemplate::class,'create'])->name('uploadTemplate');
+Route::post('uploadTemplateMission',[misionTemplate::class,'store'])->name('storeTemplate');

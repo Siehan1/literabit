@@ -21,4 +21,7 @@ class misionAsignment extends Model
     public function user(){
         return $this->belongsTo(User::class, 'user_id'); 
     }
+    public function template(){
+        return $this->belongsTo(misionTemplate::class,'template_id');
+    }
 }
