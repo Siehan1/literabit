@@ -60,7 +60,7 @@
                         <input type="number" id="level" required 
                             class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" 
                             placeholder="Masukkan level minimum" 
-                            name="level" min="1">
+                            name="level" min="0">
                     </div>
 
                     <!-- Sinopsis -->

@@ -47,12 +47,35 @@
                     </svg>
                     <span>Badges</span>
                 </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors hover:bg-primary-500">
+                <a href="{{route('tableLevel')}}" class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('tableLevel') ? 'bg-primary-700' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                     </svg>
                     <span>Level Threshold</span>
                 </a>
+
+                {{-- Missions Dropdown --}}
+                <div class="relative">
+                    <button id="missions-dropdown-toggle" class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors hover:bg-primary-500 w-full text-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h168q13-36 43.5-58t68.5-22q38 0 68.5 22t43.5 58h168q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm80-80h280v-80H280v80Zm0-160h400v-80H280v80Zm0-160h400v-80H280v80Zm200-190q13 0 21.5-8.5T510-820q0-13-8.5-21.5T480-850q-13 0-21.5 8.5T450-820q0 13 8.5 21.5T480-790ZM200-200v-560 560Z"/></svg>
+                        <span>Missions</span>
+                        {{-- Dropdown arrow --}}
+                        <svg id="missions-arrow" class="w-4 h-4 ml-auto transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="missions-dropdown-menu" class="hidden pl-8 space-y-2">
+                        <a href="{{ route('mission') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('mission') ? 'bg-primary-700' : '' }}">
+                            <span>Template Mision</span>
+                        </a>
+                        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('tableDailyMision') ? 'bg-primary-700' : '' }}">
+                            <span>Daily Mision</span>
+                        </a>
+                        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('tableAssignmentMision') ? 'bg-primary-700' : '' }}">
+                            <span>Assignment Mision</span>
+                        </a>
+                    </div>
+                </div>
             </nav>
         </aside>
 
