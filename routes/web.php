@@ -10,6 +10,7 @@ use App\Http\Controllers\GenreController;
 use App\Http\Controllers\badgesController;
 use App\Http\Controllers\quizController; 
 use App\Http\Controllers\LevelTresholdController;
+use App\Http\Controllers\misionTemplate;
 
 // route to landing page
 Route::get('/', function () {
@@ -60,21 +61,8 @@ Route::get('/uploadLevel',[LevelTresholdController::class,'create'])->name('uplo
 Route::post('uploadLevel',[LevelTresholdController::class,'store'])->name('storeLevel');
 Route::get('/tableLevel',[LevelTresholdController::class,'index'])->name('tableLevel');
 Route::delete('/admin/level-tresholds/{levelTreshold}', [levelTresholdController::class, 'destroy'])->name('destroyLevel');
-// route kuis
-// Route::get('/kuis/intro/{id_buku}', [KuisController::class, 'intro'])->name('kuis.intro');
-// Route::get('/kuis/{id_buku}', [KuisController::class, 'show'])->name('kuis.mulai');
 
-// Route::get('/kuis/{id_buku}/soal/{nomor}', [KuisController::class, 'tampilSoal'])->name('kuis.next');
-
-// Route::get('/kuis/{id_buku}/hasil', [KuisController::class, 'tampilHasil'])->name('kuis.hasil');
-// Route::get('/kuis/{id_buku}/gagal', [KuisController::class, 'gagal'])->name('kuis.gagal');
-
-// Route::post('/api/kuis/jawab', [KuisController::class, 'submitJawaban'])->name('api.kuis.jawab');
-
-// Route::get('/kuis/{id_buku}/hasil', [KuisController::class, 'tampilHasil'])->name('kuis.hasil');
-
-// Route::get('/kuis/{id_buku}/gagal', [KuisController::class, 'gagal'])->name('kuis.gagal');
-
-Route::get('/kuis/soal/{id_buku}/{nomor}', [KuisController::class, 'tampilSoal'])->name('kuis.soal');
-Route::view('/kuis/intro', 'kuis.intro');
-
+// mission
+Route::get('mision',[misionTemplate::class,'index'])->name('mission');
+Route::get('uploadTemplateMision',[misionTemplate::class,'create'])->name('uploadTemplate');
+Route::post('uploadTemplateMission',[misionTemplate::class,'store'])->name('storeTemplate');

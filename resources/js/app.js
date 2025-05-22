@@ -158,8 +158,7 @@ if (inputIcon) { // Tambahkan pengecekan elemen ada
                     <p class="text-xs text-gray-500 truncate">${fileName}</p>`;
         }
     });
-
-
+} // Tutup blok if (inputIcon) di sini
 
 // Move this code outside of the icon input event listener
 document.addEventListener('DOMContentLoaded', function() {
@@ -179,4 +178,61 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
 });
-}
+
+// dropdow mission
+document.addEventListener('DOMContentLoaded', function () {
+    const missionsToggle = document.getElementById('missions-dropdown-toggle');
+    const missionsMenu = document.getElementById('missions-dropdown-menu');
+    const missionsArrow = document.getElementById('missions-arrow');
+
+    if (missionsToggle && missionsMenu && missionsArrow) {
+        // Set initial state for animation
+        missionsMenu.style.maxHeight = '0';
+        missionsMenu.style.overflow = 'hidden';
+        missionsMenu.style.opacity = '0';
+        missionsMenu.classList.add('transition-all', 'duration-300', 'ease-in-out'); // Tambahkan kelas transisi Tailwind
+
+        missionsToggle.addEventListener('click', function () {
+            const isOpen = missionsMenu.style.maxHeight !== '0px'; // Cek status berdasarkan max-height
+
+            if (!isOpen) {
+                // Buka dropdown
+                missionsMenu.classList.remove('hidden'); // Pastikan tidak hidden
+                missionsMenu.style.maxHeight = missionsMenu.scrollHeight + 'px'; // Set max-height ke tinggi konten
+                missionsMenu.style.opacity = '1'; // Set opacity ke 1
+                missionsArrow.classList.add('rotate-180'); // Putar panah ke atas
+            } else {
+                // Tutup dropdown
+                missionsMenu.style.maxHeight = '0'; // Set max-height ke 0
+                missionsMenu.style.opacity = '0'; // Set opacity ke 0
+                missionsArrow.classList.remove('rotate-180'); // Kembalikan panah ke bawah
+                 // Opsional: Sembunyikan sepenuhnya setelah transisi selesai
+                 setTimeout(() => {
+                     missionsMenu.classList.add('hidden');
+                 }, 300); // Sesuaikan dengan durasi transisi
+            }
+        });
+
+        // Optional: Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!missionsToggle.contains(event.target) && !missionsMenu.contains(event.target)) {
+                if (missionsMenu.style.maxHeight !== '0px') { // Cek jika sedang terbuka
+                    missionsMenu.style.maxHeight = '0';
+                    missionsMenu.style.opacity = '0';
+                    missionsArrow.classList.remove('rotate-180');
+                     setTimeout(() => {
+                         missionsMenu.classList.add('hidden');
+                     }, 300); // Sesuaikan dengan durasi transisi
+                }
+            }
+        });
+
+        // Optional: Adjust max-height if window is resized while open
+        window.addEventListener('resize', function() {
+             if (missionsMenu.style.maxHeight !== '0px' && !missionsMenu.classList.contains('hidden')) {
+                 missionsMenu.style.maxHeight = 'none'; // Reset untuk mendapatkan scrollHeight yang benar
+                 missionsMenu.style.maxHeight = missionsMenu.scrollHeight + 'px';
+             }
+        });
+    }
+});
