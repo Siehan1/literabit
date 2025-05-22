@@ -127,5 +127,6 @@ Route::post('/admin/kuis', [quizController::class, 'store'])->name('storeKuis');
 
 // level treshold
 Route::get('/uploadLevel',[LevelTresholdController::class,'create'])->name('uploadLevel');
+Route::post('uploadLevel',[LevelTresholdController::class,'store'])->name('storeLevel');
 Route::get('/tableLevel',[LevelTresholdController::class,'index'])->name('tableLevel');
 Route::delete('/admin/level-tresholds/{levelTreshold}', [levelTresholdController::class, 'destroy'])->name('destroyLevel');
