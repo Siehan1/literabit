@@ -1,12 +1,21 @@
 <x-dashboardComponent.admin>
     <x-slot name="header">Table level</x-slot>
+    <!-- succes validasi -->
+        @if(session('success'))
+            <div id="success" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 flex flex-row gap-1.5">
+                <i class="bi bi-check-circle-fill"></i>
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
+        <div class="w-full text-end mb-6">
+        <a href="{{ route('uploadLevel') }}" class="bg-secondary-600 px-4 py-3 rounded-2xl hover:bg-secondary-800 text-white transition-colors duration-100">Tambah Level</a>
+    </div>
     <x-dashboardComponent.table>
         <x-slot name="header">Table level</x-slot>
-        <!-- succes validasi -->
         <x-slot name="thead">
-            <th>Level</th>
-            <th>Required XP</th>
-            <th>Action</th>
+            <th class="px-6 py-3 text-left text-[14px] font-semibold uppercase w-1/6">Level</th>
+            <th class="px-6 py-3 text-left text-[14px] font-semibold uppercase w-1/6">Required XP</th>
+            <th class="px-6 py-3 text-left text-[14px] font-semibold uppercase w-1/6">Action</th>
         </x-slot>
         {{-- Ganti nama variabel loop dari $levelTreshodls menjadi $levelTreshold --}}
         @foreach ($levelTreshodls as $levelTreshold)
