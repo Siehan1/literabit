@@ -51,6 +51,11 @@ class misionTemplate extends Controller
         $template->update($request->all());
         return redirect()->route('missionTemplate.index')->with('success', 'Template updated successfully');
     }
+
+    public function destroy(templateMision $template){
+        $template->delete();
+        return redirect()->route('mission')->with('success', 'Template deleted successfully');
+    }
 }
 
 
