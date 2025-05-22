@@ -3,17 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\misionDaily;
+use Illuminate\Database\Eloquent\Factories\HasFactory; 
 
 class misionAsignment extends Model
 {
-    protected $fillable = ['daily_mission_id', 'template_id', 'jumlah_selesai', 'is_done'];
+    use HasFactory; 
+
+    
+    protected $fillable = ['user_id', 'daily_id', 'jumlah_selesai', 'is_done'];
+
+    protected $table = 'mission_assignments'; 
 
     public function dailyMission(){
-        return $this->belongsTo(misionDaily::class);
+        return $this->belongsTo(misionDaily::class, 'daily_id'); 
     }
 
-    public function template(){
-        return $this->belongTo(misionTemplate::class,'template_id');
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id'); 
     }
 }

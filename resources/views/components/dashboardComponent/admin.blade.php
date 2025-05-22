@@ -65,10 +65,10 @@
                         </svg>
                     </button>
                     <div id="missions-dropdown-menu" class="hidden pl-8 space-y-2">
-                        <a href="{{ route('mission') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('mission') ? 'bg-primary-700' : '' }}">
+                        <a href="{{ route('missionTemplate.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('missionTemplate.index') ? 'bg-primary-700' : '' }}">
                             <span>Template Mision</span>
                         </a>
-                        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('tableDailyMision') ? 'bg-primary-700' : '' }}">
+                        <a href="{{ route('tableDaily') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('tableDaily') ? 'bg-primary-700' : '' }}">
                             <span>Daily Mision</span>
                         </a>
                         <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('tableAssignmentMision') ? 'bg-primary-700' : '' }}">

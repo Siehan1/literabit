@@ -43,10 +43,9 @@ class levelTresholdController extends Controller
 
     }
 
-    // Ganti nama variabel dari $levelTreshodl menjadi $levelTreshold
     public function destroy(levelTreshold $levelTreshold){
         $levelTreshold->delete();
-        return redirect()->route('tableLevel')->with('success', 'Level Treshold deleted successfully');
+        return redirect()->route('tableLevel')->with('success', 'Template deleted successfully');
     }
 
 }

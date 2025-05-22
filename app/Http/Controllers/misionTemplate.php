@@ -9,7 +9,7 @@ class misionTemplate extends Controller
 {
     public function index(){
         $template = templateMision::all();
-        return view('admin.mision.tableMision',compact('template'));
+        return view('admin.mision.templateMision.tableMision',compact('template'));
     }
 
     public function create(){
@@ -27,6 +27,13 @@ class misionTemplate extends Controller
         // Karena nama input field sekarang 'jumlah_target', $request->all() akan menyertakannya
         templateMision::create($request->all());
 
-        return redirect()->route('mission')->with('success', 'Template created successfully');
+        return redirect()->route('missionTemplate.index')->with('success', 'Template created successfully');
+    }
+
+    public function destroy(templateMision $template){
+        $template->delete();
+        return redirect()->route('missionTemplate.index')->with('success', 'Template deleted successfully');
     }
 }
+
+

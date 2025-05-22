@@ -1,6 +1,6 @@
 <x-dashboardComponent.admin>
 
-    <a href="{{ route('mission') }}"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
+    <a href="{{ route('missionTemplate.index') }}"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
 
     {{-- Tambahkan bagian untuk menampilkan error validasi jika ada --}}
             @if ($errors->any())
@@ -17,7 +17,7 @@
             <h2 class="text-2xl font-bold text-primary mb-8 text-center">Buat Template Misi Baru</h2>
 
 
-            <form action="{{ route('storeTemplate') }}" method="POST" class="space-y-6">
+            <form action="{{ route('missionTemplate.store') }}" method="POST" class="space-y-6">
                 @csrf 
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
