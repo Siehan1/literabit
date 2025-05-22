@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\missionAssignments;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
@@ -43,6 +44,10 @@ class User extends Authenticatable
     public function resumes(): HasMany
     {
         return $this->hasMany(Resume::class);
+    }
+
+    public function missionAssignments(){
+        return $this->hasMany(misionAsignment::class);
     }
     
     /**
