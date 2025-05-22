@@ -65,3 +65,4 @@ Route::delete('/admin/level-tresholds/{levelTreshold}', [levelTresholdController
 Route::get('mision',[misionTemplate::class,'index'])->name('mission');
 Route::get('uploadTemplateMision',[misionTemplate::class,'create'])->name('uploadTemplate');
 Route::post('uploadTemplateMission',[misionTemplate::class,'store'])->name('storeTemplate');
+Route::delete('/admin/mission-templates/{template}', [misionTemplate::class, 'destroy'])->name('destroyMission');

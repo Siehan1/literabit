@@ -29,4 +29,11 @@ class misionTemplate extends Controller
 
         return redirect()->route('mission')->with('success', 'Template created successfully');
     }
+
+    public function destroy(templateMision $template){
+        $template->delete();
+        return redirect()->route('mission')->with('success', 'Template deleted successfully');
+    }
 }
+
+
