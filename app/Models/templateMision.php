@@ -9,6 +9,8 @@ class templateMision extends Model
 {
     use HasFactory;
 
+    // Ubah nama tabel dari 'templateMission' menjadi 'mission_templates'
+    protected $table = 'mission_templates';
     protected $fillable = [
         'type',
         'deskripsi',
@@ -16,5 +18,7 @@ class templateMision extends Model
         'xp_reward',
     ];
 
-    protected $table = 'mission_templates';
+    public function misionDaily(){
+        return $this->hasMany(misionDaily::class);
+    }
 }

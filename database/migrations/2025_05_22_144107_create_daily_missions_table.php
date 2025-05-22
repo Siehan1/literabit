@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('daily_missions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('template_id')->constrained('mission_templates')->onDelete('cascade');
             $table->date('tanggal');
             $table->boolean('is_completed')->default(false);
             $table->timestamps();
