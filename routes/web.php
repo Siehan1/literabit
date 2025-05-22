@@ -7,12 +7,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\badgesController;
+use App\Http\Controllers\quizController; 
+use App\Http\Controllers\LevelTresholdController;
 
 // route to landing page
 Route::get('/', function () {
     return view('index');
 });
-
 
 
 Route::get('/', [BukuController::class, 'index']);
@@ -120,7 +121,11 @@ Route::get('/profil', [ProfilController::class, 'index'])->name('profil');Route:
 Route::view('/kuis/gagal/{slug}', 'kuis.gagal')->name('kuis.gagal');
 
 // Route untuk Kuis
-Route::get('/admin/kuis', [quizController::class, 'index'])->name('tableKuis'); // Rute untuk menampilkan daftar kuis
-Route::get('/admin/kuis/create', [quizController::class, 'create'])->name('uploadKuis'); // Rute untuk form tambah kuis
-Route::post('/admin/kuis', [quizController::class, 'store'])->name('storeKuis'); // Rute untuk menyimpan kuis
+Route::get('/admin/kuis', [quizController::class, 'index'])->name('tableKuis'); 
+Route::get('/admin/kuis/create', [quizController::class, 'create'])->name('uploadKuis');
+Route::post('/admin/kuis', [quizController::class, 'store'])->name('storeKuis'); 
 
+// level treshold
+Route::get('/uploadLevel',[LevelTresholdController::class,'create'])->name('uploadLevel');
+Route::get('/tableLevel',[LevelTresholdController::class,'index'])->name('tableLevel');
+Route::delete('/admin/level-tresholds/{levelTreshold}', [levelTresholdController::class, 'destroy'])->name('destroyLevel');
