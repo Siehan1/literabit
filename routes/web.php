@@ -8,25 +8,14 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\badgesController;
 use App\Http\Controllers\quizController; 
+use App\Http\Controllers\LevelTresholdController;
 
 // route to landing page
 Route::get('/', function () {
     return view('index');
 });
 
-// route to login
-// Route::get('/login', function () {
-//     return view('login.login');
-// });
 
-// route to beranda
-// Route::get('/beranda',function (){
-//     return view('beranda.beranda');
-// });
-
-// route to get data users
-// Route::get('/beranda', [UserController::class, 'index']);
-// route to get data buku
 Route::get('/', [BukuController::class, 'index']);
 Route::get('/index', [BukuController::class, 'index']);
 
@@ -40,23 +29,17 @@ Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
 Route::get('/register', [AuthController::class, 'showRegist'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-// route dashboard admin
-// Route::get('/admin',function(){
-//     return view ('admin.admin');
-// });
-// Route::get('/uploadBuku', function(){
-//     return view('admin.uploadbuku');
-// });
 
 
+
+// route to buku
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-
-
 Route::get('/uploadbuku', [AdminController::class, 'showUpload'])->name('upload');
 Route::post('/uploadbuku', [BukuController::class, 'store'])->name('upload');
 Route::get('/tableBuku', [BukuController::class, 'showBuku'])->name('tableBuku');
 Route::delete('/hapus/{slug}', [BukuController::class, 'destroy'])->name('buku.destroy');
 
+// route to genre
 Route::get('tableGenre', [GenreController::class, 'index'])->name('tableGenre');
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
@@ -67,7 +50,11 @@ Route::get('/tableBadges',[badgesController::class,'indexBadges'])->name('tableB
 Route::get('/tableBadges',[badgesController::class,'showBadges'])->name('tableBadges');
 
 // Route untuk Kuis
-Route::get('/admin/kuis', [quizController::class, 'index'])->name('tableKuis'); // Rute untuk menampilkan daftar kuis
-Route::get('/admin/kuis/create', [quizController::class, 'create'])->name('uploadKuis'); // Rute untuk form tambah kuis
-Route::post('/admin/kuis', [quizController::class, 'store'])->name('storeKuis'); // Rute untuk menyimpan kuis
+Route::get('/admin/kuis', [quizController::class, 'index'])->name('tableKuis'); 
+Route::get('/admin/kuis/create', [quizController::class, 'create'])->name('uploadKuis');
+Route::post('/admin/kuis', [quizController::class, 'store'])->name('storeKuis'); 
 
+// level treshold
+Route::get('/uploadLevel',[LevelTresholdController::class,'create'])->name('uploadLevel');
+Route::get('/tableLevel',[LevelTresholdController::class,'index'])->name('tableLevel');
+Route::delete('/admin/level-tresholds/{levelTreshold}', [levelTresholdController::class, 'destroy'])->name('destroyLevel');
