@@ -24,17 +24,24 @@
 
                 {{-- form --}}
                 <div class="lg:w-1/2">
-                    <div class="flex flex-col items-center lg:items-start gap-3 mb-8">
+                    <div class="flex flex-col items-center lg:items-start gap-3 mb-5">
                         <h3 class="text-xl md:text-2xl text-center lg:text-left font-bold">Selamat Datang Kembali!</h3>
                         <p class="text-center lg:text-left text-sm md:text-[14px] text-sec">Silakan login untuk melanjutkan ke akun Anda dan nikmati berbagai cerita buku yang kami sediakan</p>
                     </div>
-
+                    @if ($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 flex flex-row gap-1.5">
+                                @foreach ($errors->all() as $error)
+                                    <i class="bi bi-exclamation-triangle-fill text-red-700 "></i>
+                                    <span>{{$error}}</span>
+                                @endforeach
+                        </div>
+                    @endif
                     
                     <form class="space-y-4" action="{{ route('login.post') }}" method="POST">
                         @csrf
                         <div class="flex flex-col gap-2">
                             <label for="email" class="text-sm font-medium">Email</label>
-                            <input type="email" id="email" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="JhonDhoe@gmail.com" autofocus name="email">
+                            <input type="email" id="email"  required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="JhonDhoe@gmail.com" autofocus name="email">
                         </div>
 
                         <div class="flex flex-col gap-2">
@@ -69,7 +76,7 @@
 
                         <p class="text-center text-sm">
                             Belum punya akun? 
-                            <a href="#" class="text-primary hover:text-hover transition-colors duration-200">Daftar sekarang</a>
+                            <a href="{{ route('register') }}" class="text-primary hover:text-hover transition-colors duration-200">Daftar sekarang</a>
                         </p>
                     </form>
                 </div>

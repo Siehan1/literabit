@@ -120,3 +120,119 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+// change name file
+const inputFile = document.getElementById('pdf_file');
+const uploadContent = document.getElementById('uploadContent');
+
+if (inputFile) { // Tambahkan pengecekan elemen ada
+    inputFile.addEventListener('change', function () {
+        if (inputFile.files.length > 0) {
+            const fileName = inputFile.files[0].name;
+            uploadContent.innerHTML = `
+                <svg class="w-8 h-8 mb-2 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <p class="mb-1 text-sm font-semibold text-green-600">File berhasil diunggah!</p>
+                <p class="text-xs text-gray-500 truncate">${fileName}</p>
+            `;
+        }
+    });
+}
+
+
+// change name icon 
+const inputIcon = document.getElementById('icon_path');
+const iconContent = document.getElementById('uploadIcon');
+
+if (inputIcon) { // Tambahkan pengecekan elemen ada
+    inputIcon.addEventListener('change', function () {
+        if(inputIcon.files.length > 0){
+            const fileName = inputIcon.files[0].name;
+            iconContent.innerHTML = `
+                    <svg class="w-8 h-8 mb-2 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <p class="mb-1 text-sm font-semibold text-green-600">Icon berhasil diunggah!</p>
+                    <p class="text-xs text-gray-500 truncate">${fileName}</p>`;
+        }
+    });
+} // Tutup blok if (inputIcon) di sini
+
+// Move this code outside of the icon input event listener
+document.addEventListener('DOMContentLoaded', function() {
+    const successMessage = document.getElementById('success');
+    
+    if (successMessage) {
+        // Add initial fade-out animation
+        successMessage.style.transition = 'opacity 0.5s ease-out';
+        
+        setTimeout(function() {
+            successMessage.style.opacity = '0';
+            
+            // Remove element after fade animation
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 500);
+        }, 3000);
+    }
+});
+
+// dropdow mission
+document.addEventListener('DOMContentLoaded', function () {
+    const missionsToggle = document.getElementById('missions-dropdown-toggle');
+    const missionsMenu = document.getElementById('missions-dropdown-menu');
+    const missionsArrow = document.getElementById('missions-arrow');
+
+    if (missionsToggle && missionsMenu && missionsArrow) {
+        // Set initial state for animation
+        missionsMenu.style.maxHeight = '0';
+        missionsMenu.style.overflow = 'hidden';
+        missionsMenu.style.opacity = '0';
+        missionsMenu.classList.add('transition-all', 'duration-300', 'ease-in-out'); // Tambahkan kelas transisi Tailwind
+
+        missionsToggle.addEventListener('click', function () {
+            const isOpen = missionsMenu.style.maxHeight !== '0px'; // Cek status berdasarkan max-height
+
+            if (!isOpen) {
+                // Buka dropdown
+                missionsMenu.classList.remove('hidden'); // Pastikan tidak hidden
+                missionsMenu.style.maxHeight = missionsMenu.scrollHeight + 'px'; // Set max-height ke tinggi konten
+                missionsMenu.style.opacity = '1'; // Set opacity ke 1
+                missionsArrow.classList.add('rotate-180'); // Putar panah ke atas
+            } else {
+                // Tutup dropdown
+                missionsMenu.style.maxHeight = '0'; // Set max-height ke 0
+                missionsMenu.style.opacity = '0'; // Set opacity ke 0
+                missionsArrow.classList.remove('rotate-180'); // Kembalikan panah ke bawah
+                 // Opsional: Sembunyikan sepenuhnya setelah transisi selesai
+                 setTimeout(() => {
+                     missionsMenu.classList.add('hidden');
+                 }, 300); // Sesuaikan dengan durasi transisi
+            }
+        });
+
+        // Optional: Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!missionsToggle.contains(event.target) && !missionsMenu.contains(event.target)) {
+                if (missionsMenu.style.maxHeight !== '0px') { // Cek jika sedang terbuka
+                    missionsMenu.style.maxHeight = '0';
+                    missionsMenu.style.opacity = '0';
+                    missionsArrow.classList.remove('rotate-180');
+                     setTimeout(() => {
+                         missionsMenu.classList.add('hidden');
+                     }, 300); // Sesuaikan dengan durasi transisi
+                }
+            }
+        });
+
+        // Optional: Adjust max-height if window is resized while open
+        window.addEventListener('resize', function() {
+             if (missionsMenu.style.maxHeight !== '0px' && !missionsMenu.classList.contains('hidden')) {
+                 missionsMenu.style.maxHeight = 'none'; // Reset untuk mendapatkan scrollHeight yang benar
+                 missionsMenu.style.maxHeight = missionsMenu.scrollHeight + 'px';
+             }
+        });
+    }
+});

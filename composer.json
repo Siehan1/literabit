@@ -7,9 +7,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "laravel-lang/lang": "^15.20",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "spatie/pdf-to-image": "^1.2"
+        "spatie/pdf-to-image": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

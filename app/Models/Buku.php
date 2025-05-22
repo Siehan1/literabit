@@ -14,9 +14,10 @@ class Buku extends Model
         'slug',
         'sinopsis',
         'penulis',
-        'isi',
+        'pdf_path',
         'genre_id',
-        'cover',
+        'cover_path',
+        'level_required'
     ];
 
     public function genre()
@@ -27,5 +28,9 @@ class Buku extends Model
     public function histories()
     {
         return $this->hasMany(History::class);
+    }
+
+    public function quis(){
+        return $this->hasMany(Kuis::class);
     }
 }
