@@ -10,7 +10,7 @@
         <table class="w-full">
             <thead class="bg-gray-50 text-gray-600 sticky top-0">
                 <tr>
-                    {{ $thead }}
+                    {{ $thead ?? 'no header'}}
                 </tr>
             </thead>
         </table>
