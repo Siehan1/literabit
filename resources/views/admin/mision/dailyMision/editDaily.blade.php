@@ -55,33 +55,32 @@
 =======
             <form action="{{ route('dailyMission.update', $dailyMission->id) }}" method="POST" class="space-y-6">
                 @csrf
-                @method('PUT') {{-- Gunakan method PUT untuk update --}}
+                @method('PUT')
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{-- Pilih Template Misi --}}
-                    <div class="space-y-2">
-                        <label for="template_id" class="block text-sm font-medium text-teks">Template Misi: <span class="text-red-500">*</span></label>
-                        <select id="template_id" name="template_id" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
-                            <option value="">-- Pilih Template --</option>
-                            @foreach ($templates as $template)
-                                <option value="{{ $template->id }}" {{ $dailyMission->template_id == $template->id ? 'selected' : '' }}>
-                                    {{ $template->type }} - {{ $template->deskripsi }}
-                                </option>
+                <div class="flex flex-col gap-6">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        {{-- Pilih Template Misi --}}
+                        <div class="space-y-2 flex-1">
+                            <label for="template_id" class="block text-sm font-medium text-teks">Template Misi: <span class="text-red-500">*</span></label>
+                            <select id="template_id" name="template_id" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
+                                <option value="">-- Pilih Template --</option>
+                                @foreach ($templates as $template)
+                                <option value="{{ $template->id }}">{{ $template->type }} - {{ $template->deskripsi }}</option>
                             @endforeach
-                        </select>
-                    </div>
+                            </select>
+                        </div>
 
-                    {{-- Tanggal Misi --}}
-                    <div class="space-y-2">
-                        <label for="tanggal" class="block text-sm font-medium text-teks">Tanggal: <span class="text-red-500">*</span></label>
-                        <input type="date" id="tanggal" name="tanggal" value="{{ $dailyMission->tanggal }}" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
+                        {{-- Tanggal Misi --}}
+                        <div class="space-y-2 flex-1">
+                            <label for="tanggal" class="block text-sm font-medium text-teks">Tanggal: <span class="text-red-500">*</span></label>
+                            <input type="date" id="tanggal" name="tanggal" value="{{ $mission->tanggal }}" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
+                        </div>
                     </div>
 
                     {{-- Status Selesai (Opsional, tergantung kebutuhan) --}}
-                    <div class="space-y-2 md:col-span-2"> {{-- Ambil lebar penuh jika di grid --}}
+                    <div class="space-y-2 justify-center">
                         <label for="is_completed" class="block text-sm font-medium text-teks">Status Selesai:</label>
-                        <input type="checkbox" id="is_completed" name="is_completed" value="1" {{ $dailyMission->is_completed ? 'checked' : '' }} class="rounded border-gray-300 text-primary shadow-sm focus:border-primary focus:ring focus:ring-primary/20">
->>>>>>> 5d58ca7 (mission tinggal ud)
+                        <input type="checkbox" id="is_completed" name="is_completed" value="1" {{ $mission->is_completed ? 'checked' : '' }} class="rounded border-gray-300 text-primary shadow-sm focus:border-primary focus:ring focus:ring-primary/20">
                         <span class="text-sm text-teks">Tandai sebagai Selesai</span>
                     </div>
                 </div>

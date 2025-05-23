@@ -59,6 +59,23 @@ class misionTemplate extends Controller
         $template->delete();
         return redirect()->route('missionTemplate.index')->with('success', 'Template deleted successfully');
     }
+
+    public function edit($id){
+        $template = templateMision::findOrFail($id);
+        return view('admin.mision.templateMision.editTemplate', compact('template'));
+    }
+
+    public function update(Request $request, $id){
+        $validate = $request->validate([
+            'type' =>'required|in:read,quiz',
+            'deskripsi' =>'required|string',
+            'jumlah_target' =>'required|integer|min:1',
+            'xp_reward' =>'required|integer|min:0',
+        ]);
+        $template = templateMision::findOrFail($id);
+        $template->update($request->all());
+        return redirect()->route('missionTemplate.index')->with('success', 'Template updated successfully');
+    }
 }
 
 
