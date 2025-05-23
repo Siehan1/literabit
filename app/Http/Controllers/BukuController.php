@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Buku;
+use App\Models\Genre;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Spatie\PdfToImage\Pdf;
@@ -15,57 +16,6 @@ class BukuController extends Controller
      */
     public function index()
     {
-        // $bukus = [
-        //     [
-        //         'cover_path' => 'buku/image1.png',
-        //         'judul' => 'Si cemong coak',
-        //         'penulis' => 'Tere Liye',
-        //         'profile' => 'profile_penulis/pro1.svg',
-        //         'genre' => 'adventure'
-        //     ],
-        //     [
-        //         'cover_path' => 'buku/image2.png',
-        //         'judul' => 'Buku Dua',
-        //         'penulis' => 'Tere Liye',
-        //         'profile' => 'profile_penulis/pro1.svg',
-        //         'genre' => 'adventure'
-        //     ],
-        //     [
-        //         'cover_path' => 'buku/image3.png',
-        //         'judul' => 'Buku Tiga',
-        //         'penulis' => 'Tere Liye',
-        //         'profile' => 'profile_penulis/pro1.svg',
-        //         'genre' => 'adventure'
-        //     ],
-        //     [
-        //         'cover_path' => 'buku/image4.png',
-        //         'judul' => 'Buku Empat',
-        //         'penulis' => 'Tere Liye',
-        //         'profile' => 'profile_penulis/pro1.svg',
-        //         'genre' => 'adventure'
-        //     ],
-        //     [
-        //         'cover_path' => 'buku/image5.png',
-        //         'judul' => 'Buku Lima',
-        //         'penulis' => 'Tere Liye',
-        //         'profile' => 'profile_penulis/pro1.svg',
-        //         'genre' => 'adventure'
-        //     ],
-        //     [
-        //         'cover_path' => 'buku/image6.png',
-        //         'judul' => 'Buku Enam',
-        //         'penulis' => 'Tere Liye',
-        //         'profile' => 'profile_penulis/pro1.svg',
-        //         'genre' => 'adventure'
-        //     ],
-        //     [
-        //         'cover_path' => 'buku/image7.png',
-        //         'judul' => 'Buku Tujuh',
-        //         'penulis' => 'Tere Liye',
-        //         'profile' => 'profile_penulis/pro1.svg',
-        //         'genre' => 'adventure'
-        //     ]
-        // ];
         $bukus = Buku::with('genre')->latest()->get();
         return view('index', compact('bukus'));
     }
@@ -80,7 +30,8 @@ class BukuController extends Controller
      */
     public function create()
     {
-        //
+        $genres = Genre::all();
+        return view('admin.buku.uploadbuku', compact('genres'));
     }
 
     /**
@@ -136,32 +87,70 @@ class BukuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+        // Cari data buku berdasarkan slug
+        $bukus = Buku::with('genre')->latest()->get();
+        $genres = Genre::all();
+        return view('admin.buku.editBuku', compact('bukus','genres'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($slug)
     {
-        //
+        $buku = Buku::where('slug', $slug)->firstOrFail();
+        $genres = Genre::all();
+        // dd($buku);
+
+        return view('admin.buku.editBuku', compact('buku', 'genres'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $slug)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'penulis' => 'required|string|max:255',
+            'sinopsis' => 'required|string',
+            'genre' => 'required|exists:genres,id',
+        ]);
+
+        // Ambil buku berdasarkan slug
+        $buku = Buku::where('slug', $slug)->firstOrFail();
+
+        // Update data dasar
+        $buku->judul = $request->judul;
+        $buku->penulis = $request->penulis;
+        $buku->sinopsis = $request->sinopsis;
+        $buku->genre_id = $request->genre;
+
+        // Update slug jika judul berubah
+        $buku->slug = \Str::slug($request->judul);
+
+        $buku->save();
+
+        return redirect()->route('tableBuku')->with('success', 'Buku berhasil diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($slug)
     {
-        //
+        // Cari data buku berdasarkan slug
+        $buku = Buku::where('slug', $slug)->firstOrFail();
+
+        Storage::disk('public')->delete($buku->pdf_path);
+        Storage::disk('public')->delete($buku->cover_path);
+
+        // Hapus data dari database
+        $buku->delete();
+
+        return redirect()->back()->with('success', 'Buku berhasil dihapus.');
     }
 }

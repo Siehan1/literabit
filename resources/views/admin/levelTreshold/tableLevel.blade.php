@@ -8,7 +8,7 @@
             </div>
         @endif
         <div class="w-full text-end mb-6">
-        <a href="{{ route('uploadLevel') }}" class="bg-secondary-600 px-4 py-3 rounded-2xl hover:bg-secondary-800 text-white transition-colors duration-100">Tambah Level</a>
+        <a href="{{ route('level.create') }}" class="bg-secondary-600 px-4 py-3 rounded-2xl hover:bg-secondary-800 text-white transition-colors duration-100">Tambah Level</a>
     </div>
     <x-dashboardComponent.table>
         <x-slot name="header">Table level</x-slot>
@@ -27,7 +27,8 @@
                     <form action="{{ route('destroyLevel', $levelTreshold->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class=""><i class="bi bi-trash3-fill"></i></button>
+                        <button class="text-red-500" type="submit" style="cursor:pointer"><i class="bi bi-trash3-fill"></i></button>
+                        <a href="{{ route('level.edit', $levelTreshold->id )}}" class="text-sky-700"><i class="bi bi-pencil-square"></i></a>
                     </form>
                 </td>
             </tr>
