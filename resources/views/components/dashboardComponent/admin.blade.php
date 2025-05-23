@@ -71,9 +71,6 @@
                         <a href="{{ route('tableDaily') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('tableDaily') ? 'bg-primary-700' : '' }}">
                             <span>Daily Mision</span>
                         </a>
-                        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('tableAssignmentMision') ? 'bg-primary-700' : '' }}">
-                            <span>Assignment Mision</span>
-                        </a>
                     </div>
                 </div>
             </nav>
