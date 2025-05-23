@@ -44,4 +44,23 @@ class dailyMision extends Controller
                         ->with('success', 'Daily mission deleted successfully');
     }
 
+    public function edit($id)
+    {
+        $mission = misionDaily::findOrFail($id);
+        $templates = templateMision::all();
+        return view('admin.mision.dailyMision.editDaily', compact('mission', 'templates'));
+    }
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'template_id' => 'required|exists:mission_templates,id',
+            'tanggal' => 'required|date',
+            'is_completed' => 'boolean',
+        ]);
+        $mission = misionDaily::findOrFail($id);
+        $mission->update($validatedData);
+        return redirect()->route('tableDaily')
+                        ->with('success', 'Daily mission updated successfully');
+    }
+
 }

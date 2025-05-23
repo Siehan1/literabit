@@ -72,57 +72,32 @@ Route::delete('/kuis/hapus/{id}', [quizController::class, 'destroy'])->name('kui
 Route::get('/tableLevel',[LevelTresholdController::class,'index'])->name('tableLevel');
 Route::get('/level_threshold/tambah',[LevelTresholdController::class,'create'])->name('level.create');
 Route::post('/level_threshold/tambah',[LevelTresholdController::class,'store'])->name('level.store');
-Route::get('level_threshold/edit/{id}', [LevelTresholdController::class, 'edit'])->name('level.edit');
-Route::post('level_threshold/edit/{id}', [LevelTresholdController::class, 'update'])->name('level.update');
+Route::get('/level_threshold/edit/{id}', [LevelTresholdController::class, 'edit'])->name('level.edit');
+Route::post('/level_threshold/edit/{id}', [LevelTresholdController::class, 'update'])->name('level.update');
 Route::delete('/admin/level-tresholds/{levelTreshold}', [levelTresholdController::class, 'destroy'])->name('destroyLevel');
 
 // mission
 // mission template routes
-Route::get('mision/template',[misionTemplate::class,'index'])->name('missionTemplate.index'); // Ganti nama route agar konsisten
-Route::get('uploadTemplateMision',[misionTemplate::class,'create'])->name('missionTemplate.create'); // Ganti nama route
-Route::post('uploadTemplateMission',[misionTemplate::class,'store'])->name('missionTemplate.store'); // Ganti nama route
-Route::delete('/admin/mission-templates/{template}', [misionTemplate::class, 'destroy'])->name('missionTemplate.destroy'); // Ganti nama route
+Route::get('mision/template',[misionTemplate::class,'index'])->name('missionTemplate.index'); 
+Route::get('uploadTemplateMision',[misionTemplate::class,'create'])->name('missionTemplate.create'); 
+Route::post('uploadTemplateMission',[misionTemplate::class,'store'])->name('missionTemplate.store'); 
+Route::delete('/admin/mission-templates/{template}', [misionTemplate::class, 'destroy'])->name('missionTemplate.destroy'); 
+Route::get('/admin/mission-templates/{template}/edit', [misionTemplate::class, 'edit'])->name('missionTemplate.edit');
+Route::match(['put', 'post'], '/admin/mission-templates/{template}', [misionTemplate::class, 'update'])->name('missionTemplate.update');
 
-// Daily Mission Routes (Tambahkan ini)
-// Route::resource('admin/daily-missions', dailyMision::class)->names([
-//     'index' => 'dailyMission.index',
-//     'create' => 'dailyMission.create',
-//     'store' => 'dailyMission.store',
-//     'show' => 'dailyMission.show',
-//     'edit' => 'dailyMission.edit',
-//     'update' => 'dailyMission.update',
-//     'destroy' => 'dailyMission.destroy',
-// ]);
-
+// daily
 Route::get('tableDaily',[dailyMision::class,'index'])->name('tableDaily');
 Route::get('uploadDaily',[dailyMision::class,'create'])->name('uploadDaily');
 Route::post('uploadDaily',[dailyMision::class,'store'])->name('uploadDaily');
-Route::delete('/admin/daily-missions/{daily}', [dailyMision::class, 'destroy'])->name('deleteDaily'); 
+Route::delete('/admin/daily-missions/{daily}', [dailyMision::class, 'destroy'])->name('deleteDaily');
+Route::get('/admin/daily-missions/{daily}/edit', [dailyMision::class, 'edit'])->name('editDaily');
+Route::match(['put', 'post'], '/admin/daily-missions/{daily}', [dailyMision::class, 'update'])->name('updateDaily'); 
+
 // route dashboard admin
-Route::get('/admin',function(){
-    return view ('admin.admin');
-});
-Route::get('/uploadBuku', function(){
-    return view('admin.uploadbuku');
-});
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
-// route kuis
-// Route::get('/kuis/intro/{id_buku}', [KuisController::class, 'intro'])->name('kuis.intro');
-// Route::get('/kuis/{id_buku}', [KuisController::class, 'show'])->name('kuis.mulai');
-
-// Route::get('/kuis/{id_buku}/soal/{nomor}', [KuisController::class, 'tampilSoal'])->name('kuis.next');
-
-// Route::get('/kuis/{id_buku}/hasil', [KuisController::class, 'tampilHasil'])->name('kuis.hasil');
-// Route::get('/kuis/{id_buku}/gagal', [KuisController::class, 'gagal'])->name('kuis.gagal');
-
-// Route::post('/api/kuis/jawab', [KuisController::class, 'submitJawaban'])->name('api.kuis.jawab');
-
-// Route::get('/kuis/{id_buku}/hasil', [KuisController::class, 'tampilHasil'])->name('kuis.hasil');
-
-// Route::get('/kuis/{id_buku}/gagal', [KuisController::class, 'gagal'])->name('kuis.gagal');
-
+// route to kuis
 Route::get('/kuis/soal/{id_buku}/{nomor}', [KuisController::class, 'tampilSoal'])->name('kuis.soal');
 Route::view('/kuis/intro', 'kuis.intro');
 

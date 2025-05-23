@@ -23,11 +23,11 @@ class levelTresholdController extends Controller
         ]);
 
         levelTreshold::create($request->all());
-        // Ganti nama route di sini
         return redirect()->route('tableLevel')->with('success', 'Level Treshold uploaded successfully');
     }
 
-    public function edit(levelTreshold $levelTreshodls){
+    public function edit($id){
+        $levelTreshodls = levelTreshold::findOrFail($id);
         return view('admin.levelTreshold.editLevel', compact('levelTreshodls'));
     }
 
@@ -37,7 +37,8 @@ class levelTresholdController extends Controller
             'required_xp' =>'required|integer',
         ]);
 
-        $levelTreshodls->update($request->all());
+        $levelTreshold = levelTreshold::findOrFail($id);
+        $levelTreshold->update($request->all());
         // Ganti nama route di sini
         return redirect()->route('tableLevel')->with('success', 'Level Treshold updated successfully');
 

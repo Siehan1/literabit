@@ -25,10 +25,11 @@
                 <td class="px-5 py-3 text-left w-1/6">{{ $t->xp_reward }}</td>
                 <td class="px-5 py-3 text-left w-1/6">
                     {{-- Gunakan variabel loop yang baru --}}
-                    <form action="{{ route('missionTemplate.destroy', $t->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                    <form action="{{ route('missionTemplate.destroy', $t->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')" class="flex flex-row gap-3">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class=""><i class="bi bi-trash3-fill"></i></button>
+                        <button type="submit" class=""><i class="bi bi-trash3-fill text-red-500 text-[24px] hover:cursor-pointer"></i></button>
+                        <a href="{{ route('missionTemplate.edit', $t->id) }}" class="text-sky-700"><i class="bi bi-pencil-square text-[24px]"></i></a>
                     </form>
                 </td>
             </tr>
