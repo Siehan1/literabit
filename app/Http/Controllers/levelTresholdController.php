@@ -28,10 +28,10 @@ class levelTresholdController extends Controller
     }
 
     public function edit(levelTreshold $levelTreshodls){
-        return view('admin.levelTreshold.editLevel', compact('levelTresholds'));
+        return view('admin.levelTreshold.editLevel', compact('levelTreshodls'));
     }
 
-    public function update(Request $request, levelTreshold $levelTreshodls){
+    public function update(Request $request, $id){
         $validate = $request->validate([
             'level' => 'required|integer',
             'required_xp' =>'required|integer',

@@ -76,7 +76,7 @@
 
                         <p class="text-center text-sm">
                             Belum punya akun? 
-                            <a href="{{ route('register') }}" class="text-primary hover:text-hover transition-colors duration-200">Daftar sekarang</a>
+                            <a href="{{ route('register.show') }}" class="text-primary hover:text-hover transition-colors duration-200">Daftar sekarang</a>
                         </p>
                     </form>
                 </div>

@@ -16,9 +16,4 @@ class adminController extends Controller
         $users = User::all();
         return view('admin.dashboard.admin', compact('users'))->with('i',(request()->input('page',1)-1)*5);
     }
-    public function showUpload(){
-        $genres = Genre::all();
-        return view('admin.buku.uploadbuku', compact('genres'));
-    }
-    
 }

@@ -21,7 +21,7 @@ class GenreController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.genre.tambahGenre');
     }
 
     /**
@@ -29,7 +29,13 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'genre' => 'Required|unique:genres,nama_genre',
+        ]);
+        Genre::create([
+            'nama_genre' => $request->genre,
+        ]);
+        return redirect()->route('tableGenre')->with('success', 'Genre Berhasil di Input');
     }
 
     /**
@@ -43,24 +49,44 @@ class GenreController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $genre = Genre::where('id', $id)->firstOrFail();
+        return view('admin.genre.editGenre', compact('genre'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'genre' => 'required',
+        ]);
+
+        // Ambil buku berdasarkan slug
+        $genre = Genre::where('id', $id)->firstOrFail();
+
+        // Update data dasar
+        $genre->nama_genre = $request->genre;
+
+        $genre->save();
+
+        return redirect()->route('tableGenre')->with('success', 'Genre berhasil diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        // Cari data buku berdasarkan slug
+        $genre = Genre::where('id', $id)->firstOrFail();
+
+        // Hapus data dari database
+        $genre->delete();
+
+        return redirect()->back()->with('success', 'Genre berhasil dihapus.');
     }
 }
