@@ -13,7 +13,7 @@
                 </div>
             @endif
             <div class="flex flex-col items-center">
-                <form action="{{route('storeLevel')}}" method="POST" class="space-y-6 w-2xl">
+                <form action="{{route('level.store')}}" method="POST" class="space-y-6 w-2xl">
                     @csrf
                     <div class="flex gap-2 flex-col">
                         <label for="level" class="block text-sm font-medium text-teks">Level<span class="text-red-500">*</span></label>

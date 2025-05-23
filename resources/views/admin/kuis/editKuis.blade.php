@@ -16,16 +16,16 @@
                 </div>
             @endif
 
-            <form action="{{ route('kuis.store') }}" method="POST" class="space-y-6">
+            <form action="{{ route('kuis.update', $kuis->id) }}" method="POST" class="space-y-6">
                 @csrf
 
                 <!-- Pilih Buku -->
                 <div class="space-y-2">
                     <label for="buku_id" class="block text-sm font-medium text-teks">Pilih Buku <span class="text-red-500">*</span></label>
                     <select id="buku_id" name="buku_id" required class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200">
-                        <option value="">-- Pilih Buku --</option>
-                        @foreach ($books as $book)
-                            <option value="{{ $book->id }}" {{ old('buku_id') == $book->id ? 'selected' : '' }}>{{ $book->judul }}</option>
+                        <option value="" {{ is_null($kuis->buku_id) ? 'selected' : '' }}>-- Pilih Buku --</option>
+                        @foreach ($bukus as $book)
+                            <option value="{{ $book->id }}" {{ $kuis->buku_id == $book->id ? 'selected' : '' }}>{{ $book->judul }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -33,7 +33,7 @@
                 <!-- Pertanyaan Kuis -->
                 <div class="space-y-2">
                     <label for="pertanyaan" class="block text-sm font-medium text-teks">Pertanyaan Kuis <span class="text-red-500">*</span></label>
-                    <input type="text" id="pertanyaan" name="pertanyaan" required placeholder="Masukan pertanyaan kuis" value="{{ old('pertanyaan') }}" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200">
+                    <input value="{{ $kuis->pertanyaan }}" type="text" id="pertanyaan" name="pertanyaan" required placeholder="Masukan pertanyaan kuis" value="{{ old('pertanyaan') }}" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200">
                 </div>
 
                 <!-- Pilihan Jawaban -->
@@ -46,6 +46,25 @@
                                 <input type="text" name="choices[{{ $index }}][choice_text]" placeholder="Teks Pilihan" value="{{ $oldChoice['choice_text'] ?? '' }}" required class="flex-grow px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200">
                                 <label class="flex items-center space-x-2 text-sm font-medium text-teks">
                                     <input type="radio" name="correct_choice_index" value="{{ $index }}" {{ old('correct_choice_index') == $index ? 'checked' : '' }} class="form-radio text-primary focus:ring-primary/20">
+                                    <span>Benar</span>
+                                </label>
+                                <button type="button" class="text-red-500 hover:text-red-700 remove-choice">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        @endforeach
+                    @else
+                        @foreach ($kuis->choices as $index => $choice)
+                            <div class="flex items-center space-x-4 choice-item">
+                                <input type="text" name="choices[{{ $index }}][choice_text]" placeholder="Teks Pilihan"
+                                    value="{{ $choice->choice_text }}" required
+                                    class="flex-grow px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200">
+                                <label class="flex items-center space-x-2 text-sm font-medium text-teks">
+                                    <input type="radio" name="correct_choice_index" value="{{ $index }}"
+                                        {{ $choice->is_correct ? 'checked' : '' }}
+                                        class="form-radio text-primary focus:ring-primary/20">
                                     <span>Benar</span>
                                 </label>
                                 <button type="button" class="text-red-500 hover:text-red-700 remove-choice">

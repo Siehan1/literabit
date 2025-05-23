@@ -8,7 +8,7 @@
     @endif
 
     <div class="w-full text-end mb-6">
-        <a href="{{route('uploadKuis')}}" class="bg-secondary-600 px-4 py-3 rounded-2xl hover:bg-secondary-800 text-white transition-colors duration-20">Tambah Kuis</a>
+        <a href="{{route('kuis.create')}}" class="bg-secondary-600 px-4 py-3 rounded-2xl hover:bg-secondary-800 text-white transition-colors duration-20">Tambah Kuis</a>
     </div>
 
     <x-dashboardComponent.table>
@@ -26,10 +26,11 @@
                 <td class="px-6 py-3 text-left w-1/6">{{ $kuis->pertanyaan }}</td>
                 <td class="px-6 py-3 text-left w-1/6">{{ $kuis->choices->count() }}</td> {{-- Hitung jumlah pilihan --}}
                 <td class="px-6 py-3 text-left w-1/6">
-                <form action="" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                <form action="{{ route('kuis.destroy', $kuis->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class=""><i class="bi bi-trash3-fill"></i></button>
+                        <button class="text-red-500" type="submit" style="cursor:pointer"><i class="bi bi-trash3-fill"></i></button>
+                        <a href="{{ route('kuis.edit', $kuis->id )}}" class="text-sky-700"><i class="bi bi-pencil-square"></i></a>
                     </form>
                     {{-- <a href=""><i class="bi bi-pencil-square"></i></a>|
                     <a href=""></a> --}}

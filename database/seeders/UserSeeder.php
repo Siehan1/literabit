@@ -30,7 +30,13 @@ class UserSeeder extends Seeder
                 'is_admin' => 1,
                 'password' => Hash::make('password'), // gunakan bcrypt
             ]);
-    
         }
+        User::create([
+            'username'  => "shaehyan",
+            'name' => "Shaehyan",
+            'email' => "shaehyan@gmail.com",
+            'is_admin' => 1,
+            'password' => Hash::make('password'),
+        ]);
     }
 }
