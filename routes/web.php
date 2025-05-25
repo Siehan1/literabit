@@ -69,11 +69,11 @@ Route::delete('/kuis/hapus/{id}', [quizController::class, 'destroy'])->name('kui
 
 // level treshold
 Route::get('/tableLevel',[LevelTresholdController::class,'index'])->name('tableLevel');
-Route::get('/level_threshold/tambah',[LevelTresholdController::class,'create'])->name('level.create');
-Route::post('/level_threshold/tambah',[LevelTresholdController::class,'store'])->name('level.store');
-Route::get('/level_threshold/edit/{id}', [LevelTresholdController::class, 'edit'])->name('level.edit');
-Route::post('/level_threshold/edit/{id}', [LevelTresholdController::class, 'update'])->name('level.update');
-Route::delete('/admin/level-tresholds/{levelTreshold}', [levelTresholdController::class, 'destroy'])->name('destroyLevel');
+Route::get('/level/tambah',[LevelTresholdController::class,'create'])->name('level.create');
+Route::post('/level/tambah',[LevelTresholdController::class,'store'])->name('level.store');
+Route::get('/level/edit/{id}', [LevelTresholdController::class, 'edit'])->name('level.edit');
+Route::post('/level/edit/{id}', [LevelTresholdController::class, 'update'])->name('level.update');
+Route::delete('/level/hapus/{levelTreshold}', [levelTresholdController::class, 'destroy'])->name('destroyLevel');
 
 // mission
 // mission template routes

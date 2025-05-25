@@ -2,11 +2,7 @@
     <x-slot name="header">Edit Daily Mission</x-slot>
 
     {{-- Tombol kembali --}}
-<<<<<<< HEAD
     <a href="{{ route('tableDaily') }}"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
-=======
-    <a href="{{ route('dailyMission.index') }}"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
->>>>>>> 5d58ca7 (mission tinggal ud)
 
     {{-- Tampilkan error validasi --}}
     @if ($errors->any())
@@ -65,7 +61,7 @@
                             <select id="template_id" name="template_id" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
                                 <option value="">-- Pilih Template --</option>
                                 @foreach ($templates as $template)
-                                <option value="{{ $template->id }}">{{ $template->type }} - {{ $template->deskripsi }}</option>
+                                <option value="{{ $template->id }}" {{ $mission->template_id == $template->id ? 'selected' : '' }}>{{ $template->type }} - {{ $template->deskripsi }}</option>
                             @endforeach
                             </select>
                         </div>
@@ -73,7 +69,7 @@
                         {{-- Tanggal Misi --}}
                         <div class="space-y-2 flex-1">
                             <label for="tanggal" class="block text-sm font-medium text-teks">Tanggal: <span class="text-red-500">*</span></label>
-                            <input type="date" id="tanggal" name="tanggal" value="{{ $mission->tanggal }}" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
+                            <input type="date" id="tanggal" name="tanggal" value="{{ $mission->tanggal->format('Y-m-d') }}" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
                         </div>
                     </div>
 
