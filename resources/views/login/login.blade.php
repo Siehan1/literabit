@@ -40,14 +40,14 @@
                     <form class="space-y-4" action="{{ route('login.post') }}" method="POST">
                         @csrf
                         <div class="flex flex-col gap-2">
-                            <label for="email" class="text-sm font-medium">Email</label>
-                            <input type="email" id="email"  required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="JhonDhoe@gmail.com" autofocus name="email">
+                            <label for="user" class="text-sm font-medium">Email atau Username</label>
+                            <input type="text" id="user" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="Email atau Username" autofocus name="user">
                         </div>
 
                         <div class="flex flex-col gap-2">
                             <label for="password" class="text-sm font-medium">Password</label>
                             <div class="relative">
-                                <input type="password" id="password" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" name="password">
+                                <input type="password" placeholder="Password" id="password" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" name="password">
                                 <button type="button" class="toggle-password absolute right-3 top-1/2 -translate-y-1/2 text-sec hover:text-primary transition-colors duration-200">
                                     <!-- Icon Mata Tertutup -->
                                     <svg xmlns="http://www.w3.org/2000/svg" id="eyeClose" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
