@@ -29,7 +29,7 @@
 
             <!-- Developer Card 3 -->
             <div class="flex flex-col items-center">
-                <a href="https://instagram.com/saehyan_samukti" target="_blank" class="transition-transform duration-300 hover:scale-110">
+                <a href="https://instagram.com/semi_van_" target="_blank" class="transition-transform duration-300 hover:scale-110">
                     <div class="w-24 h-24 md:w-32 md:h-32 lg:w-48 lg:h-48 mb-2 md:mb-3 lg:mb-4 overflow-hidden rounded-full">
                         <img src="{{ asset('profile_penulis/pro1.svg') }}" alt="Saehyan Samukti" class="w-full h-full object-cover">
                     </div>

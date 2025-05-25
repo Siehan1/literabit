@@ -22,16 +22,20 @@ Route::get('/', function () {
 Route::get('/', [BukuController::class, 'index']);
 Route::get('/index', [BukuController::class, 'index']);
 
+
 // auth login
-Route::get('/login',[AuthController::class,'showlogin'])->name('login');
-Route::post('/login',[AuthController::class,'login'])->name('login.post');
-Route::get('/logout',[AuthController::class,'logout'])->name('logout');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showlogin'])->name('login');
+    Route::get('/register', [AuthController::class, 'showRegist'])->name('register.show');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+});
+
+// hanya user yang sudah login bisa akses ini
 Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
 
-// register
-Route::get('/register', [AuthController::class, 'showRegist'])->name('register.show');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-
+// logout tetap bisa diakses, tapi pakai POST
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
@@ -70,11 +74,11 @@ Route::delete('/kuis/hapus/{id}', [quizController::class, 'destroy'])->name('kui
 
 // level treshold
 Route::get('/tableLevel',[LevelTresholdController::class,'index'])->name('tableLevel');
-Route::get('/level_threshold/tambah',[LevelTresholdController::class,'create'])->name('level.create');
-Route::post('/level_threshold/tambah',[LevelTresholdController::class,'store'])->name('level.store');
-Route::get('/level_threshold/edit/{id}', [LevelTresholdController::class, 'edit'])->name('level.edit');
-Route::post('/level_threshold/edit/{id}', [LevelTresholdController::class, 'update'])->name('level.update');
-Route::delete('/admin/level-tresholds/{levelTreshold}', [levelTresholdController::class, 'destroy'])->name('destroyLevel');
+Route::get('/level/tambah',[LevelTresholdController::class,'create'])->name('level.create');
+Route::post('/level/tambah',[LevelTresholdController::class,'store'])->name('level.store');
+Route::get('/level/edit/{id}', [LevelTresholdController::class, 'edit'])->name('level.edit');
+Route::post('/level/edit/{id}', [LevelTresholdController::class, 'update'])->name('level.update');
+Route::delete('/level/hapus/{levelTreshold}', [levelTresholdController::class, 'destroy'])->name('destroyLevel');
 
 // mission
 // mission template routes
