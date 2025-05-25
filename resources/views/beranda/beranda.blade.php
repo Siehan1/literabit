@@ -9,6 +9,9 @@
 <body>
     <x-utama.navside></x-utama.navside>
     {{$users}}<br>
-    <a href="{{ route('logout') }}">Logout</a>
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit">Logout</button>
+    </form>
 </body>
 </html>

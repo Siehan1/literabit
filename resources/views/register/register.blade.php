@@ -29,7 +29,15 @@
                         <p class="text-center lg:text-left text-sm md:text-[14px] text-sec">Silakan registrasi untuk melanjutkan ke akun Anda dan nikmati berbagai cerita buku yang kami sediakan</p>
                     </div>
 
-                    
+                    @if ($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 flex flex-row gap-1.5">
+                                @foreach ($errors->all() as $error)
+                                    <i class="bi bi-exclamation-triangle-fill text-red-700 "></i>
+                                    <span>{{$error}}</span>
+                                @endforeach
+                        </div>
+                    @endif
+
                     <form class="space-y-4" action="{{ route('register') }}" method="POST">
                         @csrf
                         <div class="flex flex-col gap-2">
@@ -65,9 +73,13 @@
                             </div>
                         </div>
 
-                        
+                        <div class="flex flex-col gap-2">
+                            <label for="password" class="text-sm font-medium">Konfirmasi Password</label>
+                            <input type="password" id="password_confirmation" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="Konfirmasi Password" name="password_confirmation">
+                            <span class="italic text-sm" id="message"></span>
+                        </div>
 
-                        <button type="submit" class="w-full bg-primary text-white py-2.5 rounded-xl font-medium hover:bg-hover transition-colors duration-200 shadow-[0px_4px_0px_0px_rgba(201,144,75,1.00)]">
+                        <button id="btn-daftar" type="submit" class="w-full bg-primary text-white py-2.5 rounded-xl font-medium hover:bg-hover transition-colors duration-200 shadow-[0px_4px_0px_0px_rgba(201,144,75,1.00)]">
                             Daftar
                         </button>
 
