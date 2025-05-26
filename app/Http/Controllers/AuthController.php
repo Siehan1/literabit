@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\levelTreshold;
 
 class AuthController extends Controller
 {
@@ -58,4 +59,6 @@ class AuthController extends Controller
         request()->session()->regenerateToken();
         return redirect('/login');
     }
+
+
 }
