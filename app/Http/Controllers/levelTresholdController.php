@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\levelTreshold;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class levelTresholdController extends Controller
 {
@@ -48,5 +49,26 @@ class levelTresholdController extends Controller
         $levelTreshold->delete();
         return redirect()->route('tableLevel')->with('success', 'Template deleted successfully');
     }
+
+    public function levelUp()
+{
+    $user = Auth::user();
+    $currentThreshold = levelTreshold::where('level', $user->level)->first();
+    $nextThreshold = levelTreshold::where('level', $user->level + 1)->first();
+
+    $progress = 0;
+    if ($currentThreshold && $nextThreshold) {
+        $xpForCurrentLevel = $user->exp - $currentThreshold->xp_required;
+        $xpNeededForNextLevel = $nextThreshold->xp_required - $currentThreshold->xp_required;
+        if ($xpNeededForNextLevel > 0) {
+             $progress = ($xpForCurrentLevel / $xpNeededForNextLevel) * 100;
+        }
+    } else if ($currentThreshold && !$nextThreshold) {
+        // If user is at max level
+        $progress = 100;
+    }
+
+    return view('beranda.beranda', compact('user', 'currentThreshold', 'nextThreshold', 'progress'));
+}
 
 }
