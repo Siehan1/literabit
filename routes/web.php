@@ -39,6 +39,7 @@ Route::middleware('guest')->group(function () {
 Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
 Route::get('/beranda',[BukuController::class, 'BerandaBook'])->name('buku.beranda');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
