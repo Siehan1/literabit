@@ -8,10 +8,5 @@
 </head>
 <body>
     <x-utama.navside></x-utama.navside>
-    {{$users}}<br>
-    <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit">Logout</button>
-    </form>
 </body>
 </html>

@@ -33,9 +33,7 @@ Route::middleware('guest')->group(function () {
 
 // hanya user yang sudah login bisa akses ini
 Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
-
-// logout tetap bisa diakses, tapi pakai POST
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
