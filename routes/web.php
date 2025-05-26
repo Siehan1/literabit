@@ -32,13 +32,7 @@ Route::middleware('guest')->group(function () {
 
 // hanya user yang sudah login bisa akses ini
 Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
-Route::get('/beranda',[BukuController::class, 'BerandaBook'])->name('buku.beranda');
-
-// register
-Route::get('/register', [AuthController::class, 'showRegist'])->name('register.show');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
