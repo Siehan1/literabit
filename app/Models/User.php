@@ -19,6 +19,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'exp'
     ];
 
     public function histories(): HasMany
@@ -33,6 +34,10 @@ class User extends Authenticatable
     public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function levelInfo(){
+        return $this->hasOne(LevelTreshold::class, 'level', 'level');
     }
 
 
