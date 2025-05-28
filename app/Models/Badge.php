@@ -11,4 +11,8 @@ class Badge extends Model
         'description',
         'icon_path',
     ];
+
+    public function users(){
+        return $this->belongsToMany(User::class,'user_badges')->withTimestamps();
+    }
 }

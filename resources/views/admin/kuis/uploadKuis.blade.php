@@ -20,14 +20,26 @@
                 @csrf
 
                 <!-- Pilih Buku -->
-                <div class="space-y-2">
-                    <label for="buku_id" class="block text-sm font-medium text-teks">Pilih Buku <span class="text-red-500">*</span></label>
-                    <select id="buku_id" name="buku_id" required class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200">
-                        <option value="">-- Pilih Buku --</option>
-                        @foreach ($books as $book)
-                            <option value="{{ $book->id }}" {{ old('buku_id') == $book->id ? 'selected' : '' }}>{{ $book->judul }}</option>
-                        @endforeach
-                    </select>
+                <div class="space-y-4">
+                    <div>
+                        <label for="buku_id" class="block text-sm font-medium text-teks mb-2">Pilih Buku</label>
+                        <select name="buku_id" id="buku_id" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200">
+                            <option value="">-- Tidak Ada --</option>
+                            @foreach($books as $book)
+                                <option value="{{ $book->id }}">{{ $book->judul }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="lesson_id" class="block text-sm font-medium text-teks mb-2">Atau Pilih Reading Lesson</label>
+                        <select name="lesson_id" id="lesson_id" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200">
+                            <option value="">-- Tidak Ada --</option>
+                            @foreach($lessons as $lesson)
+                                <option value="{{ $lesson->id }}">{{ $lesson->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Pertanyaan Kuis -->
