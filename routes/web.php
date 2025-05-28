@@ -37,6 +37,7 @@ Route::middleware('guest')->group(function () {
 
 // hanya user yang sudah login bisa akses ini
 Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
+Route::get('/beranda',[BukuController::class, 'BerandaBook'])->name('buku.beranda');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/beranda',[BukuController::class, 'BerandaBook'])->name('buku.beranda');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
