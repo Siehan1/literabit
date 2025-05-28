@@ -8,13 +8,8 @@
             </div>
         @endif
         <div class="w-full text-end mb-6">
-<<<<<<< HEAD
             <a href="{{ route('level.create') }}" class="bg-secondary-600 px-4 py-3 rounded-2xl hover:bg-secondary-800 text-white transition-colors duration-100">Tambah Level</a>
         </div>
-=======
-        <a href="{{ route('uploadLevel') }}" class="bg-secondary-600 px-4 py-3 rounded-2xl hover:bg-secondary-800 text-white transition-colors duration-100">Tambah Level</a>
-    </div>
->>>>>>> f51255d (level done)
     <x-dashboardComponent.table>
         <x-slot name="header">Table level</x-slot>
         <x-slot name="thead">
