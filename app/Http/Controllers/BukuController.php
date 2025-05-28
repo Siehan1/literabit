@@ -19,6 +19,10 @@ class BukuController extends Controller
         $bukus = Buku::with('genre')->latest()->get();
         return view('index', compact('bukus'));
     }
+    public function BerandaBook(){
+        $bukus = Buku::with('genre')->latest()->get();
+        return view('beranda.beranda', compact('bukus'));
+    }
 
     public function showBuku(){
         $bukus = Buku::with('genre')->get();
@@ -130,7 +134,7 @@ class BukuController extends Controller
         $buku->genre_id = $request->genre;
 
         // Update slug jika judul berubah
-        $buku->slug = \Str::slug($request->judul);
+        $buku->slug = Str::slug($request->judul);
 
         $buku->save();
 

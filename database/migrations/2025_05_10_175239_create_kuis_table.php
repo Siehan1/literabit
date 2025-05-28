@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('buku_id')->constrained(
                 table: 'bukus', indexName: 'kuis_buku_id'
             );
+            $table->foreignId('lesson_id')->constrained(
+                table:'reading_lessons', indexName:'kuis_lesson_id'
+            );
             $table->string('pertanyaan');
             $table->timestamps();
         });
