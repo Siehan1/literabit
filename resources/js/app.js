@@ -2,25 +2,6 @@ import './bootstrap';
 import 'node-waves/dist/waves.min.css';
 import Waves from 'node-waves';
 
-// konfirmasi password
-const password = document.getElementById('password');
-const confirm = document.getElementById('password_confirmation');
-const message = document.getElementById('message');
-const btnDaftar = document.getElementById('btn-daftar');
-
-confirm.addEventListener('input', function () {
-    if (confirm.value === "") {
-        message.textContent = "";
-        message.className = "italic text-sm";
-      } else if (password.value === confirm.value) {
-        message.textContent = "Password cocok ✓";
-        message.className = "italic text-green-600 text-sm";
-      } else {
-        message.textContent = "Password tidak cocok ✗";
-        message.className = "italic text-red-700 text-sm";
-      }
-});
-
 document.addEventListener('DOMContentLoaded', function() {
     // konfirmasi password
     const password = document.getElementById('password');

@@ -68,41 +68,45 @@ class quizController extends Controller
     }
 
     public function edit($id){
-        $kuis = Kuis::where('id', $id)->firstOrFail();
+        $kuis = Kuis::with('choices')->findOrFail($id);
         $bukus = Buku::all();
-        $choice = Choice::where('kuis_id', $kuis->id);
-
-        return view('admin.kuis.editKuis', compact('kuis', 'bukus', 'choice'));
+        $lessons = \App\Models\ReadingLesson::all();
+        return view('admin.kuis.editKuis', compact('kuis', 'bukus', 'lessons'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'buku_id' => 'required|exists:bukus,id',
-            'pertanyaan' => 'required|string',
+            'buku_id' => 'nullable|exists:bukus,id',
+            'lesson_id' => 'nullable|exists:reading_lessons,id',
+            'pertanyaan' => 'required|string|max:255',
             'choices' => 'required|array|min:2',
             'choices.*.choice_text' => 'required|string',
-            'correct_choice_index' => 'required|integer',
+            'correct_choice_index' => 'required|integer|min:0|max:' . (count($request->choices ?? []) - 1),
         ]);
-
+    
+        if (!$request->buku_id && !$request->lesson_id) {
+            return back()->withErrors(['buku_id' => 'Pilih buku atau lesson.']);
+        }
+    
         $kuis = Kuis::findOrFail($id);
         $kuis->update([
             'buku_id' => $request->buku_id,
+            'lesson_id' => $request->lesson_id,
             'pertanyaan' => $request->pertanyaan,
         ]);
-
-        // Hapus semua choice lama
+    
         $kuis->choices()->delete();
-
-        // Simpan choice baru
+    
         foreach ($request->choices as $index => $choiceData) {
             $kuis->choices()->create([
                 'choice_text' => $choiceData['choice_text'],
                 'is_correct' => ($index == $request->correct_choice_index),
             ]);
         }
-
+    
         return redirect()->route('tableKuis')->with('success', 'Kuis berhasil diperbarui.');
+    }
 }
 
-}
+
