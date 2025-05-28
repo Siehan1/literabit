@@ -23,6 +23,7 @@ Route::get('/', function () {
 
 
 
+
 Route::get('/', [BukuController::class, 'index']);
 Route::get('/index', [BukuController::class, 'index']);
 
