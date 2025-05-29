@@ -1,4 +1,4 @@
-<x-layout.kuis>
+<x-dashboardComponent.kuis>
     <x-slot name="header">Kuis Literabit</x-slot>
     <x-slot name="icon">
         <img src="{{ asset('asset/icons/icon-quiz.svg') }}" alt="Quiz Icon" class="w-6 h-6">
@@ -27,7 +27,7 @@
                         Tunjukkan kemampuan literasimu dan kumpulkan XP sebanyak-banyaknya!
                     </p>
 
-                    <a href="{{ route('kuis.soal', ['id_buku' => 1, 'nomor' => 1]) }}" class="inline-block">
+                    <a href="{{ route('kuis.soal', ['slug' => 'tari-gantar-kebanggaanku', 'nomor' => 1]) }}" class="inline-block">
                         <button class="bg-[#FBB45E] hover:bg-[#F9A13B] text-white px-8 py-3.5 rounded-xl 
                                   text-lg font-bold shadow-[0_6px_0_#E0913A] hover:-translate-y-0.5 
                                   active:translate-y-1 active:shadow-none transition-all">
@@ -53,4 +53,4 @@
             © 2025 Literabit. All rights reserved.
         </p>
     </x-slot>
-</x-layout.kuis>
+</x-dashboardComponent.kuis>

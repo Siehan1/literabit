@@ -6,27 +6,33 @@ use Illuminate\Http\Request;
 use App\Models\Soal;
 use App\Models\JawabanKuis;
 use App\Models\HasilKuis;
+use App\Models\Buku;
+use App\Models\Kuis;
+use App\Models\Choice;
 
 
 class KuisController extends Controller
 {
-    public function tampilSoal($id_buku, $nomor)
+    public function tampilSoal($slug, $nomor)
     {
+        $buku = Buku::where('slug', $slug)->first();
+        
         if (session('lives') !== null && session('lives') <= 0) {
             session()->forget('lives'); // hapus nyawa
             session()->forget('kuis_jawaban'); // kalau kamu simpan jawaban di session (optional)
-            return redirect()->route('kuis.gagal', ['id_buku' => $id_buku]);
+            return redirect()->route('kuis.gagal', ['slug' => $slug]);
         }
 
         // Hitung jumlah soal
-        $totalSoal = Soal::where('id_buku', $id_buku)->count();
+        $totalSoal = Kuis::where('buku_id', $buku->id)->count();
 
         // Ambil soal ke-n
-        $soal = Soal::where('id_buku', $id_buku)->skip($nomor - 1)->first();
+        $soal = Kuis::with('choices')->where('buku_id', $buku->id)->skip($nomor - 1)->first();
+        $choices = $soal->choices;
 
         // Jika soal tidak ditemukan (mungkin nomor terlalu besar), redirect ke hasil kuis
         if (!$soal) {
-            return redirect()->route('kuis.hasil', ['id_buku' => $id_buku]);
+            return redirect()->route('kuis.hasil', ['slug' => $slug]);
         }
 
         // Set default nyawa jika belum ada
@@ -35,67 +41,94 @@ class KuisController extends Controller
         }
 
         // Hitung progress bar (dalam %)
-        $progress = ($nomor / $totalSoal) * 100;
+        
+        $progress = (($nomor - 1) / $totalSoal) * 100;
 
         return view('kuis.soal', [
             'soal' => $soal,
+            'totalSoal' => $totalSoal,
             'nomor' => $nomor,
-            'id_buku' => $id_buku,
+            'slug' => $slug,
             'lives' => session('lives'),
             'progress' => $progress,
+            'choices' => $choices,
         ]);
     }
 
-    public function submitJawaban(Request $request)
+    public function prosesJawaban(Request $request)
     {
-        $userId = auth()->id(); // kalau gak login, bisa null
-        $benar = filter_var($request->benar, FILTER_VALIDATE_BOOLEAN); // true/false
-
-        JawabanKuis::create([
-            'user_id' => $userId,
-            'id_buku' => $request->id_buku,
-            'nomor' => $request->nomor,
-            'jawaban_user' => $request->jawaban_user,
-            'benar' => $benar,
-        ]);
+        $isCorrect = $request->input('is_correct');
+        $slug = $request->input('slug');
+        $nomor = $request->input('nomor');
 
         // Kurangi nyawa kalau jawaban salah
-        if (!$benar) {
-            session(['lives' => session('lives') - 1]);
+        if (!$isCorrect || $isCorrect == 0) {
+            $lives = session('lives', 5);
+            $lives--;
+            session(['lives' => $lives]);
+
+            if ($lives <= 0) {
+                session()->forget('lives');
+                return redirect()->route('kuis.gagal', ['slug' => $slug]);
+            }
         }
 
-        return response()->json(['status' => 'ok']);
-    }
-
-    public function tampilHasil($id_buku)
-    {
-        $userId = auth()->id(); // bisa null kalau belum login
-
-        $benarCount = JawabanKuis::where('id_buku', $id_buku)
-            ->where('user_id', $userId)
-            ->where('benar', true)
-            ->count();
-
-        $xp = $benarCount * 10;
-
-        // Optional: simpan ke DB total XP
-        // HasilKuis::create([ ... ])
-
-        // Bersihin session kuis
-        session()->forget('lives');
-
-        return view('kuis.hasil', ['xp' => $xp]);
-    }
-
-
-    public function gagal($id_buku)
-    {
-        // Reset lives & hapus jawaban sebelumnya
-        session()->put('lives', 5);
-        JawabanKuis::where('id_buku', $id_buku)->delete();
-
-        return view('kuis.gagal', [
-            'id_buku' => $id_buku
+        return redirect()->route('kuis.soal', [
+            'slug' => $slug,
+            'nomor' => $nomor + 1
         ]);
     }
+
+    // public function submitJawaban(Request $request)
+    // {
+    //     $userId = auth()->id(); // kalau gak login, bisa null
+    //     $benar = filter_var($request->benar, FILTER_VALIDATE_BOOLEAN); // true/false
+
+    //     JawabanKuis::create([
+    //         'user_id' => $userId,
+    //         'id_buku' => $request->id_buku,
+    //         'nomor' => $request->nomor,
+    //         'jawaban_user' => $request->jawaban_user,
+    //         'benar' => $benar,
+    //     ]);
+
+    //     // Kurangi nyawa kalau jawaban salah
+    //     if (!$benar) {
+    //         session(['lives' => session('lives') - 1]);
+    //     }
+
+    //     return response()->json(['status' => 'ok']);
+    // }
+
+    // public function tampilHasil($id_buku)
+    // {
+    //     $userId = auth()->id(); // bisa null kalau belum login
+
+    //     $benarCount = JawabanKuis::where('id_buku', $id_buku)
+    //         ->where('user_id', $userId)
+    //         ->where('benar', true)
+    //         ->count();
+
+    //     $xp = $benarCount * 10;
+
+    //     // Optional: simpan ke DB total XP
+    //     // HasilKuis::create([ ... ])
+
+    //     // Bersihin session kuis
+    //     session()->forget('lives');
+
+    //     return view('kuis.hasil', ['xp' => $xp]);
+    // }
+
+
+    // public function gagal($id_buku)
+    // {
+    //     // Reset lives & hapus jawaban sebelumnya
+    //     session()->put('lives', 5);
+    //     JawabanKuis::where('id_buku', $id_buku)->delete();
+
+    //     return view('kuis.gagal', [
+    //         'id_buku' => $id_buku
+    //     ]);
+    // }
 }

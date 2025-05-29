@@ -1,4 +1,4 @@
-<x-layout.kuis>
+<x-dashboardComponent.kuis>
     <x-slot name="header">Kuis Literabit</x-slot>
     <x-slot name="icon">
         <img src="{{ asset('asset/icons/icon-quiz.svg') }}" alt="Quiz Icon" class="w-6 h-6">
@@ -52,4 +52,4 @@
         }
     </script>
     @endsection
-</x-layout.kuis>
+</x-dashboardComponent.kuis>
