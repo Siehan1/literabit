@@ -1,4 +1,4 @@
-<x-layout.kuis>
+<x-dashboardComponent.kuis>
     <x-slot name="title">Kuis Literabit</x-slot>
     <x-slot name="header">Kuis Literabit</x-slot>
     <x-slot name="icon">
@@ -36,7 +36,7 @@
 
                 <!-- Tombol Ulang -->
                 <div class="flex justify-center">
-                    <a href="{{ url('/kuis/soal/1') }}" class="block w-full">
+                    <a href="{{ route('kuis.soal', ['slug' => 'tari-gantar-kebanggaanku', 'nomor' => 1]) }}" class="block w-full">
                         <button class="w-full bg-white text-[#1F2E40] font-bold py-4 
                                 rounded-xl shadow-[0_6px_0_#E0913A] hover:-translate-y-0.5 
                                 active:translate-y-1 active:shadow-none transition-all">
@@ -60,4 +60,4 @@
         }
     </script>
     @endsection
-</x-layout.kuis>
+</x-dashboardComponent.kuis>

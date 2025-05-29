@@ -1,4 +1,4 @@
-<x-layout.kuis>
+<x-dashboardComponent.kuis>
     <x-slot name="header">Kuis Literabit</x-slot>
     <x-slot name="icon">
         <img src="{{ asset('assets/icons/icon-quiz.svg') }}" alt="Quiz Icon" class="w-6 h-6">
@@ -24,7 +24,7 @@
                 <div class="w-full px-6">
                     <div class="h-3 bg-gray-200 rounded-full shadow-inner">
                         <div class="h-3 bg-[#FBB45E] rounded-full transition-all duration-500 ease-out" 
-                             style="width: 40%; box-shadow: 0 2px 8px rgba(251,180,94,0.3)"></div>
+                             style="width: {{$progress}}%; box-shadow: 0 2px 8px rgba(251,180,94,0.3)"></div>
                     </div>
                 </div>
 
@@ -35,34 +35,37 @@
                             <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
                         </svg>
                     </div>
-                    <span class="text-red-500 text-xl font-bold">5</span>
+                    <span class="text-red-500 text-xl font-bold">{{ $lives }}</span>
                 </div>
             </div>
 
             <!-- Pertanyaan -->
             <div class="mt-6 flex items-center justify-center gap-6">
-                <img src="{{ asset('asset/images/kelinci-maskot.svg') }}" 
+                <img src="{{ asset('asset/images/kelinci-kuis.svg') }}" 
                      class="w-[140px] animate-float" alt="Maskot">
                 <div class="relative bg-[#FBB45E] text-white p-6 rounded-2xl text-xl max-w-[500px] shadow-md">
+                    {{ $soal->pertanyaan }}
                     <div class="absolute -left-3 top-1/2 -translate-y-1/2 w-0 h-0 
                               border-t-[16px] border-t-transparent 
                               border-b-[16px] border-b-transparent 
-                              border-r-[24px] border-r-[#FBB45E]"></div>
-                    Siapa tokoh utama dalam cerita ini?
+                              border-r-[24px] border-r-[#FBB45E]">
+                    </div>
                 </div>
             </div>
 
             <!-- Jawaban -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12 max-w-2xl mx-auto">
-                @foreach (['Bima', 'Dito', 'Raka', 'Satria'] as $nama)
-                <button onclick="selectOption(this)"
+                @foreach ($choices as $choice)
+                
+
+                <button onclick="selectOption(this)" data-is-correct="{{ $choice->is_correct }}"
                     class="jawaban-btn group border-2 border-[#FBB45E] rounded-xl py-4 px-6 
                            bg-white text-[#1F2E40] font-bold text-lg 
                            shadow-[0_6px_0_#FBB45E] hover:shadow-[0_8px_0_#FBB45E] 
                            transition-all duration-200 hover:-translate-y-0.5 
                            active:translate-y-1 active:shadow-none">
                     <div class="flex items-center justify-between">
-                        <span>{{ $nama }}</span>
+                        <span>{{ $choice->choice_text }}</span>
                         <div class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </div>
                 </button>
@@ -97,15 +100,21 @@
                 </h2>
                 
                 <!-- Tombol -->
-                <div class="flex justify-center">
-                    <a href="{{ url('/kuis/soal') }}" class="block w-full max-w-[200px]">
-                        <button class="w-full bg-white text-[#1F2E40] font-bold py-3 rounded-xl 
-                                    shadow-[0_4px_0_#E0913A] hover:-translate-y-0.5 
-                                    active:translate-y-1 active:shadow-none transition-all">
-                            LANJUT
-                        </button>
-                    </a>
-                </div>
+                <form action="{{ route('kuis.jawab') }}" method="POST" class="flex justify-center mt-4">
+                    @csrf
+                    <input type="hidden" name="is_correct" id="inputIsCorrect">
+                    <input type="hidden" name="slug" value="{{ $slug }}">
+                    <input type="hidden" name="nomor" value="{{ $nomor }}">
+                
+                    <button type="submit"
+                        class="px-10 py-4 rounded-xl text-white font-bold text-lg 
+                               bg-[#FBB45E] shadow-[0_6px_0_#E0913A] hover:-translate-y-0.5 
+                               active:translate-y-1 active:shadow-none transition-all">
+                        LANJUT
+                    </button>
+                </form>
+
+                
             </div>
         </div>
     </div>
@@ -155,7 +164,10 @@
             const image = document.getElementById('maskotFeedback');
             const text = document.getElementById('textFeedback');
 
-            const isCorrect = selectedBtn?.innerText === "Bima";
+            const isCorrect = selectedBtn?.dataset.isCorrect === "1";
+
+            // Update hidden input untuk tombol LANJUT
+            document.getElementById('inputIsCorrect').value = isCorrect ? 1 : 0;
 
             if (isCorrect) {
                 modalContent.classList.remove('bg-red-500');
@@ -175,4 +187,4 @@
         window.onload = () => togglePeriksa(false);
     </script>
     @endsection
-</x-layout.kuis>
+</x-dashboardComponent.kuis>
