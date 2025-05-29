@@ -37,9 +37,10 @@ Route::middleware('guest')->group(function () {
 // hanya user yang sudah login bisa akses ini
 Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
 Route::get('/beranda',[BukuController::class, 'BerandaBook'])->name('buku.beranda');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
 
 
 // route to buku
@@ -106,6 +107,10 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 
 // route to kuis
-Route::get('/kuis/soal/{id_buku}/{nomor}', [KuisController::class, 'tampilSoal'])->name('kuis.soal');
+Route::get('/kuis/soal/{slug}/{nomor}', [KuisController::class, 'tampilSoal'])->name('kuis.soal');
+Route::post('/kuis/jawab', [KuisController::class, 'prosesJawaban'])->name('kuis.jawab');
+
 Route::view('/kuis/intro', 'kuis.intro');
+Route::view('/kuis/hasil', 'kuis.hasil');
+Route::view('/kuis/gagal/{slug}', 'kuis.gagal')->name('kuis.gagal');
 
