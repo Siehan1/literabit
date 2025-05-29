@@ -39,7 +39,9 @@ class User extends Authenticatable
     public function levelInfo(){
         return $this->hasOne(LevelTreshold::class, 'level', 'level');
     }
-
+    public function badges(){
+        return $this->belongsToMany(badge::class,'user_badges')->withTimestamps();
+    }
 
     /**
      * Get all of the resumes for the User

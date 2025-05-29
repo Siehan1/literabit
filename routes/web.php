@@ -12,11 +12,14 @@ use App\Http\Controllers\LevelTresholdController;
 use App\Http\Controllers\misionTemplate;
 use App\Http\Controllers\dailyMision; // Import dailyMision controller
 use App\Http\Controllers\KuisController;
+use App\Http\Controllers\ReadingLessonController;
+use App\Http\Controllers\ReadingLesson;
 
 // route to landing page
 Route::get('/', function () {
     return view('index');
 });
+
 
 
 Route::get('/', [BukuController::class, 'index']);
@@ -33,6 +36,7 @@ Route::middleware('guest')->group(function () {
 
 // hanya user yang sudah login bisa akses ini
 Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
+Route::get('/beranda',[BukuController::class, 'BerandaBook'])->name('buku.beranda');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
@@ -97,6 +101,8 @@ Route::match(['put', 'post'], '/admin/daily-missions/{daily}', [dailyMision::cla
 
 // route dashboard admin
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
+
 
 
 // route to kuis
