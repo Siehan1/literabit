@@ -49,7 +49,7 @@
 
             <!-- Pertanyaan -->
             <div class="mt-6 flex items-center justify-center gap-6">
-                <img src="{{ asset('asset/images/kelinci-maskot.png') }}" 
+                <img src="{{ asset('asset/images/kelinci-kuis.svg') }}" 
                      class="w-[140px] animate-float" alt="Maskot">
                 <div class="relative bg-[#FBB45E] text-white p-6 rounded-2xl text-xl max-w-[500px] shadow-md">
                     {{ $soal->pertanyaan }}
