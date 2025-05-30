@@ -20,11 +20,19 @@
                     <img src="{{ asset('asset/icons/close-icon.svg') }}" alt="Close" class="w-6 h-6">
                 </button>
 
-                <!-- Progress Bar -->
+                <!-- Progress Bar dengan 10 bagian -->
                 <div class="w-full px-6">
-                    <div class="h-3 bg-gray-200 rounded-full shadow-inner">
-                        <div class="h-3 bg-[#FBB45E] rounded-full transition-all duration-500 ease-out" 
-                             style="width: {{$progress}}%; box-shadow: 0 2px 8px rgba(251,180,94,0.3)"></div>
+                    <div class="h-3 bg-gray-200 rounded-full shadow-inner relative">
+                        <div class="h-3 bg-[#FBB45E] rounded-full absolute transition-all duration-500 ease-out" 
+                             style="width: {{ $progress }}%; box-shadow: 0 2px 8px rgba(251,180,94,0.3)">
+                            <div class="absolute -right-2 -top-1 w-5 h-5 bg-[#FBB45E] rounded-full"></div>
+                        </div>
+                        <!-- Garis pembagi 10 bagian -->
+                        <div class="absolute inset-0 flex justify-between">
+                            @for ($i = 0; $i < 9; $i++)
+                                <div class="w-px h-full bg-white/50"></div>
+                            @endfor
+                        </div>
                     </div>
                 </div>
 
@@ -41,7 +49,7 @@
 
             <!-- Pertanyaan -->
             <div class="mt-6 flex items-center justify-center gap-6">
-                <img src="{{ asset('asset/images/kelinci-kuis.svg') }}" 
+                <img src="{{ asset('asset/images/kelinci-maskot.png') }}" 
                      class="w-[140px] animate-float" alt="Maskot">
                 <div class="relative bg-[#FBB45E] text-white p-6 rounded-2xl text-xl max-w-[500px] shadow-md">
                     {{ $soal->pertanyaan }}
