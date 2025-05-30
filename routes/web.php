@@ -12,6 +12,7 @@ use App\Http\Controllers\LevelTresholdController;
 use App\Http\Controllers\misionTemplate;
 use App\Http\Controllers\dailyMision; // Import dailyMision controller
 use App\Http\Controllers\KuisController;
+use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\ReadingLessonController;
 use App\Http\Controllers\ReadingLesson;
 
@@ -19,6 +20,7 @@ use App\Http\Controllers\ReadingLesson;
 Route::get('/', function () {
     return view('index');
 });
+
 
 
 
@@ -37,9 +39,8 @@ Route::middleware('guest')->group(function () {
 // hanya user yang sudah login bisa akses ini
 Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
 Route::get('/beranda',[BukuController::class, 'BerandaBook'])->name('buku.beranda');
-
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
@@ -53,19 +54,13 @@ Route::delete('/buku/hapus/{slug}', [BukuController::class, 'destroy'])->name('b
 
 // route to genre
 Route::get('tableGenre', [GenreController::class, 'index'])->name('tableGenre');
-Route::get('/genre/tambah', [GenreController::class, 'create'])->name('genre.create');
-Route::post('/genre/tambah', [GenreController::class, 'store'])->name('genre.store');
-Route::get('/genre/edit/{id}', [GenreController::class, 'edit'])->name('genre.edit');
-Route::post('/genre/edit/{id}', [GenreController::class, 'update'])->name('genre.update');
-Route::delete('/genre/hapus/{id}', [GenreController::class, 'destroy'])->name('genre.destroy');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
 // router badges
-Route::get('/tableBadges',[badgesController::class,'index'])->name('tableBadges');
-Route::get('/badge/tambah',[badgesController::class,'create'])->name('badge.create');
-Route::post('/badge/tambah',[badgesController::class,'store'])->name('badge.store');
-Route::get('/badge/edit/{id}', [badgesController::class, 'edit'])->name('badge.edit');
-Route::post('/badge/edit/{id}', [badgesController::class, 'update'])->name('badge.update');
-Route::delete('/badge/hapus/{id}', [badgesController::class, 'destroy'])->name('badge.destroy');
+Route::get('/uploadBadges',[badgesController::class,'indexUpload'])->name('Badges');
+Route::post('/uploadBadges',[badgesController::class,'store'])->name('Badges');
+Route::get('/tableBadges',[badgesController::class,'indexBadges'])->name('tableBadges');
+Route::get('/tableBadges',[badgesController::class,'showBadges'])->name('tableBadges');
 
 // Route untuk Kuis
 Route::get('tableKuis', [quizController::class, 'index'])->name('tableKuis'); 
@@ -111,6 +106,18 @@ Route::get('/kuis/soal/{slug}/{nomor}', [KuisController::class, 'tampilSoal'])->
 Route::post('/kuis/jawab', [KuisController::class, 'prosesJawaban'])->name('kuis.jawab');
 
 Route::view('/kuis/intro', 'kuis.intro');
-Route::view('/kuis/hasil', 'kuis.hasil');
+Route::get('/kuis/{id_buku}/gagal', [KuisController::class, 'gagal'])
+    ->name('kuis.gagal');
+
+
+
+
+Route::get('/profil', function () {
+    return view('profil.index');
+})->name('profil');
+
+
+
+Route::get('/profil', [ProfilController::class, 'index'])->name('profil');Route::view('/kuis/hasil', 'kuis.hasil');
 Route::view('/kuis/gagal/{slug}', 'kuis.gagal')->name('kuis.gagal');
 

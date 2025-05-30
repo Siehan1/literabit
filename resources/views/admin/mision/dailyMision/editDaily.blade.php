@@ -19,6 +19,7 @@
             <h2 class="text-2xl font-bold text-primary mb-8 text-center">Edit Daily Mission</h2>
 
             {{-- Ganti action ke route update daily mission --}}
+<<<<<<< HEAD
             <form action="{{ route('updateDaily', $mission->id) }}" method="POST" class="space-y-6">
                 @csrf
                 @method('PUT')
@@ -30,6 +31,35 @@
                             <label for="template_id" class="block text-sm font-medium text-teks">Template Misi: <span class="text-red-500">*</span></label>
                             <select id="template_id" name="template_id" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
                                 <option value="" disabled {{ is_null($mission->template_id) ? 'selected' : '' }}>-- Pilih Template --</option>
+                                @foreach ($templates as $template)
+                                <option value="{{ $template->id }}" {{ $mission->template_id == $template->id ? 'selected' : '' }}>{{ $template->type }} - {{ $template->deskripsi }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Tanggal Misi --}}
+                        <div class="space-y-2 flex-1">
+                            <label for="tanggal" class="block text-sm font-medium text-teks">Tanggal: <span class="text-red-500">*</span></label>
+                            <input type="date" id="tanggal" name="tanggal" value="{{ $mission->tanggal->format('Y-m-d') }}" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
+                        </div>
+                    </div>
+
+                    {{-- Status Selesai (Opsional, tergantung kebutuhan) --}}
+                    <div class="space-y-2 justify-center">
+                        <label for="is_completed" class="block text-sm font-medium text-teks">Status Selesai:</label>
+                        <input type="checkbox" id="is_completed" name="is_completed" value="1" {{ $mission->is_completed ? 'checked' : '' }} class="rounded border-gray-300 text-primary shadow-sm focus:border-primary focus:ring focus:ring-primary/20">
+=======
+            <form action="{{ route('dailyMission.update', $dailyMission->id) }}" method="POST" class="space-y-6">
+                @csrf
+                @method('PUT')
+
+                <div class="flex flex-col gap-6">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        {{-- Pilih Template Misi --}}
+                        <div class="space-y-2 flex-1">
+                            <label for="template_id" class="block text-sm font-medium text-teks">Template Misi: <span class="text-red-500">*</span></label>
+                            <select id="template_id" name="template_id" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
+                                <option value="">-- Pilih Template --</option>
                                 @foreach ($templates as $template)
                                 <option value="{{ $template->id }}" {{ $mission->template_id == $template->id ? 'selected' : '' }}>{{ $template->type }} - {{ $template->deskripsi }}</option>
                             @endforeach
