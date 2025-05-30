@@ -8,11 +8,19 @@ use App\Models\JawabanKuis;
 use App\Models\HasilKuis;
 use App\Models\Buku;
 use App\Models\Kuis;
+use App\Models\User;
 use App\Models\Choice;
+use Illuminate\Support\Facades\Auth;
 
 
 class KuisController extends Controller
 {
+    public function index($slug){
+        $buku = Buku::where('slug', $slug)->first();
+        session()->forget('lives');
+        session()->forget('kuis_jawaban');
+        return view('kuis.intro', compact('buku'));
+    }
     public function tampilSoal($slug, $nomor)
     {
         $buku = Buku::where('slug', $slug)->first();
@@ -34,7 +42,7 @@ class KuisController extends Controller
         if (!$soal) {
             return redirect()->route('kuis.hasil', ['slug' => $slug]);
         }
-
+        
         // Set default nyawa jika belum ada
         if (!session()->has('lives')) {
             session(['lives' => 5]);
@@ -61,6 +69,19 @@ class KuisController extends Controller
         $slug = $request->input('slug');
         $nomor = $request->input('nomor');
 
+        $buku = Buku::where('slug', $slug)->first();
+        $soal = Kuis::with('choices')->where('buku_id', $buku->id)->skip($nomor)->first();
+
+        // Jika soal tidak ditemukan (mungkin nomor terlalu besar), redirect ke hasil kuis
+        // Simpan ke session
+        session()->push('kuis_jawaban', [
+            'nomor' => $request->input('nomor'),
+            'is_correct' => $isCorrect,
+        ]);
+        
+        if (!$soal) {
+            return redirect()->route('kuis.hasil', ['slug' => $slug]);
+        }
         // Kurangi nyawa kalau jawaban salah
         if (!$isCorrect || $isCorrect == 0) {
             $lives = session('lives', 5);
@@ -72,6 +93,7 @@ class KuisController extends Controller
                 return redirect()->route('kuis.gagal', ['slug' => $slug]);
             }
         }
+
 
         return redirect()->route('kuis.soal', [
             'slug' => $slug,
@@ -100,25 +122,35 @@ class KuisController extends Controller
     //     return response()->json(['status' => 'ok']);
     // }
 
-    // public function tampilHasil($id_buku)
-    // {
-    //     $userId = auth()->id(); // bisa null kalau belum login
+    public function tampilHasil($slug)
+    {
+        $userId = Auth::id(); // bisa null kalau belum login
+        $buku = Buku::where('slug', $slug)->first();
+        $user = User::where('id', Auth::id());
+        dd($user->id);
 
-    //     $benarCount = JawabanKuis::where('id_buku', $id_buku)
-    //         ->where('user_id', $userId)
-    //         ->where('benar', true)
-    //         ->count();
+        // $benarCount = JawabanKuis::where('id_buku', $id_buku)
+        //     ->where('user_id', $userId)
+        //     ->where('benar', true)
+        //     ->count();
 
-    //     $xp = $benarCount * 10;
+        $jawaban = session('kuis_jawaban', []);
+        $jumlahBenar = collect($jawaban)->where('is_correct', 1)->count();
 
-    //     // Optional: simpan ke DB total XP
-    //     // HasilKuis::create([ ... ])
+        $xp = $jumlahBenar * 10;
 
-    //     // Bersihin session kuis
-    //     session()->forget('lives');
+        // Optional: simpan ke DB total XP
+        HasilKuis::create([
+            'user_id' => $userId,
+            'buku_id' => $buku->id,
+            'total_xp' => $xp,
+        ]);
 
-    //     return view('kuis.hasil', ['xp' => $xp]);
-    // }
+        // Bersihin session kuis
+        session()->forget('lives');
+
+        return view('kuis.hasil', ['xp' => $xp]);
+    }
 
 
     // public function gagal($id_buku)

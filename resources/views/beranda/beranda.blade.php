@@ -56,7 +56,16 @@
                             @foreach ($bukus as $buku)
                                 @if ($buku->level_required == 0)
                                     <div class="flex-none w-64">
-                                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer"
+                                        onclick="openModalDetailBuku(this)"
+                                        data-slug="{{ $buku->slug }}"
+                                        data-level="{{ $buku->level_required }}"
+                                        data-judul="{{ $buku->judul }}"
+                                        data-penulis="{{ $buku->penulis }}"
+                                        data-genre="{{ $buku->genre->nama_genre }}"
+                                        data-cover="{{ asset('storage/' . $buku->cover_path) }}"
+                                        data-sinopsis="{{ $buku->sinopsis }}"
+                                        >
                                             <div class="h-48 overflow-hidden">
                                                 <img src="{{asset('storage/'. $buku->cover_path)}}" alt="Book Cover" class="w-full h-full object-cover">
                                             </div>
@@ -127,7 +136,16 @@
                             @foreach ($bukus as $buku)
                                 @if ($buku->level_required == 1)
                                     <div class="flex-none w-64">
-                                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer"
+                                        onclick="openModalDetailBuku(this)"
+                                        data-slug="{{ $buku->slug }}"
+                                        data-level="{{ $buku->level_required }}"
+                                        data-judul="{{ $buku->judul }}"
+                                        data-penulis="{{ $buku->penulis }}"
+                                        data-genre="{{ $buku->genre->nama_genre }}"
+                                        data-cover="{{ asset('storage/' . $buku->cover_path) }}"
+                                        data-sinopsis="{{ $buku->sinopsis }}"
+                                        >
                                             <div class="h-48 overflow-hidden">
                                                 <img src="{{asset('storage/'. $buku->cover_path)}}" alt="Book Cover" class="w-full h-full object-cover filter {{ Auth::user()->level >= 1 ? '' : 'grayscale' }}">
                                             </div>
@@ -202,7 +220,7 @@
                             @foreach ($bukus as $buku)
                                 @if ($buku->level_required == 2)
                                     <div class="flex-none w-64">
-                                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer">
                                             <div class="h-48 overflow-hidden">
                                                 <img src="{{asset('storage/'. $buku->cover_path)}}" alt="Book Cover" class="w-full h-full object-cover filter {{ Auth::user()->level >= 2 ? '' : 'grayscale' }}">
                                             </div>
@@ -231,8 +249,90 @@
             </div>
 
         </main>
+        <!-- Modal Buku Detail -->
+        <div id="modalBuku"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+
+        <div id="modalContentBuku" class="relative rounded-2xl p-8 w-[90%] max-w-xl bg-white shadow-xl">
+            
+            <!-- Tombol close -->
+            <button onclick="closeModalDetailBuku()"
+                class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">
+                &times;
+            </button>
+            
+            <!-- Gambar Cover -->
+            <div class="flex justify-center mb-4">
+                <img id="modalCover" src="" alt="Cover Buku" class="w-40 h-60 object-cover rounded-md shadow-md">
+            </div>
+
+            <!-- Judul Buku -->
+            <h2 id="modalJudul" class="text-2xl font-bold text-center text-teks mb-2"></h2>
+
+            <!-- Penulis dan Genre -->
+            <p class="text-center text-gray-600 font-medium mb-2">
+                Penulis: <span id="modalPenulis"></span>
+            </p>
+            <p class="text-center mb-4">
+                <span id="modalGenre" class="text-white bg-green-500 text-sm rounded-full inline-block px-3 py-1">
+                </span>
+            </p>
+
+            <!-- Sinopsis -->
+            <div class="text-justify text-gray-700 mb-6 max-h-40 overflow-y-auto">
+                <p id="modalSinopsis"></p>
+            </div>
+
+            <!-- Tombol Baca -->
+            <div class="flex justify-center">
+                <a id="modalLinkBaca" href="#"
+                    class="px-6 py-3 rounded-xl text-white font-bold text-lg bg-[#34A853] shadow-[0_6px_0_#2C8E46] 
+                        hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all">
+                    MULAI BACA
+                </a>
+            </div>
+        </div>
+        </div>
+
 
         <x-utama.navsideRight/>
+        <script>
+            function openModalDetailBuku(el) {
+                document.getElementById('modalJudul').innerText = el.dataset.judul;
+                document.getElementById('modalPenulis').innerText = el.dataset.penulis;
+                document.getElementById('modalSinopsis').innerText = el.dataset.sinopsis;
+                document.getElementById('modalCover').src = el.dataset.cover;
+
+                // Genre tag
+                let modalgenre = document.getElementById('modalGenre');
+                modalgenre.innerText = el.dataset.genre;
+
+                // Reset kelas warna sebelumnya
+                modalgenre.classList.remove('bg-green-500', 'bg-yellow-500', 'bg-blue-500');
+
+                let level = el.dataset.level;
+                if (level == "1") {
+                    modalgenre.classList.add('bg-yellow-500');
+                } else if (level == "2") {
+                    modalgenre.classList.add('bg-blue-500');
+                } else {
+                    modalgenre.classList.add('bg-green-500');
+                }
+
+                // Link baca
+                let slug = el.dataset.slug;
+                let bacaUrl = `{{ url('baca-buku') }}/${slug}`;
+                document.getElementById('modalLinkBaca').href = bacaUrl;
+
+                // Tampilkan modal
+                document.getElementById('modalBuku').classList.remove('hidden');
+            }
+            
+            function closeModalDetailBuku() {
+                document.getElementById('modalBuku').classList.add('hidden');
+            }
+        </script>
+            
 
 </body>
 </html>

@@ -6,14 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Buku;
 use App\Models\Kuis;
 use App\Models\Choice;
-use App\Models\ReadingLesson;
 
 class quizController extends Controller
 {
     public function create(){
         $books = Buku::all();
-        $lessons = ReadingLesson::all();
-        return view('admin.kuis.uploadKuis', compact('books', 'lessons'));
+        return view('admin.kuis.uploadKuis', compact('books'));
     }
 
     public function store(Request $request){
@@ -36,7 +34,6 @@ class quizController extends Controller
         // Buat Kuis baru
         $kuis = Kuis::create([
             'buku_id' => $request->buku_id,
-            'lesson_id' => $request->lesson_id,
             'pertanyaan' => $request->pertanyaan,
         ]);
 
@@ -70,15 +67,13 @@ class quizController extends Controller
     public function edit($id){
         $kuis = Kuis::with('choices')->findOrFail($id);
         $bukus = Buku::all();
-        $lessons = \App\Models\ReadingLesson::all();
-        return view('admin.kuis.editKuis', compact('kuis', 'bukus', 'lessons'));
+        return view('admin.kuis.editKuis', compact('kuis', 'bukus'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'buku_id' => 'nullable|exists:bukus,id',
-            'lesson_id' => 'nullable|exists:reading_lessons,id',
             'pertanyaan' => 'required|string|max:255',
             'choices' => 'required|array|min:2',
             'choices.*.choice_text' => 'required|string',
@@ -92,7 +87,6 @@ class quizController extends Controller
         $kuis = Kuis::findOrFail($id);
         $kuis->update([
             'buku_id' => $request->buku_id,
-            'lesson_id' => $request->lesson_id,
             'pertanyaan' => $request->pertanyaan,
         ]);
     

@@ -16,9 +16,10 @@
 
             <!-- Header -->
             <div class="w-full flex justify-between items-center mb-8">
-                <button class="p-2 hover:scale-110 transition-transform">
+                <a href="{{ route('kuis.intro', $slug) }}" class="p-2 hover:scale-110 transition-transform inline-block">
                     <img src="{{ asset('asset/icons/close-icon.svg') }}" alt="Close" class="w-6 h-6">
-                </button>
+                </a>
+                
 
                 <!-- Progress Bar dengan 10 bagian -->
                 <div class="w-full px-6">

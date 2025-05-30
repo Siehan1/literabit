@@ -13,7 +13,14 @@
             <!-- Dekorasi Sudut -->
             <div class="absolute -top-6 -right-6 w-24 h-24 bg-[#FBB45E]/20 rounded-full"></div>
             <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-[#FBB45E]/20 rounded-full"></div>
+            <button onclick="window.history.back()" 
+            class="cancel absolute top-3 left-3 bg-red-500 hover:bg-red-700 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold">
+                ×
+            </button>
 
+            <a href="{{ route('bacaBuku', $buku->slug) }}" class="cancel absolute top-3 left-3 bg-red-500 hover:bg-red-700 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold">
+                x
+            </a>
             <!-- Content Grid -->
             <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
                 <!-- Text Section -->
@@ -27,7 +34,7 @@
                         Tunjukkan kemampuan literasimu dan kumpulkan XP sebanyak-banyaknya!
                     </p>
 
-                    <a href="{{ route('kuis.soal', ['slug' => 'tari-gantar-kebanggaanku', 'nomor' => 1]) }}" class="inline-block">
+                    <a href="{{ route('kuis.soal', ['slug' => $buku->slug, 'nomor' => 1]) }}" class="inline-block">
                         <button class="bg-[#FBB45E] hover:bg-[#F9A13B] text-white px-8 py-3.5 rounded-xl 
                                   text-lg font-bold shadow-[0_6px_0_#E0913A] hover:-translate-y-0.5 
                                   active:translate-y-1 active:shadow-none transition-all">
