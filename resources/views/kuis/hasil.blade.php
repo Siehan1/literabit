@@ -27,7 +27,7 @@
                      alt="XP Icon" 
                      class="w-7 h-7">
                 <div class="flex items-baseline gap-2">
-                    <span id="xpSkor" class="text-[#1F2E40] text-3xl font-bold">90</span>
+                    <span id="xpSkor" class="text-[#1F2E40] text-3xl font-bold">{{ $xp }}</span>
                     <span class="text-[#1F2E40] text-xl font-semibold">XP</span>
                 </div>
             </div>

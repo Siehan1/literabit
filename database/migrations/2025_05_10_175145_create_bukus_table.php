@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->string('slug')->unique();
-            $table->string('sinopsis');
+            $table->text('sinopsis');
             $table->string('penulis');
             $table->string('pdf_path');
             $table->integer('level_required');

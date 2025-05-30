@@ -19,8 +19,9 @@ class BukuController extends Controller
         $bukus = Buku::with('genre')->latest()->get();
         return view('index', compact('bukus'));
     }
-    public function BerandaBook(){
+    public function beranda(){
         $bukus = Buku::with('genre')->latest()->get();
+        
         return view('beranda.beranda', compact('bukus'));
     }
 
