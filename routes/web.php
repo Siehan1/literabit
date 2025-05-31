@@ -122,3 +122,6 @@ Route::get('/profil', function () {
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil');Route::view('/kuis/hasil', 'kuis.hasil');
 Route::view('/kuis/gagal/{slug}', 'kuis.gagal')->name('kuis.gagal');
 
+
+Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::put('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');

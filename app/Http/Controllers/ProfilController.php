@@ -23,4 +23,36 @@ class ProfilController extends Controller
 
         return view('profil.index', $data);
     }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        Auth::user()->update([
+            'name' => $request->name
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'name' => Auth::user()->name
+        ]);
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|max:2048'
+        ]);
+
+        $path = $request->file('avatar')->store('avatars', 'public');
+        
+        Auth::user()->update([
+            'avatar' => $path
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+    
 }

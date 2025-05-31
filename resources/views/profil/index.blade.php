@@ -8,195 +8,221 @@
     @section('content')
     <div class="min-h-screen bg-[#FFF8F0] font-poppins flex">
         <!-- Sidebar Kiri -->
-        <div class="w-64 bg-white shadow-[4px_0_20px_rgba(0,0,0,0.05)] p-6 space-y-8">
-            <!-- Profil Mini -->
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-[#FFD8B8] rounded-xl flex items-center justify-center">
-                    <span class="text-xl font-bold text-[#8B4513]">Lv.1</span>
-                </div>
-                <div>
-                    <h2 class="font-bold text-[#8B4513]">achmad</h2>
-                    <p class="text-xs text-[#8B4513]/80">achmad9277934</p>
-                </div>
-            </div>
-
-            <!-- Menu Navigasi -->
-            <nav class="space-y-2">
-                <a href="#" class="flex items-center gap-3 p-3 text-[#8B4513] hover:bg-[#FFF5E9] rounded-xl">
-                    <div class="w-6 h-6 bg-[#FFB066]/20 rounded-lg flex items-center justify-center">
-                        <div class="w-2 h-2 bg-[#FFB066] rounded-full"></div>
-                    </div>
-                    Beranda
-                </a>
-                <a href="#" class="flex items-center gap-3 p-3 text-[#8B4513] hover:bg-[#FFF5E9] rounded-xl">
-                    <div class="w-6 h-6 bg-[#FFB066]/20 rounded-lg flex items-center justify-center">
-                        <div class="w-2 h-2 bg-[#FFB066] rounded-full"></div>
-                    </div>
-                    Riwayat Membaca
-                </a>
-                <a href="#" class="flex items-center gap-3 p-3 bg-[#FFF5E9] text-[#8B4513] rounded-xl font-bold">
-                    <div class="w-6 h-6 bg-[#FFB066] rounded-lg flex items-center justify-center">
-                        <div class="w-2 h-2 bg-white rounded-full"></div>
-                    </div>
-                    Pencapaian
-                </a>
-                <a href="#" class="flex items-center gap-3 p-3 text-[#8B4513] hover:bg-[#FFF5E9] rounded-xl">
-                    <div class="w-6 h-6 bg-[#FFB066]/20 rounded-lg flex items-center justify-center">
-                        <div class="w-2 h-2 bg-[#FFB066] rounded-full"></div>
-                    </div>
-                    Profil
-                </a>
-                <a href="#" class="flex items-center gap-3 p-3 text-[#8B4513] hover:bg-[#FFF5E9] rounded-xl">
-                    <div class="w-6 h-6 bg-[#FFB066]/20 rounded-lg flex items-center justify-center">
-                        <div class="w-2 h-2 bg-[#FFB066] rounded-full"></div>
-                    </div>
-                    Pengaturan
-                </a>
-            </nav>
-
-            <!-- Logout -->
-            <div class="pt-6 border-t border-[#FFE4C4]">
-                <button class="w-full flex items-center gap-3 p-3 text-[#8B4513] hover:bg-[#FFF5E9] rounded-xl">
-                    <div class="w-6 h-6 bg-[#FFB066]/20 rounded-lg flex items-center justify-center">
-                        <div class="w-2 h-2 bg-[#FFB066] rounded-full"></div>
-                    </div>
-                    Logout
-                </button>
-            </div>
-        </div>
+        @include('components.utama.navside')
 
         <!-- Konten Utama -->
-        <div class="flex-1 p-8">
+        <div class="flex-1 p-8 ml-[20%] mr-[20%]">
             <!-- Header Profil -->
             <div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(139,69,19,0.08)] mb-8">
                 <div class="flex items-center gap-6">
-                    <div class="relative">
-                        <div class="w-24 h-24 bg-[#FFD8B8] rounded-2xl flex items-center justify-center">
-                            <img src="{{ asset('assets/images/avatar-user.png') }}" 
+                    <div class="relative group">
+                        <div class="w-24 h-24 bg-[#FFD8B8] rounded-2xl flex items-center justify-center overflow-hidden">
+                            <img id="avatar-preview" src="{{ asset('profile_penulis/pro1.svg') }}" 
                                  class="w-20 h-20 object-cover rounded-xl"
                                  alt="Avatar Pengguna">
                         </div>
                         <div class="absolute -bottom-2 -right-2 bg-[#FFB066] text-white px-3 py-1 rounded-full text-sm font-medium">
-                            Level 1
+                            Level {{ Auth::user()->level }}
                         </div>
+                        <button onclick="document.getElementById('avatar-input').click()" 
+                                class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </button>
+                        <input type="file" id="avatar-input" class="hidden" accept="image/*" onchange="previewAvatar(event)">
                     </div>
-                    <div>
-                        <h1 class="text-3xl font-bold text-[#8B4513] mb-1">achmad</h1>
-                        <p class="text-[#8B4513]/80 mb-4">achmad9277934@example.com</p>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h1 id="name-display" class="text-3xl font-bold text-[#8B4513] mb-1">{{ Auth::user()->name }}</h1>
+                                <p class="text-[#8B4513]/80 mb-4">{{ Auth::user()->email }}</p>
+                            </div>
+                            <button id="edit-name-btn" class="text-[#8B4513] hover:text-[#FFB066] transition-colors">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </button>
+                        </div>
                         
                         <div class="flex items-center gap-4">
                             <div class="flex items-center gap-2 text-[#8B4513]/80">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
-                                <span>Bergabung Mei 2025</span>
+                                <span>Bergabung {{ Auth::user()->created_at->format('M Y') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Form Edit Nama (Hidden by default) -->
+            <div id="name-edit-form" class="hidden bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(139,69,19,0.08)] mb-8">
+                <form id="update-name-form" action="{{ route('profile.update') }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-[#8B4513]/80 mb-2">Nama Baru</label>
+                        <input type="text" name="name" id="name" value="{{ Auth::user()->name }}" 
+                               class="w-full px-4 py-3 border border-[#FFD8B8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FFB066] focus:border-transparent">
+                    </div>
+                    <div class="flex justify-end gap-3">
+                        <button type="button" id="cancel-edit-btn" class="px-4 py-2 text-[#8B4513] hover:bg-gray-100 rounded-xl">Batal</button>
+                        <button type="submit" class="px-4 py-2 bg-[#FFB066] text-white rounded-xl hover:bg-[#FF8E4F] transition-colors">Simpan</button>
+                    </div>
+                </form>
+            </div>
+
             <!-- Statistik -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 <div class="bg-white p-5 rounded-2xl shadow-[0_4px_20px_rgba(139,69,19,0.08)]">
-                    <div class="text-2xl font-bold text-[#8B4513] mb-1">20</div>
+                    <div class="text-2xl font-bold text-[#8B4513] mb-1">{{ Auth::user()->xp }}</div>
                     <div class="text-sm text-[#8B4513]/80">Total XP</div>
-                </div>
-                <div class="bg-white p-5 rounded-2xl shadow-[0_4px_20px_rgba(139,69,19,0.08)]">
-                    <div class="text-2xl font-bold text-[#8B4513] mb-1">7</div>
-                    <div class="text-sm text-[#8B4513]/80">Hari Beruntun</div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-[0_4px_20px_rgba(139,69,19,0.08)]">
                     <div class="text-2xl font-bold text-[#8B4513] mb-1">42</div>
                     <div class="text-sm text-[#8B4513]/80">Buku Dibaca</div>
                 </div>
-                <div class="bg-white p-5 rounded-2xl shadow-[0_4px_20px_rgba(139,69,19,0.08)]">
-                    <div class="text-2xl font-bold text-[#8B4513] mb-1">3</div>
-                    <div class="text-sm text-[#8B4513]/80">Liga</div>
-                </div>
             </div>
 
-            <!-- Progress Harian -->
-            <div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(139,69,19,0.08)] mb-8">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-semibold text-[#8B4513]">Baca Buku Hari Ini</h2>
-                    <span class="text-sm text-[#8B4513]/80">45% Complete</span>
-                </div>
-                <div class="relative pt-1">
-                    <div class="h-3 bg-[#FFE4C4] rounded-full">
-                        <div class="h-3 bg-[#FFB066] rounded-full w-[45%]"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lencana & Pencapaian -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Lencana -->
-                <div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(139,69,19,0.08)]">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl font-semibold text-[#8B4513]">Lencana</h2>
-                        <span class="text-sm text-[#8B4513]/80">0/2 Unlocked</span>
+            <!-- Pencapaian -->
+            <div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(139,69,19,0.08)]">
+                <h2 class="text-xl font-semibold text-[#8B4513] mb-6">Pencapaian</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 p-3 bg-[#FFF5E9] rounded-xl">
+                        <div class="w-8 h-8 bg-[#FFB066] rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <span class="text-[#8B4513]">Membaca buku pertama</span>
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="border-2 border-[#FFE4C4] rounded-xl p-4 text-center opacity-50">
-                            <div class="w-16 h-16 bg-[#FFF5E9] rounded-xl mx-auto mb-3 flex items-center justify-center">
-                                <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-                            </div>
-                            <h3 class="font-semibold text-[#8B4513] mb-1">Book Worm</h3>
-                            <p class="text-sm text-[#8B4513]/80">Baca 5 buku</p>
+                    <div class="flex items-center gap-3 p-3 bg-[#FFF5E9] rounded-xl">
+                        <div class="w-8 h-8 bg-[#FFB066] rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
                         </div>
-                        
-                        <div class="border-2 border-[#FFE4C4] rounded-xl p-4 text-center opacity-50">
-                            <div class="w-16 h-16 bg-[#FFF5E9] rounded-xl mx-auto mb-3 flex items-center justify-center">
-                                <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-                            </div>
-                            <h3 class="font-semibold text-[#8B4513] mb-1">Pembaca Aktif</h3>
-                            <p class="text-sm text-[#8B4513]/80">7 hari beruntun</p>
-                        </div>
+                        <span class="text-[#8B4513]">Menyelesaikan level {{ Auth::user()->level }}</span>
                     </div>
-                </div>
-
-                <!-- Pencapaian -->
-                <div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(139,69,19,0.08)]">
-                    <h2 class="text-xl font-semibold text-[#8B4513] mb-6">Pencapaian</h2>
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-3 p-3 bg-[#FFF5E9] rounded-xl">
-                            <div class="w-8 h-8 bg-[#FFB066] rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                </svg>
-                            </div>
-                            <span class="text-[#8B4513]">Membaca buku pertama</span>
+                    
+                    <div class="flex items-center gap-3 p-3 bg-[#FFF5E9] rounded-xl">
+                        <div class="w-8 h-8 bg-[#FFB066] rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
                         </div>
-                        
-                        <div class="flex items-center gap-3 p-3 bg-[#FFF5E9] rounded-xl">
-                            <div class="w-8 h-8 bg-[#FFB066] rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                </svg>
-                            </div>
-                            <span class="text-[#8B4513]">Menyelesaikan level 1</span>
-                        </div>
-                        
-                        <div class="flex items-center gap-3 p-3 bg-[#FFF5E9] rounded-xl opacity-50">
-                            <div class="w-8 h-8 bg-gray-300 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                            </div>
-                            <span class="text-[#8B4513]">7 hari beruntun</span>
-                        </div>
+                        <span class="text-[#8B4513]">Mengumpulkan {{ Auth::user()->xp }} XP</span>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Sidebar Kanan -->
+        @include('components.utama.navside-right')
     </div>
     @endsection
 
-    <style>
-        .shadow-book {
-            box-shadow: 5px 5px 0 rgba(139, 69, 19, 0.1);
+    <script>
+        // Fungsi untuk preview avatar yang dipilih
+        function previewAvatar(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const preview = document.getElementById('avatar-preview');
+                preview.src = reader.result;
+                
+                // Kirim form secara otomatis
+                uploadAvatar(event.target.files[0]);
+            }
+            reader.readAsDataURL(event.target.files[0]);
         }
-    </style>
+        
+        // Fungsi untuk upload avatar ke server
+        function uploadAvatar(file) {
+            const formData = new FormData();
+            formData.append('avatar', file);
+            formData.append('_token', '{{ csrf_token() }}');
+            formData.append('_method', 'PUT');
+            
+            fetch('{{ route("profile.avatar") }}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    // Jika berhasil, tampilkan notifikasi
+                    showNotification('Foto profil berhasil diubah!', 'success');
+                } else {
+                    showNotification('Gagal mengubah foto profil', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Terjadi kesalahan saat mengunggah', 'error');
+            });
+        }
+        
+        // Tampilkan form edit nama
+        document.getElementById('edit-name-btn').addEventListener('click', function() {
+            document.getElementById('name-edit-form').classList.remove('hidden');
+            document.getElementById('name').focus();
+        });
+        
+        // Sembunyikan form edit nama
+        document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+            document.getElementById('name-edit-form').classList.add('hidden');
+        });
+        
+        // Handle form submit untuk update nama
+        document.getElementById('update-name-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const formData = new FormData(form);
+            
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    // Update nama di tampilan
+                    document.getElementById('name-display').textContent = data.name;
+                    // Sembunyikan form
+                    document.getElementById('name-edit-form').classList.add('hidden');
+                    // Tampilkan notifikasi
+                    showNotification('Nama berhasil diperbarui!', 'success');
+                } else {
+                    showNotification('Gagal memperbarui nama', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Terjadi kesalahan', 'error');
+            });
+        });
+        
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message, type) {
+            // Buat elemen notifikasi
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg text-white ${
+                type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            }`;
+            notification.textContent = message;
+            
+            // Tambahkan ke body
+            document.body.appendChild(notification);
+            
+            // Hapus setelah 3 detik
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    </script>
 </x-dashboardComponent.kuis>
