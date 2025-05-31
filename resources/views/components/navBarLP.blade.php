@@ -21,7 +21,7 @@
 
         <ul class="flex flex-col lg:flex-row gap-6 md:gap-7 lg:gap-8 mb-4 lg:mb-0 mt-20 lg:mt-0">
             @foreach ([
-                'Beranda' => '#beranda',
+                'Beranda' => '/beranda',
                 'Buku' => '#buku',
                 'Tentang' => '#tentang',
                 'Testimoni' => '#testimoni',

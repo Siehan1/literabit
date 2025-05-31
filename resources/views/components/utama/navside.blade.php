@@ -61,10 +61,13 @@
                 </a>
             </div>
             <div class="pb-8">
-                <a href="{{ route('logout') }}" class="flex items-center gap-3.5 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl transition-all duration-200 hover:pl-5 group">
-                    <i class="bi bi-box-arrow-left text-2xl group-hover:rotate-12 transition-transform"></i>
-                    <span class="font-medium">Logout</span>
-                </a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="flex items-center gap-3.5 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl transition-all duration-200 hover:pl-5 group w-full text-left">
+                        <i class="bi bi-box-arrow-left text-2xl group-hover:rotate-12 transition-transform"></i>
+                        <span class="font-medium">Logout</span>
+                    </button>
+                </form>
             </div>
         </div>
 </div>

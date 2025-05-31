@@ -17,10 +17,27 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\ReadingLessonController;
 use App\Http\Controllers\ReadingLesson;
 
+// route to landing pageuse App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\badgesController;
+use App\Http\Controllers\quizController; 
+use App\Http\Controllers\LevelTresholdController;
+use App\Http\Controllers\misionTemplate;
+use App\Http\Controllers\dailyMision; // Import dailyMision controller
+use App\Http\Controllers\KuisController;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\ReadingLessonController;
+use App\Http\Controllers\ReadingLesson;
+use App\Http\Controllers\BacaBukuController;
+
 // route to landing page
 Route::get('/', function () {
     return view('index');
 });
+
+
 
 
 
@@ -38,8 +55,8 @@ Route::middleware('guest')->group(function () {
 });
 
 // hanya user yang sudah login bisa akses ini
-Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
-Route::get('/beranda',[BukuController::class, 'BerandaBook'])->name('buku.beranda');
+// Route::get('/beranda', [UserController::class, 'beranda'])->middleware('auth');
+Route::get('/beranda',[BukuController::class, 'beranda'])->name('buku.beranda')->middleware('auth');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -99,10 +116,17 @@ Route::match(['put', 'post'], '/admin/daily-missions/{daily}', [dailyMision::cla
 // route dashboard admin
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
+// route baca buku
+Route::middleware('auth')->group(function () {
+    Route::get('/baca-buku/{slug}', [BacaBukuController::class, 'show'])->name('bacaBuku');
+    Route::get('/baca-buku/{slug}/pdf', [BacaBukuController::class, 'getPdf'])->name('bacaBuku.pdf');
+    Route::post('/baca-buku/progress', [BacaBukuController::class, 'updateProgress'])->name('bacaBuku.progress');
+});
 
 
 
 // route to kuis
+Route::get('kuis/intro/{slug}',[KuisController::class, 'index'])->name('kuis.intro');
 Route::get('/kuis/soal/{slug}/{nomor}', [KuisController::class, 'tampilSoal'])->name('kuis.soal');
 Route::post('/kuis/jawab', [KuisController::class, 'prosesJawaban'])->name('kuis.jawab');
 
@@ -122,6 +146,3 @@ Route::get('/profil', function () {
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil');Route::view('/kuis/hasil', 'kuis.hasil');
 Route::view('/kuis/gagal/{slug}', 'kuis.gagal')->name('kuis.gagal');
 
-
-Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-Route::put('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');

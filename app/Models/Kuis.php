@@ -23,11 +23,6 @@ class Kuis extends Model
         return $this->belongsTo(Buku::class, 'buku_id');
     }
 
-    public function lesson()
-    {
-        return $this->belongsTo(ReadingLesson::class, 'lesson_id');
-    }
-
     /**
      * Get the choices for the Kuis.
      */

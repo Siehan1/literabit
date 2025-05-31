@@ -33,4 +33,9 @@ class Buku extends Model
     public function quis(){
         return $this->hasMany(Kuis::class);
     }
+    
+    public function hasilKuis()
+    {
+        return $this->hasMany(HasilKuis::class);
+    }
 }
