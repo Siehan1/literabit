@@ -5,6 +5,21 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\KuisController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\badgesController;
+use App\Http\Controllers\quizController; 
+use App\Http\Controllers\LevelTresholdController;
+use App\Http\Controllers\misionTemplate;
+use App\Http\Controllers\dailyMision; // Import dailyMision controller
+use App\Http\Controllers\KuisController;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\ReadingLessonController;
+use App\Http\Controllers\ReadingLesson;
+
+// route to landing pageuse App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\badgesController;
 use App\Http\Controllers\quizController; 
@@ -21,6 +36,8 @@ use App\Http\Controllers\BacaBukuController;
 Route::get('/', function () {
     return view('index');
 });
+
+
 
 
 
