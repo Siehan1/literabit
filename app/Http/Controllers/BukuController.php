@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Buku;
 use App\Models\Genre;
+use App\Models\History;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Spatie\PdfToImage\Pdf;
 
 class BukuController extends Controller
@@ -21,8 +23,10 @@ class BukuController extends Controller
     }
     public function beranda(){
         $bukus = Buku::with('genre')->latest()->get();
-        
-        return view('beranda.beranda', compact('bukus'));
+        $histories = History::where('user_id', Auth::id())->get(['buku_id']);
+
+        $dibacaSlugs = Buku::whereIn('id', $histories->pluck('buku_id'))->pluck('slug');
+        return view('beranda.beranda', compact('bukus', 'dibacaSlugs'));
     }
 
     public function showBuku(){

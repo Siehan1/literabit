@@ -8,6 +8,9 @@
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="flex min-h-screen">
+        <script>
+            const bukuDibaca = @json($dibacaSlugs); // jadi array JS
+        </script>
         <x-utama.navside></x-utama.navside>
 
         <main class="w-[60%] ml-[20%] mr-[20%] bg-primary-100">
@@ -324,6 +327,15 @@
                 let bacaUrl = `{{ url('baca-buku') }}/${slug}`;
                 document.getElementById('modalLinkBaca').href = bacaUrl;
 
+                const tombol = document.getElementById('modalLinkBaca');
+                tombol.classList.remove('bg-[#34A853]', 'bg-[#FBB45E]');
+                if (bukuDibaca.includes(slug)) {
+                    tombol.innerText = "LANJUT BACA";
+                    tombol.classList.add('bg-[#FBB45E]');
+                } else {
+                    tombol.innerText = "MULAI BACA";
+                    tombol.classList.add('bg-[#34A853]');
+                }
                 // Tampilkan modal
                 document.getElementById('modalBuku').classList.remove('hidden');
             }

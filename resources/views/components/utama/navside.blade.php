@@ -16,7 +16,7 @@
                     <img src="{{ asset('profile_penulis/pro1.svg') }}" alt="foto_pengguna" class="w-17 rounded-full ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all">
                     <div class="flex flex-col">
                         <span class="text-teks font-medium">{{ Auth::user()->name }}</span>
-                        <span class="text-sec text-[14px] opacity-75">Level {{Auth::user()->level}}</span>
+                        <span class="text-sec text-[14px] opacity-75">Level {{$user->level}}</span>
                     </div>
                 </div>
                 <!-- level -->
@@ -26,7 +26,7 @@
                         </div>
                         <div class="flex justify-between text-xs mt-2">
                             <span class="text-sec font-medium">Level {{$user->level}}</span>
-                            <span class="text-sec">{{$user->xp}} / {{$nextThreshold->required_xp ?? 'MAX'}}XP</span>
+                            <span class="text-sec">{{$user->xp}} / {{$nextThreshold->required_xp ?? 'MAX'}} XP</span>
                         </div>
                     </div>
             </div>
