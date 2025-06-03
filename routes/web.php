@@ -131,8 +131,7 @@ Route::get('/kuis/soal/{slug}/{nomor}', [KuisController::class, 'tampilSoal'])->
 Route::post('/kuis/jawab', [KuisController::class, 'prosesJawaban'])->name('kuis.jawab');
 
 Route::view('/kuis/intro', 'kuis.intro');
-Route::get('/kuis/{id_buku}/gagal', [KuisController::class, 'gagal'])
-    ->name('kuis.gagal');
+Route::get('/kuis/{id_buku}/gagal', [KuisController::class, 'gagal'])->name('kuis.gagal');
 
 
 
@@ -143,6 +142,9 @@ Route::get('/profil', function () {
 
 
 
-Route::get('/profil', [ProfilController::class, 'index'])->name('profil');Route::view('/kuis/hasil', 'kuis.hasil');
+Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
+
+Route::get('/kuis/hasil/{slug}', [KuisController::class, 'tampilHasil'])->name('kuis.hasil');
+
 Route::view('/kuis/gagal/{slug}', 'kuis.gagal')->name('kuis.gagal');
 

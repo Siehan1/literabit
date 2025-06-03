@@ -124,15 +124,10 @@ class KuisController extends Controller
 
     public function tampilHasil($slug)
     {
-        $userId = Auth::id(); // bisa null kalau belum login
+        $userId = Auth::id(); 
         $buku = Buku::where('slug', $slug)->first();
-        $user = User::where('id', Auth::id());
-        dd($user->id);
-
-        // $benarCount = JawabanKuis::where('id_buku', $id_buku)
-        //     ->where('user_id', $userId)
-        //     ->where('benar', true)
-        //     ->count();
+        
+        // dd($user->username);
 
         $jawaban = session('kuis_jawaban', []);
         $jumlahBenar = collect($jawaban)->where('is_correct', 1)->count();
@@ -145,6 +140,11 @@ class KuisController extends Controller
             'buku_id' => $buku->id,
             'total_xp' => $xp,
         ]);
+
+        // ✅ Tambahkan XP ke User
+        $user = User::find($userId); // atau Auth::user()
+        $user->xp += $xp;
+        $user->save();
 
         // Bersihin session kuis
         session()->forget('lives');
