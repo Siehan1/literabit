@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\History;
 use Illuminate\Support\Facades\Auth;
 
 class ProfilController extends Controller
@@ -11,6 +12,7 @@ class ProfilController extends Controller
     {
         // Dummy Data (nanti ganti dengan data dari DB)
         $user = Auth::user(); // kalau pakai auth
+        $totalBuku = History::where('user_id', Auth::id())->count();
         $data = [
             'username' => $user->name ?? 'Achmad',
             'email' => $user->email ?? 'achmad@example.com',
@@ -21,7 +23,7 @@ class ProfilController extends Controller
             'badges' => ['Top Skor', 'Konsisten 7 Hari', 'Pembaca Hebat'],
         ];
 
-        return view('profil.index', $data);
+        return view('profil.index', compact('data', 'totalBuku'));
     }
 
     public function update(Request $request)

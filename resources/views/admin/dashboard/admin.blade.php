@@ -18,7 +18,7 @@
                     <i class="bi bi-book-fill text-3xl text-sec"></i>
                 </x-slot>
 
-                <x-slot name="subheader">{{$users -> count()}}</x-slot>
+                <x-slot name="subheader">{{$bukus -> count()}}</x-slot>
                 <x-slot name="paragraph">Koleksi</x-slot>
             </x-dashboardComponent.card-admin>
         </div>

@@ -13,7 +13,8 @@ use Illuminate\Support\Str;
 class adminController extends Controller
 {
     public function index(){
+        $bukus = Buku::all();
         $users = User::all();
-        return view('admin.dashboard.admin', compact('users'))->with('i',(request()->input('page',1)-1)*5);
+        return view('admin.dashboard.admin', compact('users', 'bukus'))->with('i',(request()->input('page',1)-1)*5);
     }
 }
