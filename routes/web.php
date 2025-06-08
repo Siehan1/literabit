@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AsignmentMision;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\UserController;
@@ -65,9 +66,12 @@ Route::post('/genre/edit/{id}', [GenreController::class, 'update'])->name('genre
 Route::delete('/genre/hapus/{id}', [GenreController::class, 'destroy'])->name('genre.destroy');
 
 // router badges
-Route::get('/uploadBadges',[badgesController::class,'create'])->name('Badges');
-Route::post('/uploadBadges',[badgesController::class,'store'])->name('Badges');
+Route::get('/uploadBadges',[badgesController::class,'create'])->name('badge.create');
+Route::post('/uploadBadges',[badgesController::class,'store'])->name('badge.store');
 Route::get('/tableBadges',[badgesController::class,'index'])->name('tableBadges');
+Route::delete('/badges/{id}', [badgesController::class, 'destroy'])->name('badge.destroy');
+Route::get('/badges/{id}/edit', [badgesController::class, 'edit'])->name('badge.edit');
+
 
 // Route untuk Kuis
 Route::get('tableKuis', [quizController::class, 'index'])->name('tableKuis'); 
@@ -129,3 +133,9 @@ Route::get('/profil/edit/avatar', [ProfilController::class, 'updateAvatar'])->mi
 
 // Route History
 Route::get('/history', [HistoryController::class, 'index'])->middleware('auth')->name('histori');
+
+
+// get mision assignment
+Route::get('/Mission-Asignment', [AsignmentMision::class, 'showAll'])->middleware('auth')->name('index.Asignment');
+Route::post('/Mission-Asignment-upload', [AsignmentMision::class,'store'])->middleware('auth')->name('store.Asignment');
+Route::get('/Mission-Asigment-upload', [AsignmentMision::class,'create'])->middleware('auth')->name('create.Asignment');

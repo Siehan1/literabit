@@ -1,4 +1,5 @@
 @props(['bukus'])
+@props(['userMisions'])
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -296,9 +297,8 @@
             </div>
         </div>
         </div>
-
-
-        <x-utama.navsideRight/>
+        
+        <x-utama.navsideRight />
         <script>
             function openModalDetailBuku(el) {
                 document.getElementById('modalJudul').innerText = el.dataset.judul;
