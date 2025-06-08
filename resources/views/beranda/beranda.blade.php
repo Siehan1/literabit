@@ -328,13 +328,14 @@
                 document.getElementById('modalLinkBaca').href = bacaUrl;
 
                 const tombol = document.getElementById('modalLinkBaca');
-                tombol.classList.remove('bg-[#34A853]', 'bg-[#FBB45E]');
+                tombol.classList.remove('bg-[#34A853]', 'bg-[#FBB45E]', 'shadow-[0_6px_0_#2C8E46]', 'shadow-[0_6px_0_#D9963D]');
+
                 if (bukuDibaca.includes(slug)) {
                     tombol.innerText = "LANJUT BACA";
-                    tombol.classList.add('bg-[#FBB45E]');
+                    tombol.classList.add('bg-[#FBB45E]', 'shadow-[0_6px_0_#D9963D]');
                 } else {
                     tombol.innerText = "MULAI BACA";
-                    tombol.classList.add('bg-[#34A853]');
+                    tombol.classList.add('bg-[#34A853]', 'shadow-[0_6px_0_#2C8E46]');
                 }
                 // Tampilkan modal
                 document.getElementById('modalBuku').classList.remove('hidden');

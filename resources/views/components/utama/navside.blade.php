@@ -39,11 +39,11 @@
 
             <!-- nav item -->
             <div class="flex flex-col flex-grow gap-1.5">
-                <a href="#" class="flex items-center gap-3.5 px-4 py-3 text-teks hover:bg-primary/10 rounded-xl transition-all duration-200 hover:pl-5">
+                <a href="{{ route('buku.beranda') }}" class="flex items-center gap-3.5 px-4 py-3 text-teks hover:bg-primary/10 rounded-xl transition-all duration-200 hover:pl-5">
                     <i class="bi bi-house-door-fill text-2xl text-primary/80"></i>
                     <span class="font-medium">Beranda</span>
                 </a>
-                <a href="#" class="flex items-center gap-3.5 px-4 py-3 text-teks hover:bg-primary/10 rounded-xl transition-all duration-200 hover:pl-5">
+                <a href="{{ route('histori') }}" class="flex items-center gap-3.5 px-4 py-3 text-teks hover:bg-primary/10 rounded-xl transition-all duration-200 hover:pl-5">
                     <i class="bi bi-clock-history text-2xl text-primary/80"></i>
                     <span class="font-medium">Riwayat Membaca</span>
                 </a>
@@ -51,7 +51,7 @@
                     <i class="bi bi-award-fill text-2xl text-primary/80"></i>
                     <span class="font-medium">Pencapaian</span>
                 </a>
-                <a href="#" class="flex items-center gap-3.5 px-4 py-3 text-teks hover:bg-primary/10 rounded-xl transition-all duration-200 hover:pl-5">
+                <a href="{{ route('profil') }}" class="flex items-center gap-3.5 px-4 py-3 text-teks hover:bg-primary/10 rounded-xl transition-all duration-200 hover:pl-5">
                     <i class="bi bi-person-fill text-2xl text-primary/80"></i>
                     <span class="font-medium">Profile</span>
                 </a>
