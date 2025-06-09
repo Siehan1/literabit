@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LittleRabbit | Admin Dashboard</title>
+    <link rel="icon" href="{{ asset('asset/images/icon.svg') }}" type="image/svg+xml">
     @vite(['resources/css/app.css','resources/js/navbar.js','resources/js/app.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
@@ -70,6 +71,9 @@
                         </a>
                         <a href="{{ route('tableDaily') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('tableDaily') ? 'bg-primary-700' : '' }}">
                             <span>Daily Mision</span>
+                        </a>
+                        <a href="{{ route('index.Asignment') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg transition-colors hover:bg-primary-500 {{ request()->routeIs('index.Asignment') ? 'bg-primary-700' : '' }}">
+                            <span>Mission Assignment</span>
                         </a>
                     </div>
                 </div>

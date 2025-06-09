@@ -26,6 +26,6 @@ class misionDaily extends Model
         return $this->hasMany(misionAsignment::class, 'daily_id');
     }
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
