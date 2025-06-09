@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\misionDaily;
 use App\Models\User;
 use App\models\misionAsignment;
+use App\Models\History;
 
 class AsignmentMision extends Controller
 {
@@ -33,12 +34,12 @@ class AsignmentMision extends Controller
         $userMissions = misionAsignment::with([
             'dailyMission.template' // Gunakan nama relasi yang sudah ada (template)
         ])
-        ->where('user_id', $user->id)
-        ->whereHas('dailyMission', function($q) use ($today) {
-            $q->whereDate('tanggal', $today)
-              ->whereHas('template'); // Sesuai nama relasi di misionDaily
-        })
-        ->get();
+            ->where('user_id', $user->id)
+            ->whereHas('dailyMission', function ($q) use ($today) {
+                $q->whereDate('tanggal', $today)
+                    ->whereHas('template'); // Sesuai nama relasi di misionDaily
+            })
+            ->get();
 
         return view('beranda.beranda', [
             'userMissions' => $userMissions,
@@ -153,4 +154,8 @@ class AsignmentMision extends Controller
         $assignments = misionAsignment::with(['dailyMission.template', 'user'])->get();
         return view('admin.mision.misionAsignment.tableAsignment', compact('assignments'));
     }
+
+
+
+
 }

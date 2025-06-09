@@ -139,3 +139,4 @@ Route::get('/history', [HistoryController::class, 'index'])->middleware('auth')-
 Route::get('/Mission-Asignment', [AsignmentMision::class, 'showAll'])->middleware('auth')->name('index.Asignment');
 Route::post('/Mission-Asignment-upload', [AsignmentMision::class,'store'])->middleware('auth')->name('store.Asignment');
 Route::get('/Mission-Asigment-upload', [AsignmentMision::class,'create'])->middleware('auth')->name('create.Asignment');
+Route::post('/record-reading/{userId}/{bookId}', [BacaBukuController::class, 'recordBookRead'])->name('record.book.read');
