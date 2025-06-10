@@ -101,7 +101,7 @@
                     <div class="p-3 bg-wave rounded-2xl hover:shadow-md transition-all duration-300">
                         <div class="flex flex-col items-center" data-bs-toggle="tooltip" title="{{ $badge->nama_badge }}">
                             <img src="{{ asset('storage/' . $badge->icon_path) }}" alt="{{ $badge->nama_badge }}"
-                                class="w-16 h-16 object-contain mb-2">
+                                class="w-20 h-20 object-contain mb-2">
                             <p class="text-xs text-gray-600 font-medium text-center line-clamp-1">
                                 {{ $badge->nama_badge }}
                             </p>
@@ -130,7 +130,7 @@
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
                         body: JSON.stringify({
-                            user_id: {{ auth()->id() }},
+                            user_id: "{{ auth()->id() }}",
                             book_id: bookId
                         })
                     });

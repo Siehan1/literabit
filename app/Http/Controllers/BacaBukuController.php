@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use App\models\misionAsignment;
 
 
@@ -56,7 +57,7 @@ class BacaBukuController extends Controller
 
     public function completeBook(Request $request)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         // Cari misi membaca buku
         $readingMission = misionAsignment::where('user_id', $user->id)
@@ -77,6 +78,7 @@ class BacaBukuController extends Controller
         }
     }
 
+    
 public function recordBookRead($userId, $bookId)
 {
     DB::beginTransaction();
@@ -90,8 +92,19 @@ public function recordBookRead($userId, $bookId)
                         ->where('buku_id', $bookId)
                         ->exists();
 
+        // Jika buku belum pernah dibaca, catat sebagai history baru
+        if (!$hasRead) {
+            History::create([
+                'user_id' => $userId,
+                'buku_id' => $bookId,
+                'status' => 'completed',
+                'completed_at' => now()
+            ]);
+        }
+
         // Dapatkan misi baca yang aktif
-        $assignments = MisionAsignment::with('dailyMission.template')
+        // Trigger akan otomatis menangani is_done=0 untuk insert baru
+        $assignments = misionAsignment::with('dailyMission.template')
             ->where('user_id', $userId)
             ->where('is_done', false)
             ->whereHas('dailyMission.template', fn($q) => $q->where('type', 'read'))
@@ -114,30 +127,37 @@ public function recordBookRead($userId, $bookId)
             $currentProgress = min($booksRead, $target);
             $isDone = $currentProgress >= $target;
             
-            // Pastikan jumlah selesai sama dengan target jika misi selesai
-            $finalProgress = $isDone ? $target : $currentProgress;
-            $progressPercentage = $target > 0 ? min(100, ($finalProgress / $target) * 100) : 0;
-
-            // Update misi
-            $assignment->update([
-                'jumlah_selesai' => $finalProgress,
-                'is_done' => $isDone
-            ]);
-
-            // Catat XP yang didapat jika misi selesai
+            // Update jumlah selesai
+            // Biarkan trigger AFTER_UPDATE yang menangani XP reward
+            $assignment->jumlah_selesai = $currentProgress;
+            
+            // Hanya update is_done jika misi selesai
+            // Trigger akan otomatis memberikan XP saat is_done berubah dari 0 ke 1
             if ($isDone) {
-                $totalXpEarned += $assignment->dailyMission->template->xp_reward;
+                $assignment->is_done = true;
             }
+            
+            $assignment->save();
+
+            // Dapatkan data terbaru setelah trigger dijalankan
+            $assignment->refresh();
+
+            $progressPercentage = $target > 0 ? min(100, ($assignment->jumlah_selesai / $target) * 100) : 0;
 
             $updatedMissions[] = [
                 'mission_id' => $assignment->id,
                 'title' => $assignment->dailyMission->template->judul,
-                'current_progress' => $finalProgress,
+                'current_progress' => $assignment->jumlah_selesai,
                 'target' => $target,
                 'progress_percentage' => $progressPercentage,
-                'is_completed' => $isDone,
+                'is_completed' => $assignment->is_done,
                 'reward_xp' => $assignment->dailyMission->template->xp_reward
             ];
+
+            // XP reward sudah dihandle oleh trigger, cukup ambil dari user terbaru
+            if ($assignment->is_done) {
+                $totalXpEarned += $assignment->dailyMission->template->xp_reward;
+            }
         }
 
         DB::commit();
@@ -147,7 +167,8 @@ public function recordBookRead($userId, $bookId)
             'data' => [
                 'has_read' => $hasRead,
                 'updated_missions' => $updatedMissions,
-                'total_xp_earned' => $totalXpEarned
+                'total_xp_earned' => $totalXpEarned,
+                'current_xp' => User::find($userId)->xp // Ambil XP terbaru setelah trigger
             ]
         ]);
 
@@ -167,6 +188,5 @@ public function recordBookRead($userId, $bookId)
         ], 500);
     }
 }
-
 
 }

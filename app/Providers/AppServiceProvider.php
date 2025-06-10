@@ -59,6 +59,8 @@ class AppServiceProvider extends ServiceProvider
 
         //     $view->with(compact('user', 'currentThreshold', 'nextThreshold', 'progress'));
         // });
+        
+        
         View::composer('components.utama.navside', function ($view) {
             $userId = Auth::id();
             // $user = Auth::user();
