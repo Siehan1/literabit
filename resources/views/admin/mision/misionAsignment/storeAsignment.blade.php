@@ -31,15 +31,24 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {{-- Pilih Misi --}}
                     <div class="space-y-2">
-                        <label for="daily_id" class="block text-sm font-medium text-teks">Pilih Misi: <span
+                        <label for="daily_id" class="block text-sm font-medium text-teks">Pilih Tanggal Misi: <span
                                 class="text-red-500">*</span></label>
                         <select id="daily_id" name="daily_id"
                             class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200"
                             required>
-                            <option value="" disabled selected>Pilih misi</option>
+                            <option value="" disabled selected>Pilih Misi Harian</option>
                             @foreach($dailyMissions as $mission)
-                                <option value="{{ $mission->id }}">{{ $mission->template->judul }} ({{ $mission->tanggal }})
-                                </option>
+                                @if($mission->is_completed)
+                                    <option value="{{ $mission->id }}" disabled class="text-gray-400 bg-gray-100">
+                                        {{ $mission->template->deskripsi }} - {{ $mission->tanggal->format('d M Y') }}
+                                        ({{ $mission->template->jumlah_target }} target) - ✅ SELESAI
+                                    </option>
+                                @else
+                                    <option value="{{ $mission->id }}">
+                                        {{ $mission->template->deskripsi }} - {{ $mission->tanggal->format('d M Y') }}
+                                        ({{ $mission->template->jumlah_target }} target)
+                                    </option>
+                                @endif
                             @endforeach
                         </select>
                     </div>

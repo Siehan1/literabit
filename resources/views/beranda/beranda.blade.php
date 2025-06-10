@@ -45,7 +45,7 @@
                                   flex items-center gap-2">
                             <i class="bi bi-book text-green-600"></i>
                             <div class="text-sm font-poppins font-medium text-gray-700">
-                                {{ Auth::user()->bukus ? Auth::user()->bukus->where('level_required', 0)->count() : 0 }}
+                                {{ Auth::user()->histories()->where('status', 'completed')->count() }}
                                 <span class="text-green-600 font-semibold">/</span>
                                 {{ $bukus->where('level_required', 0)->count() }}
                                 <span class="text-gray-600">Buku</span>

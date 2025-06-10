@@ -106,10 +106,19 @@ class AppServiceProvider extends ServiceProvider
                 return; // Jika user belum login, hentikan
             }
 
-            $userMissions = \App\Models\misionAsignment::with([
+            $userMissions = \App\Models\MisionAsignment::with([
                 'dailyMission.template',
                 'user'
-            ])->where('user_id', $user->id)->get();
+            ])
+                ->where('user_id', $user->id)
+                ->get()
+                ->map(function ($mission) {
+                    // Pastikan jumlah_selesai sama dengan target jika misi selesai
+                    if ($mission->is_done) {
+                        $mission->jumlah_selesai = $mission->dailyMission->template->jumlah_target;
+                    }
+                    return $mission;
+                });
 
             $view->with('userMissions', $userMissions);
         });
