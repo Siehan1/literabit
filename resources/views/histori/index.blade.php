@@ -35,20 +35,30 @@
                 <!-- Buku Card -->
                 
                 @foreach ($histories as $history)
-                    @php $buku = $history->buku; @endphp
-                    @php
-                    $colorPairs = [
-                        ['bg-red-100', 'text-red-600'],
-                        ['bg-green-100', 'text-green-600'],
-                        ['bg-blue-100', 'text-blue-600'],
-                        ['bg-yellow-100', 'text-yellow-600'],
-                        ['bg-purple-100', 'text-purple-600'],
-                        ['bg-pink-100', 'text-pink-600'],
-                        ['bg-indigo-100', 'text-indigo-600'],
-                    ];
-                    $selected = $colorPairs[array_rand($colorPairs)];
-                @endphp
-                    <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 cursor-pointer">
+                    @php 
+                        $buku = $history->buku;
+                        $colorPairs = [
+                            ['bg-red-100', 'text-red-600'],
+                            ['bg-green-100', 'text-green-600'],
+                            ['bg-blue-100', 'text-blue-600'],
+                            ['bg-yellow-100', 'text-yellow-600'],
+                            ['bg-purple-100', 'text-purple-600'],
+                            ['bg-pink-100', 'text-pink-600'],
+                            ['bg-indigo-100', 'text-indigo-600'],
+                        ];
+                        $selected = $colorPairs[array_rand($colorPairs)];
+                    @endphp
+                    <div class="bg-white rounded-xl shadow-md transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg cursor-pointer"
+                    onclick="openModalDetailBuku(this)"
+                    data-slug="{{ $buku->slug }}"
+                    data-level="{{ $buku->level_required }}"
+                    data-judul="{{ $buku->judul }}"
+                    data-penulis="{{ $buku->penulis }}"
+                    data-genre="{{ $buku->genre->nama_genre }}"
+                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
+                    data-sinopsis="{{ $buku->sinopsis }}"
+                    data-status="{{ $history->status }}"
+                    >
                         <div class="h-48 overflow-hidden">
                             <img src="{{ asset('storage/' . $buku->cover_path) }}" alt="Book Cover" class="rounded-xl w-full h-full object-cover">
                         </div>
@@ -59,39 +69,6 @@
                         </div>
                     </div>
                 @endforeach
-                {{-- <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer">
-                    <div class="h-48 overflow-hidden">
-                        <img src="{{asset('storage/cover/1748561651.pdf.jpg')}}" alt="Book Cover" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-poppins font-semibold text-base text-teks mb-2 truncate">Judul Buku 1</h3>
-                        <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Petualangan</span>
-                        <p class="text-sec text-sm mt-2 font-poppins">Penulis Buku</p>
-                    </div>
-                </div>
-        
-                <!-- Salin beberapa card lain -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer">
-                    <div class="h-48 overflow-hidden">
-                        <img src="https://source.unsplash.com/200x300/?storybook" alt="Book Cover" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-poppins font-semibold text-base text-teks mb-2 truncate">Kisah Kelinci Ajaib</h3>
-                        <span class="bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">Fantasi</span>
-                        <p class="text-sec text-sm mt-2 font-poppins">Nadia Putri</p>
-                    </div>
-                </div>
-        
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer">
-                    <div class="h-48 overflow-hidden">
-                        <img src="https://source.unsplash.com/200x300/?education" alt="Book Cover" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-poppins font-semibold text-base text-teks mb-2 truncate">Belajar Angka</h3>
-                        <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">Edukasi</span>
-                        <p class="text-sec text-sm mt-2 font-poppins">Andi Saputra</p>
-                    </div>
-                </div> --}}
             </div>
         </div>
 
@@ -105,7 +82,17 @@
                 <!-- Buku Card -->
                 @foreach ($bukusDone as $done)
                     @php $buku = $done->buku; @endphp
-                    <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 cursor-pointer">
+                    <div class="bg-white rounded-xl shadow-md transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg cursor-pointer"
+                    onclick="openModalDetailBuku(this)"
+                    data-slug="{{ $buku->slug }}"
+                    data-level="{{ $buku->level_required }}"
+                    data-judul="{{ $buku->judul }}"
+                    data-penulis="{{ $buku->penulis }}"
+                    data-genre="{{ $buku->genre->nama_genre }}"
+                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
+                    data-sinopsis="{{ $buku->sinopsis }}"
+                    data-status="{{ $done->status }}"
+                    >
                         <div class="h-48 overflow-hidden">
                             <img src="{{ asset('storage/' . $buku->cover_path) }}" alt="Book Cover" class="rounded-xl w-full h-full object-cover">
                         </div>
@@ -116,44 +103,94 @@
                         </div>
                     </div>
                 @endforeach
-                {{-- <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer">
-                    <div class="h-48 overflow-hidden">
-                        <img src="{{asset('storage/cover/1748561651.pdf.jpg')}}" alt="Book Cover" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-poppins font-semibold text-base text-teks mb-2 truncate">Judul Buku 1</h3>
-                        <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Petualangan</span>
-                        <p class="text-sec text-sm mt-2 font-poppins">Penulis Buku</p>
-                    </div>
-                </div>
-        
-                <!-- Salin beberapa card lain -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer">
-                    <div class="h-48 overflow-hidden">
-                        <img src="https://source.unsplash.com/200x300/?storybook" alt="Book Cover" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-poppins font-semibold text-base text-teks mb-2 truncate">Kisah Kelinci Ajaib</h3>
-                        <span class="bg-yellow-100 text-yellow-600 text-xs px-2 py-1 rounded-full">Fantasi</span>
-                        <p class="text-sec text-sm mt-2 font-poppins">Nadia Putri</p>
-                    </div>
-                </div>
-        
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer">
-                    <div class="h-48 overflow-hidden">
-                        <img src="https://source.unsplash.com/200x300/?education" alt="Book Cover" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-poppins font-semibold text-base text-teks mb-2 truncate">Belajar Angka</h3>
-                        <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">Edukasi</span>
-                        <p class="text-sec text-sm mt-2 font-poppins">Andi Saputra</p>
-                    </div>
-                </div> --}}
             </div>
         </div>
         
     </main>
+    <!-- Modal Buku Detail -->
+    <div id="modalBuku"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
 
+    <div id="modalContentBuku" class="relative rounded-2xl p-8 w-[90%] max-w-xl bg-white shadow-xl">
+        
+        <!-- Tombol close -->
+        <button onclick="closeModalDetailBuku()"
+            class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">
+            &times;
+        </button>
+        
+        <!-- Gambar Cover -->
+        <div class="flex justify-center mb-4">
+            <img id="modalCover" src="" alt="Cover Buku" class="w-40 h-60 object-cover rounded-md shadow-md">
+        </div>
+
+        <!-- Judul Buku -->
+        <h2 id="modalJudul" class="text-2xl font-bold text-center text-teks mb-2"></h2>
+
+        <!-- Penulis dan Genre -->
+        <p class="text-center text-gray-600 font-medium mb-2">
+            Penulis: <span id="modalPenulis"></span>
+        </p>
+        <p class="text-center mb-4">
+            <span id="modalGenre" class="bg-green-100 text-green-600 text-sm rounded-full inline-block px-3 py-1">
+            </span>
+        </p>
+
+        <!-- Sinopsis -->
+        <div class="text-justify text-gray-700 mb-6 max-h-40 overflow-y-auto">
+            <p id="modalSinopsis"></p>
+        </div>
+
+        <!-- Tombol Baca -->
+        <div class="flex justify-center">
+            <a id="modalLinkBaca" href="#"
+                class="px-6 py-3 rounded-xl text-white font-bold text-lg bg-[#34A853] shadow-[0_6px_0_#2C8E46] 
+                    hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all">
+                LANJUT BACA
+            </a>
+        </div>
+    </div>
+    </div>
     <x-utama.navsideRight></x-utama.navsideRight>
+
+    <script>
+        function openModalDetailBuku(el) {
+            document.getElementById('modalJudul').innerText = el.dataset.judul;
+            document.getElementById('modalPenulis').innerText = el.dataset.penulis;
+            document.getElementById('modalSinopsis').innerText = el.dataset.sinopsis;
+            document.getElementById('modalCover').src = el.dataset.cover;
+            let status = el.dataset.status;
+
+            // Genre tag
+            let modalgenre = document.getElementById('modalGenre');
+            modalgenre.innerText = el.dataset.genre;
+
+            
+
+            const tombol = document.getElementById('modalLinkBaca');
+            tombol.classList.remove('bg-[#34A853]', 'bg-[#FBB45E]', 'shadow-[0_6px_0_#2C8E46]', 'shadow-[0_6px_0_#D9963D]');
+
+            if (status == "completed") {
+                tombol.innerText = "BACA ULANG";
+                tombol.classList.add('bg-[#FBB45E]', 'shadow-[0_6px_0_#D9963D]');
+            } else {
+                tombol.innerText = "LANJUT BACA";
+                tombol.classList.add('bg-[#34A853]', 'shadow-[0_6px_0_#2C8E46]');
+            }
+
+            // Link baca
+            let slug = el.dataset.slug;
+            let bacaUrl = `{{ url('baca-buku') }}/${slug}`;
+            document.getElementById('modalLinkBaca').href = bacaUrl;
+
+            
+            // Tampilkan modal
+            document.getElementById('modalBuku').classList.remove('hidden');
+        }
+        
+        function closeModalDetailBuku() {
+            document.getElementById('modalBuku').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
