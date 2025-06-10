@@ -60,7 +60,7 @@
                         <div class="flex gap-6 transition-transform duration-300 min-w-full p-4" style="-webkit-overflow-scrolling: touch;">
                             @foreach ($bukus as $buku)
                                 @if ($buku->level_required == 0)
-                                    <div class="flex-none w-64">
+                                    <div class="flex-none w-64 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
                                         <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer"
                                         onclick="openModalDetailBuku(this)"
                                         data-slug="{{ $buku->slug }}"
@@ -140,7 +140,7 @@
                         <div class="flex gap-6 transition-transform duration-300 min-w-full p-4" style="-webkit-overflow-scrolling: touch;">
                             @foreach ($bukus as $buku)
                                 @if ($buku->level_required == 1)
-                                    <div class="flex-none w-64">
+                                    <div class="flex-none w-64 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
                                         <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer"
                                         onclick="openModalDetailBuku(this)"
                                         data-slug="{{ $buku->slug }}"
@@ -224,7 +224,7 @@
                         <div class="flex gap-6 transition-transform duration-300 min-w-full p-4" style="-webkit-overflow-scrolling: touch;">
                             @foreach ($bukus as $buku)
                                 @if ($buku->level_required == 2)
-                                    <div class="flex-none w-64">
+                                    <div class="flex-none w-64 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
                                         <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer">
                                             <div class="h-48 overflow-hidden">
                                                 <img src="{{asset('storage/'. $buku->cover_path)}}" alt="Book Cover" class="w-full h-full object-cover filter {{ Auth::user()->level >= 2 ? '' : 'grayscale' }}">
