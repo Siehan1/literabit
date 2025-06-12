@@ -15,6 +15,12 @@
     <!-- Konten Utama -->
     <div class="flex-1 p-8 ml-[20%] mr-[20%]">
         <!-- Header Profil -->
+        @if(session('success'))
+            <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3    rounded mb-4 flex flex-row gap-1.5 transition-opacity duration-500 ease-in-out">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>{{ session('success') }}</span>
+            </div>
+        @endif
         <div class="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(139,69,19,0.08)] mb-8">
             <div class="flex items-center gap-6">
                 <div class="relative group">
@@ -61,9 +67,13 @@
         </div>
         <!-- Form Edit Nama (Hidden by default) -->
         <div id="name-edit-form" class="hidden bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(139,69,19,0.08)] mb-8">
-            <form id="update-name-form" action="{{ route('profile.update') }}" method="POST">
+            <!-- <form id="update-name-form" action="{{ route('profile.update') }}" method="POST">
                 @csrf
-                @method('PUT')
+                @method('PUT') -->
+                <form id="update-name-form" action="{{ route('profile.update') }}" method="POST">
+                    @csrf
+                    @method('POST')
+
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-[#8B4513]/80 mb-2">Nama Baru</label>
                     <input type="text" name="name" id="name" value="{{ Auth::user()->name }}" 
@@ -174,52 +184,17 @@
     });
     
     // Handle form submit untuk update nama
-    document.getElementById('update-name-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const form = this;
-        const formData = new FormData(form);
-        
-        fetch(form.action, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                // Update nama di tampilan
-                document.getElementById('name-display').textContent = data.name;
-                // Sembunyikan form
-                document.getElementById('name-edit-form').classList.add('hidden');
-                // Tampilkan notifikasi
-                showNotification('Nama berhasil diperbarui!', 'success');
-            } else {
-                showNotification('Gagal memperbarui nama', 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showNotification('Terjadi kesalahan', 'error');
-        });
-    });
+    
     
     // Fungsi untuk menampilkan notifikasi
-    function showNotification(message, type) {
-        // Buat elemen notifikasi
-        const notification = document.createElement('div');
-        notification.className = `fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg text-white ${
-            type === 'success' ? 'bg-green-500' : 'bg-red-500'
-        }`;
-        notification.textContent = message;
-        
-        // Tambahkan ke body
-        document.body.appendChild(notification);
-        
-        // Hapus setelah 3 detik
-        setTimeout(() => {
-            notification.remove();
-        }, 3000);
-    }
+    setTimeout(() => {
+        const flash = document.getElementById('flash-message');
+        if (flash) {
+            flash.classList.add('opacity-0'); 
+            setTimeout(() => flash.remove(), 500);
+            }
+        }, 3000); 
+    
 </script>
     </body>
     </html>
