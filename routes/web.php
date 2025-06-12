@@ -128,8 +128,9 @@ Route::view('/kuis/gagal/{slug}', 'kuis.gagal')->name('kuis.gagal');
 
 
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
-Route::get('/profil/edit', [ProfilController::class, 'update'])->middleware('auth')->name('profile.update');
+Route::post('/profil/edit', [ProfilController::class, 'update'])->middleware('auth')->name('profile.update');
 Route::get('/profil/edit/avatar', [ProfilController::class, 'updateAvatar'])->middleware('auth')->name('profile.avatar');
+
 
 // Route History
 Route::get('/history', [HistoryController::class, 'index'])->middleware('auth')->name('histori');

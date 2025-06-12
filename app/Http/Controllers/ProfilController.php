@@ -31,16 +31,13 @@ class ProfilController extends Controller
         $request->validate([
             'name' => 'required|string|max:255'
         ]);
+        
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->save();
 
-        Auth::user()->update([
-            'name' => $request->name
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'name' => Auth::user()->name
-        ]);
-    }
+        return redirect()->route('profil')->with(['success' => true, 'message' => 'Profil berhasil diperbarui.']);
+}
 
     public function updateAvatar(Request $request)
     {
