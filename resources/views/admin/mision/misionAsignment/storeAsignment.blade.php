@@ -29,31 +29,47 @@
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {{-- Pilih Misi --}}
-    <div class="space-y-2">
-        <label for="daily_id" class="block text-sm font-medium text-teks">Pilih Misi: <span class="text-red-500">*</span></label>
-        <select id="daily_id" name="daily_id" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
-            <option value="" disabled selected>Pilih misi</option>
-            @foreach($dailyMissions as $mission)
-                <option value="{{ $mission->id }}">{{ $mission->template->judul }} ({{ $mission->tanggal }})</option>
-            @endforeach
-        </select>
-    </div>
+                    {{-- Pilih Misi --}}
+                    <div class="space-y-2">
+                        <label for="daily_id" class="block text-sm font-medium text-teks">Pilih Tanggal Misi: <span
+                                class="text-red-500">*</span></label>
+                        <select id="daily_id" name="daily_id"
+                            class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200"
+                            required>
+                            <option value="" disabled selected>Pilih Misi Harian</option>
+                            @foreach($dailyMissions as $mission)
+                                @if($mission->is_completed)
+                                    <option value="{{ $mission->id }}" disabled class="text-gray-400 bg-gray-100">
+                                        {{ $mission->template->deskripsi }} - {{ $mission->tanggal->format('d M Y') }}
+                                        ({{ $mission->template->jumlah_target }} target) - ✅ SELESAI
+                                    </option>
+                                @else
+                                    <option value="{{ $mission->id }}">
+                                        {{ $mission->template->deskripsi }} - {{ $mission->tanggal->format('d M Y') }}
+                                        ({{ $mission->template->jumlah_target }} target)
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
 
-    {{-- Input Judul Baru --}}
-    <div class="space-y-2">
-        <label for="judul" class="block text-sm font-medium text-teks">Judul Assignment: <span class="text-red-500">*</span></label>
-        <input type="text" id="judul" name="judul" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" 
-               value="{{ old('judul') }}" 
-               placeholder="Contoh: membaca 10 buku" 
-               >
-    </div>
+                    {{-- Input Judul Baru --}}
+                    <div class="space-y-2">
+                        <label for="judul" class="block text-sm font-medium text-teks">Judul Assignment: <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" id="judul" name="judul"
+                            class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200"
+                            value="{{ old('judul') }}" placeholder="Contoh: membaca 10 buku">
+                    </div>
 
 
                     {{-- Status --}}
                     <div class="space-y-2">
-                        <label for="is_done" class="block text-sm font-medium text-teks">Status Awal: <span class="text-red-500">*</span></label>
-                        <select id="is_done" name="is_done" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
+                        <label for="is_done" class="block text-sm font-medium text-teks">Status Awal: <span
+                                class="text-red-500">*</span></label>
+                        <select id="is_done" name="is_done"
+                            class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200"
+                            required>
                             <option value="0">Belum Selesai</option>
                             <option value="1">Selesai</option>
                         </select>
@@ -61,15 +77,21 @@
 
                     {{-- Progress --}}
                     <div class="space-y-2">
-                        <label for="jumlah_selesai" class="block text-sm font-medium text-teks">Progress Awal: <span class="text-red-500">*</span></label>
-                        <input type="number" id="jumlah_selesai" name="jumlah_selesai" min="0" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200" required>
+                        <label for="jumlah_selesai" class="block text-sm font-medium text-teks">Progress Awal: <span
+                                class="text-red-500">*</span></label>
+                        <input type="number" id="jumlah_selesai" name="jumlah_selesai" min="0"
+                            class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200"
+                            required>
                     </div>
                 </div>
 
                 {{-- Pilih User (multiple select) --}}
                 <div class="space-y-2">
-                    <label for="user_ids" class="block text-sm font-medium text-teks">Pilih User: <span class="text-red-500">*</span></label>
-                    <select id="user_ids" name="user_ids[]" multiple class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200 h-auto" required>
+                    <label for="user_ids" class="block text-sm font-medium text-teks">Pilih User: <span
+                            class="text-red-500">*</span></label>
+                    <select id="user_ids" name="user_ids[]" multiple
+                        class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring focus:ring-primary/20 focus:outline-none transition-all duration-200 h-auto"
+                        required>
                         @foreach($users as $user)
                             <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
                         @endforeach
@@ -92,7 +114,7 @@
     @push('scripts')
         <script>
             // Inisialisasi select2 untuk multiple select
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#user_ids').select2({
                     placeholder: "Pilih user",
                     allowClear: true,

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\misionDaily;
 use App\Models\User;
 use App\models\misionAsignment;
+use App\Models\History;
 
 class AsignmentMision extends Controller
 {
@@ -33,12 +34,12 @@ class AsignmentMision extends Controller
         $userMissions = misionAsignment::with([
             'dailyMission.template' // Gunakan nama relasi yang sudah ada (template)
         ])
-        ->where('user_id', $user->id)
-        ->whereHas('dailyMission', function($q) use ($today) {
-            $q->whereDate('tanggal', $today)
-              ->whereHas('template'); // Sesuai nama relasi di misionDaily
-        })
-        ->get();
+            ->where('user_id', $user->id)
+            ->whereHas('dailyMission', function ($q) use ($today) {
+                $q->whereDate('tanggal', $today)
+                    ->whereHas('template'); // Sesuai nama relasi di misionDaily
+            })
+            ->get();
 
         return view('beranda.beranda', [
             'userMissions' => $userMissions,
@@ -79,64 +80,84 @@ class AsignmentMision extends Controller
         ]);
     }
 
-    public function create()
-    {
-        $users = User::all();
-        $dailyMissions = MisionDaily::with('template')->get(); // Eager load template
-        return view('admin.mision.misionAsignment.storeAsignment', compact('users', 'dailyMissions'));
-    }
+public function create()
+{
+    $users = User::all();
+    // Hanya ambil daily missions yang belum selesai
+    $dailyMissions = MisionDaily::with('template')
+        ->where('is_completed', false)
+        ->get();
+    
+    return view('admin.mision.misionAsignment.storeAsignment', compact('users', 'dailyMissions'));
+}
 
-    public function store(Request $request)
-    {
-        $validate = $request->validate([
-            'user_ids' => 'required|array',
-            'user_ids.*' => 'exists:users,id',
-            'daily_id' => 'required|exists:daily_missions,id', // Sesuaikan dengan nama tabel
-            'jumlah_selesai' => 'required|integer|min:0',
-            'is_done' => 'required|boolean',
-            'judul' => 'sometimes|string|max:255' // Diubah menjadi optional
-        ]);
-
-        try {
-            $dailyMission = MisionDaily::with('template')->find($validate['daily_id']);
-            $createdAssignments = [];
-            $existingAssignments = [];
-
-            // Auto-generate judul jika tidak diisi
-            $judul = $validate['judul'] ?? $this->generateAssignmentTitle($dailyMission);
-
-            foreach ($validate['user_ids'] as $userId) {
-                $existing = misionAsignment::where('user_id', $userId)
-                    ->where('daily_id', $validate['daily_id'])
-                    ->first();
-
-                if ($existing) {
-                    $existingAssignments[] = $existing;
-                    continue;
+public function store(Request $request)
+{
+    $validate = $request->validate([
+        'user_ids' => 'required|array',
+        'user_ids.*' => 'exists:users,id',
+        'daily_id' => [
+            'required',
+            'exists:daily_missions,id',
+            // Tambahkan validasi untuk memastikan mission belum selesai
+            function ($attribute, $value, $fail) {
+                $mission = MisionDaily::find($value);
+                if ($mission && $mission->is_completed) {
+                    $fail('Mission yang sudah selesai tidak bisa dipilih.');
                 }
+            }
+        ],
+        'jumlah_selesai' => 'required|integer|min:0',
+        'is_done' => 'required|boolean',
+        'judul' => 'sometimes|string|max:255'
+    ]);
 
-                $assignment = misionAsignment::create([
-                    'user_id' => $userId,
-                    'daily_id' => $validate['daily_id'],
-                    'jumlah_selesai' => $validate['jumlah_selesai'],
-                    'is_done' => $validate['is_done'],
-                    'judul' => $judul // Gunakan judul auto-generate
-                ]);
+    try {
+        $dailyMission = MisionDaily::with('template')->find($validate['daily_id']);
+        
+        // Validasi tambahan di server side
+        if ($dailyMission->is_completed) {
+            return back()->withInput()
+                ->with('error', 'Tidak bisa menambahkan assignment ke mission yang sudah selesai');
+        }
 
-                $createdAssignments[] = $assignment->load(['dailyMission.template', 'user']);
+        $createdAssignments = [];
+        $existingAssignments = [];
+
+        $judul = $validate['judul'] ?? $this->generateAssignmentTitle($dailyMission);
+
+        foreach ($validate['user_ids'] as $userId) {
+            $existing = misionAsignment::where('user_id', $userId)
+                ->where('daily_id', $validate['daily_id'])
+                ->first();
+
+            if ($existing) {
+                $existingAssignments[] = $existing;
+                continue;
             }
 
-            return redirect()->route('index.Asignment')
-                ->with([
-                    'success' => 'Assignment berhasil dibuat',
-                    'created_assignments' => $createdAssignments,
-                    'existing_assignments' => $existingAssignments
-                ]);
-        } catch (\Exception $e) {
-            return back()->withInput()
-                ->with('error', 'Gagal membuat assignment: ' . $e->getMessage());
+            $assignment = misionAsignment::create([
+                'user_id' => $userId,
+                'daily_id' => $validate['daily_id'],
+                'jumlah_selesai' => $validate['jumlah_selesai'],
+                'is_done' => $validate['is_done'],
+                'judul' => $judul
+            ]);
+
+            $createdAssignments[] = $assignment->load(['dailyMission.template', 'user']);
         }
+
+        return redirect()->route('index.Asignment')
+            ->with([
+                'success' => 'Assignment berhasil dibuat',
+                'created_assignments' => $createdAssignments,
+                'existing_assignments' => $existingAssignments
+            ]);
+    } catch (\Exception $e) {
+        return back()->withInput()
+            ->with('error', 'Gagal membuat assignment: ' . $e->getMessage());
     }
+}
 
     // Method untuk generate judul otomatis
     private function generateAssignmentTitle(MisionDaily $dailyMission): string
@@ -153,4 +174,8 @@ class AsignmentMision extends Controller
         $assignments = misionAsignment::with(['dailyMission.template', 'user'])->get();
         return view('admin.mision.misionAsignment.tableAsignment', compact('assignments'));
     }
+
+
+
+
 }
