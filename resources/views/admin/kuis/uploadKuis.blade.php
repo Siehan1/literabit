@@ -1,5 +1,5 @@
 <x-dashboardComponent.admin>
-    <a href="{{ route('tableKuis') }}"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
+    <a href="{{ route('tableKuis') }}" class="hidden md:block"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
     <div class="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
             <h2 class="text-2xl font-bold text-primary mb-8 text-center">Tambah Kuis Baru</h2>

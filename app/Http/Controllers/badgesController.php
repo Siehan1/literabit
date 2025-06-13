@@ -22,7 +22,7 @@ class badgesController extends Controller
         $validate = $request->validate([
             'nama_badge' => 'required|max:255',
             'description' => 'required|max:255',
-            'icon_path' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'icon_path' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3048',
         ]);
         // $icon_path = $request->file('icon_path')->store('badges', 'public');
         $icon_path = $request->file('icon_path');
@@ -44,7 +44,7 @@ class badgesController extends Controller
     // }
     public function destroy($id){
         $badge = Badge::where('id', $id)->firstOrFail();
-        
+
         Storage::disk('public')->delete($badge->icon_path);
 
         // Hapus data dari database

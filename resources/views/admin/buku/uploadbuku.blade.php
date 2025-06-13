@@ -1,5 +1,5 @@
 <x-dashboardComponent.admin>
-    <a href="{{route('tableBuku')}}"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
+    <a href="{{route('tableBuku')}}" class="hidden md:block"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
     <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
             <h2 class="text-2xl font-bold text-primary mb-8 text-center">Upload Buku Baru</h2>
@@ -69,13 +69,13 @@
                     <div class="space-y-2 md:col-span-2">
                         <label for="pdf_file" class="block text-sm font-medium text-teks">File PDF <span class="text-red-500">*</span></label>
                         <div class="flex items-center justify-center w-full">
-                            <label for="pdf_file" id="uploadLabel" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-200 border-dashed rounded-xl cursor-pointer hover:bg-gray-50 transition-all duration-200">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6" id="uploadContent">
-                                    <svg class="w-8 h-8 mb-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <label for="pdf_file" id="uploadLabel" class="flex flex-col items-center justify-center w-full h-32 sm:h-40 md:h-48 border-2 border-gray-200 border-dashed rounded-xl cursor-pointer hover:bg-gray-50 transition-all duration-200">
+                                <div class="flex flex-col items-center justify-center px-4 py-5 sm:py-6" id="uploadContent">
+                                    <svg class="w-6 h-6 sm:w-8 sm:h-8 mb-2 sm:mb-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                     </svg>
-                                    <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Klik untuk upload</span> atau drag and drop</p>
-                                    <p class="text-xs text-gray-500">PDF (MAX. 10MB)</p>
+                                    <p class="mb-1 sm:mb-2 text-xs sm:text-sm text-center text-gray-500"><span class="font-semibold">Klik untuk upload</span> atau drag and drop</p>
+                                    <p class="text-xs text-gray-500 text-center">PDF (MAX. 10MB)</p>
                                 </div>
                                 <input id="pdf_file" type="file" class="hidden" accept=".pdf" name="pdf_file" required />
                             </label>
