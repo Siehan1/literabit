@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LittleRabbit | Admin Dashboard</title>
     <link rel="icon" href="{{ asset('asset/images/icon.svg') }}" type="image/svg+xml">
-    @vite(['resources/css/app.css','resources/js/navbar.js','resources/js/app.js'])
+    @vite(['resources/css/app.css','resources/js/app.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 <body class="bg-gray-100 font-poppins">

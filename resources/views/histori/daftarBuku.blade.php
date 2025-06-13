@@ -14,64 +14,41 @@
     <main class="w-[60%] ml-[20%] mr-[20%] bg-primary-100">
 
         @php
-            $hour = now()->hour;
+            $readingMessages = [
+                "Petualanganmu belum selesai! Yuk lanjutkan bacaannya 📚✨",
+                "Beberapa cerita masih menantimu untuk diselesaikan... ayo jelajahi lagi! 🐇🔍",
+                "Setiap halaman selanjutnya bisa jadi kejutan. Siap lanjut baca? 🌈📖"
+            ];
 
-            if ($hour < 12) {
-                $greeting = "Selamat pagi";
-                $messages = [
-                    "Awali harimu dengan petualangan seru di Pulau Kelinci! 🌞📖",
-                    "Hari baru, cerita baru menantimu di setiap halaman. 🐇✨",
-                    "Semangat pagi! Ayo lanjutkan bacaanmu dan temukan keajaiban. 📚🌤️"
-                ];
-            } elseif ($hour < 17) {
-                $greeting = "Selamat siang";
-                $messages = [
-                    "Istirahat sejenak yuk, dan lanjutkan petualanganmu membaca! 📖☕",
-                    "Waktu yang pas untuk membuka halaman baru! 📘🌼",
-                    "Kisah-kisah di Pulau Kelinci siap menemanimu siang ini. 🐰🌞"
-                ];
-            } else {
-                $greeting = "Selamat malam";
-                $messages = [
-                    "Tenangkan diri dengan satu bab penuh keajaiban. 🌙📖",
-                    "Hari yang panjang layak ditutup dengan kisah indah. 📚💫",
-                    "Malam yang hening, waktu sempurna untuk membaca dan bermimpi. 🐇🌌"
-                ];
-            }
+            $finishedMessages = [
+                "Kisah-kisah ini sudah kamu tamatkan – hebat! 🏆📖",
+                "Setiap buku ini adalah dunia yang sudah kamu taklukkan. Kamu luar biasa! 🌍✨",
+                "Selamat! Ini adalah daftar petualanganmu yang sukses kamu selesaikan. 📚🎉"
+            ];
 
-            $message = $messages[array_rand($messages)];
+            $readingText = $readingMessages[array_rand($readingMessages)];
+            $finishedText = $finishedMessages[array_rand($finishedMessages)];
         @endphp
-
         <div class="px-8 py-6">
-            <h1 class="font-poppins text-3xl font-bold text-teks text-center
-                    bg-gradient-to-r from-primary-100 to-primary-50
-                    p-6 rounded-xl shadow-sm animate-fade-in">
-                {{ $greeting }}, <span class="text-primary-600">{{ Auth::user()->name }}</span>! 
-                Kamu sudah membaca banyak buku! <span class="animate-spin inline-block">🌟</span>
-                <p class="text-xl mt-2 font-medium text-gray-600">
-                    {{ $message }}
-                </p>
-            </h1>
-        </div>
-
-
-        {{-- <div class="px-8 py-6">
             <h1 class="font-poppins text-3xl font-bold text-teks text-center
                     bg-gradient-to-r from-primary-100 to-primary-50
                     p-6 rounded-xl shadow-sm animate-fade-in">
                 Wah, <span class="text-primary-600">{{ Auth::user()->name }}</span>, kamu sudah membaca banyak buku! 
                 <span class="animate-spin inline-block">🌟</span>
                 <p class="text-xl mt-2 font-medium text-gray-600">
-                    Yuk lihat kembali jejak petualanganmu di Pulau Kelinci 📖🐇  
-                    Setiap cerita adalah langkah menuju dunia baru.
+                    @if ($type == "Terakhir Baca")
+                    {{$readingText}}
+                    @else
+                    {{$finishedText}}
+                    @endif
                 </p>
             </h1>
-        </div> --}}
+        </div>
 
         <div class="px-8 py-6">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-bold text-teks font-poppins">Terakhir Dibaca</h2>
-                <a href="{{ route('histori.list', ['type' => 'reading']) }}" class="text-primary-500 hover:underline font-medium">Lihat Semua</a>
+                <h2 class="text-2xl font-bold text-teks font-poppins">{{ $type }}</h2>
+                <a href="{{ route('histori') }}" class="text-primary-500 hover:underline font-medium">Kembali</a>
             </div>
         
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
@@ -108,40 +85,6 @@
                         <div class="p-4">
                             <h3 class="font-poppins font-semibold text-base text-teks mb-2 truncate">{{ $buku->judul }}</h3>
                             <span class="{{ $selected[0] }} {{ $selected[1] }} text-xs px-2 py-1 rounded-full">{{ $buku->genre->nama_genre ?? '-' }}</span>
-                            <p class="text-sec text-sm mt-2 font-poppins">{{ $buku->penulis }}</p>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-
-        <div class="px-8 py-6">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-bold text-teks font-poppins">Selesai Dibaca</h2>
-                <a href="{{ route('histori.list', ['type' => 'completed']) }}" class="text-primary-500 hover:underline font-medium">Lihat Semua</a>
-            </div>
-        
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-                <!-- Buku Card -->
-                @foreach ($bukusDone as $done)
-                    @php $buku = $done->buku; @endphp
-                    <div class="bg-white rounded-xl shadow-md transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg cursor-pointer"
-                    onclick="openModalDetailBuku(this)"
-                    data-slug="{{ $buku->slug }}"
-                    data-level="{{ $buku->level_required }}"
-                    data-judul="{{ $buku->judul }}"
-                    data-penulis="{{ $buku->penulis }}"
-                    data-genre="{{ $buku->genre->nama_genre }}"
-                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
-                    data-sinopsis="{{ $buku->sinopsis }}"
-                    data-status="{{ $done->status }}"
-                    >
-                        <div class="h-48 overflow-hidden">
-                            <img src="{{ asset('storage/' . $buku->cover_path) }}" alt="Book Cover" class="rounded-xl w-full h-full object-cover">
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-poppins font-semibold text-base text-teks mb-2 truncate">{{ $buku->judul }}</h3>
-                            <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">{{ $buku->genre->nama_genre ?? '-' }}</span>
                             <p class="text-sec text-sm mt-2 font-poppins">{{ $buku->penulis }}</p>
                         </div>
                     </div>
