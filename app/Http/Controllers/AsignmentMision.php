@@ -154,6 +154,7 @@ public function store(Request $request)
                 'existing_assignments' => $existingAssignments
             ]);
     } catch (\Exception $e) {
+        dd($e->getMessage());
         return back()->withInput()
             ->with('error', 'Gagal membuat assignment: ' . $e->getMessage());
     }

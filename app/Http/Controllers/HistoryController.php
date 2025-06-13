@@ -50,9 +50,22 @@ class HistoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($type)
     {
-        //
+        $userId = Auth::id();
+
+        if ($type == 'reading'){
+            $histories = History::where('user_id', $userId)->where('status', 'reading')
+            ->latest() // supaya urutan terbaru muncul dulu
+            ->get();
+            $type = "Terakhir Baca";
+        }else{
+            $histories = History::where('user_id', $userId)->where('status', 'completed')
+            ->latest() // supaya urutan terbaru muncul dulu
+            ->get();
+            $type = "Selesai Dibaca";
+        }
+        return view('histori.daftarBuku', compact('histories', 'type'));
     }
 
     /**

@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('mission_assignments', function (Blueprint $table) {
-            //
         });
     }
 
@@ -22,7 +21,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('mission_assignments', function (Blueprint $table) {
-            //
+            // $table->dropColumn('judul'); // untuk rollback
         });
     }
 };
