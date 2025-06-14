@@ -33,7 +33,7 @@
             </div>
 
             <!-- Tombol Lanjut -->
-            <a href="/" class="inline-block">
+            <a href="/beranda" class="inline-block">
                 <button class="bg-[#FBB45E] hover:bg-[#f9a13b] text-white px-8 py-3 rounded-xl 
                           text-lg font-semibold shadow-[0_4px_0_#e0913a] transition-all 
                           hover:-translate-y-0.5 active:translate-y-0">
