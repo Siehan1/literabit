@@ -18,6 +18,7 @@ use App\Http\Controllers\BacaBukuController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\achievmentsController;
 use App\Http\Controllers\StreakController;
+use App\Http\Controllers\LeaderboardController;
 
 
 // route to landing page
@@ -134,7 +135,7 @@ Route::middleware('auth')->group(function () {
 // route profil
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
 Route::post('/profil/edit', [ProfilController::class, 'update'])->middleware('auth')->name('profile.update');
-Route::get('/profil/edit/avatar', [ProfilController::class, 'updateAvatar'])->middleware('auth')->name('profile.avatar');
+Route::post('/profil/edit/avatar', [ProfilController::class, 'updateAvatar'])->middleware('auth')->name('profile.avatar');
 
 
 // Route History
@@ -155,3 +156,7 @@ Route::middleware('auth')->get('/pencapaian/badge', [achievmentsController::clas
 
 // streak
 Route::get('/streak',[StreakController::class,'streak'])->name('streak');
+
+// leaderboard
+Route::get('/leaderboad',[LeaderboardController::class,'index'])->name('leaderboard');
+Route::get('/leaderboad-get',[LeaderboardController::class,'getLeaderboard'])->name('getLeaderboard');
