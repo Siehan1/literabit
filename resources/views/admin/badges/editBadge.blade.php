@@ -1,5 +1,5 @@
 <x-dashboardComponent.admin>
-    <a href="{{route('tableBadges')}}"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
+<a href="{{route('tableBadges')}}" class="hidden md:block"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
     <div class="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
             <h2 class="text-2xl font-bold text-primary mb-8 text-center">Upload Badges Baru</h2>
@@ -16,7 +16,7 @@
                 
             </div>
 
-            <form action="{{route('badge.update', $badge->id)}}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <form action="{{route('badge.edit', $badge->id)}}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 <!-- name badges -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -35,7 +35,6 @@
                     <!-- icon badges -->
                     <div class="space-y-2 md:col-span-2">
                         <label for="icon_path" class="block text-sm font-medium text-teks">Icon Gambar Badges <span class="text-red-500">*</span></label>
-                        <img src="{{asset('storage/' . $badge->icon_path)}}" alt="">
                         <div class="flex items-center justify-center w-full">
                             <label for="icon_path" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-200 border-dashed rounded-xl cursor-pointer hover:bg-gray-50 transition-all duration-200">
                                 <div class="flex flex-col items-center justify-center pt-5 pb-6">

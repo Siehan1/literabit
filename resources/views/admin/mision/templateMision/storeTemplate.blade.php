@@ -1,6 +1,8 @@
 <x-dashboardComponent.admin>
 
-    <a href="{{ route('missionTemplate.index') }}"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
+<a href="{{ route('missionTemplate.index') }}" class="hidden md:block">
+    <i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i>
+</a>
 
     {{-- Tambahkan bagian untuk menampilkan error validasi jika ada --}}
             @if ($errors->any())

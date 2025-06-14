@@ -1,5 +1,6 @@
 <aside
-    class="w-1/5 text-teks font-poppins px-6 fixed top-0 right-0 min-h-screen z-10 bg-white/95 backdrop-blur-sm shadow-[-3px_0_12px_0_rgba(0,0,0,0.08)]">
+    class="w-1/5 text-teks font-poppins px-6 fixed top-0 right-0 min-h-screen z-10 bg-white/95 backdrop-blur-sm shadow-[-3px_0_12px_0_rgba(0,0,0,0.08)]
+           hidden lg:block"> {{-- Added hidden by default, and lg:block for large screens --}}
     {{-- Header Section --}}
     <div class="pt-10 pb-6 text-center">
         <h2 class="text-2xl font-bold text-teks tracking-wide">Pencapaian</h2>

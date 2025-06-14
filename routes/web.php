@@ -9,13 +9,15 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KuisController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\badgesController;
-use App\Http\Controllers\quizController; 
+use App\Http\Controllers\quizController;
 use App\Http\Controllers\LevelTresholdController;
 use App\Http\Controllers\misionTemplate;
 use App\Http\Controllers\dailyMision; // Import dailyMision controller
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\BacaBukuController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\achievmentsController;
+use App\Http\Controllers\StreakController;
 
 
 // route to landing page
@@ -42,7 +44,7 @@ Route::middleware('auth')->group(function () {
 
 
 // route to buku
-Route::middleware('auth', 'admin')->group(function (){
+Route::middleware(['auth', 'admin'])->group(function (){
     Route::get('/tableBuku', [BukuController::class, 'showBuku'])->name('tableBuku');
     Route::get('/buku/upload', [BukuController::class, 'create'])->name('buku.create');
     Route::post('/buku/upload', [BukuController::class, 'store'])->name('buku.store');
@@ -52,7 +54,7 @@ Route::middleware('auth', 'admin')->group(function (){
 });
 
 // route to genre
-Route::middleware('auth', 'admin')->group(function (){
+Route::middleware(['auth', 'admin'])->group(function (){
     Route::get('tableGenre', [GenreController::class, 'index'])->name('tableGenre');
     Route::get('/genre/tambah', [GenreController::class, 'create'])->name('genre.create');
     Route::post('/genre/tambah', [GenreController::class, 'store'])->name('genre.store');
@@ -62,7 +64,7 @@ Route::middleware('auth', 'admin')->group(function (){
 });
 
 // router badges
-Route::middleware('auth', 'admin')->group(function (){
+Route::middleware(['auth', 'admin'])->group(function (){
     Route::get('/uploadBadges',[badgesController::class,'create'])->name('badge.create');
     Route::post('/uploadBadges',[badgesController::class,'store'])->name('badge.store');
     Route::get('/tableBadges',[badgesController::class,'index'])->name('tableBadges');
@@ -72,8 +74,8 @@ Route::middleware('auth', 'admin')->group(function (){
 
 
 // Route untuk Kuis
-Route::middleware('auth', 'admin')->group(function (){
-    Route::get('tableKuis', [quizController::class, 'index'])->name('tableKuis'); 
+Route::middleware(['auth', 'admin'])->group(function (){
+    Route::get('tableKuis', [quizController::class, 'index'])->name('tableKuis');
     Route::get('/kuis/tambah', [quizController::class, 'create'])->name('kuis.create');
     Route::post('/kuis/tambah', [quizController::class, 'store'])->name('kuis.store');
     Route::get('/kuis/edit/{id}', [quizController::class, 'edit'])->name('kuis.edit');
@@ -82,7 +84,7 @@ Route::middleware('auth', 'admin')->group(function (){
 });
 
 // level treshold
-Route::middleware('auth', 'admin')->group(function (){
+Route::middleware(['auth', 'admin'])->group(function (){
     Route::get('/tableLevel',[LevelTresholdController::class,'index'])->name('tableLevel');
     Route::get('/level/tambah',[LevelTresholdController::class,'create'])->name('level.create');
     Route::post('/level/tambah',[LevelTresholdController::class,'store'])->name('level.store');
@@ -93,23 +95,23 @@ Route::middleware('auth', 'admin')->group(function (){
 
 // mission
 // mission template routes
-Route::middleware('auth', 'admin')->group(function (){
-    Route::get('mision/template',[misionTemplate::class,'index'])->name('missionTemplate.index'); 
-    Route::get('uploadTemplateMision',[misionTemplate::class,'create'])->name('missionTemplate.create'); 
-    Route::post('uploadTemplateMission',[misionTemplate::class,'store'])->name('missionTemplate.store'); 
-    Route::delete('/admin/mission-templates/{template}', [misionTemplate::class, 'destroy'])->name('missionTemplate.destroy'); 
+Route::middleware(['auth', 'admin'])->group(function (){
+    Route::get('mision/template',[misionTemplate::class,'index'])->name('missionTemplate.index');
+    Route::get('uploadTemplateMision',[misionTemplate::class,'create'])->name('missionTemplate.create');
+    Route::post('uploadTemplateMission',[misionTemplate::class,'store'])->name('missionTemplate.store');
+    Route::delete('/admin/mission-templates/{template}', [misionTemplate::class, 'destroy'])->name('missionTemplate.destroy');
     Route::get('/admin/mission-templates/{template}/edit', [misionTemplate::class, 'edit'])->name('missionTemplate.edit');
     Route::match(['put', 'post'], '/admin/mission-templates/{template}', [misionTemplate::class, 'update'])->name('missionTemplate.update');
 });
 
 // daily
-Route::middleware('auth', 'admin')->group(function (){
+Route::middleware(['auth', 'admin'])->group(function (){
     Route::get('tableDaily',[dailyMision::class,'index'])->name('tableDaily');
     Route::get('uploadDaily',[dailyMision::class,'create'])->name('uploadDaily');
     Route::post('uploadDaily',[dailyMision::class,'store'])->name('uploadDaily');
     Route::delete('/admin/daily-missions/{daily}', [dailyMision::class, 'destroy'])->name('deleteDaily');
     Route::get('/admin/daily-missions/{daily}/edit', [dailyMision::class, 'edit'])->name('editDaily');
-    Route::match(['put', 'post'], '/admin/daily-missions/{daily}', [dailyMision::class, 'update'])->name('updateDaily'); 
+    Route::match(['put', 'post'], '/admin/daily-missions/{daily}', [dailyMision::class, 'update'])->name('updateDaily');
 });
 
 
@@ -118,7 +120,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/baca-buku/{slug}', [BacaBukuController::class, 'show'])->name('bacaBuku');
     Route::get('/baca-buku/{slug}/pdf', [BacaBukuController::class, 'getPdf'])->name('bacaBuku.pdf');
     Route::post('/baca-buku/progress', [BacaBukuController::class, 'updateProgress'])->name('bacaBuku.progress');
-    
+
     // route to kuis
     Route::get('kuis/intro/{slug}',[KuisController::class, 'index'])->name('kuis.intro');
     Route::get('/kuis/soal/{slug}/{nomor}', [KuisController::class, 'tampilSoal'])->name('kuis.soal');
@@ -145,3 +147,11 @@ Route::get('/Mission-Asignment', [AsignmentMision::class, 'showAll'])->middlewar
 Route::post('/Mission-Asignment-upload', [AsignmentMision::class,'store'])->middleware('auth')->name('store.Asignment');
 Route::get('/Mission-Asigment-upload', [AsignmentMision::class,'create'])->middleware('auth')->name('create.Asignment');
 Route::post('/record-reading/{userId}/{bookId}', [BacaBukuController::class, 'recordBookRead'])->name('record.book.read');
+
+
+// pencapaian
+Route::get('/pencapaian', [achievmentsController::class,'index'])->name('pencapaian.index');
+Route::middleware('auth')->get('/pencapaian/badge', [achievmentsController::class, 'showAchievments'])->name('pencapaian.show');
+
+// streak
+Route::get('/streak',[StreakController::class,'streak'])->name('streak');

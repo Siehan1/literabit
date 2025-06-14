@@ -1,6 +1,6 @@
 <x-dashboardComponent.admin>
 
-    <a href="{{ route('index.Asignment') }}" class="inline-block mb-6">
+    <a href="{{ route('index.Asignment') }}" class="hidden md:inline-block mb-6">
         <i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i>
     </a>
 

@@ -6,12 +6,77 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>History | LittleRabbit</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
+    {{-- Tambahkan CDN untuk Bootstrap Icons jika belum ada di app.css --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Custom Keyframes for fade-in effect on greeting */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        /* Custom scrollbar for modal sinopsis */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Basic transitions for modal for smoother appearance */
+        .modal-transition-enter {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .modal-transition-enter-active {
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        .modal-transition-leave-active {
+            transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Custom styles for horizontal carousel using scroll-snap */
+        .carousel-container {
+            overflow-x: auto;
+            scrollbar-width: none; /* For Firefox */
+            -ms-overflow-style: none; /* For IE/Edge */
+            scroll-snap-type: x mandatory; /* Enable scroll snapping */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+
+        /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+        .carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-item {
+            scroll-snap-align: start; /* Snap to the start of each item */
+            flex-shrink: 0; /* Prevent items from shrinking */
+        }
+
+    </style>
 </head>
-<body class="flex min-h-screen">
-    
+<body class="flex flex-col lg:flex-row min-h-screen font-poppins text-teks">
+
+    {{-- Navigasi Samping Kiri --}}
     <x-utama.navside></x-utama.navside>
-    
-    <main class="w-[60%] ml-[20%] mr-[20%] bg-primary-100">
+
+    <main class="flex-grow pb-20 px-4 py-4 md:px-8 md:py-6 bg-primary-100
+                 md:ml-[20%] md:mr-[20%] md:w-[60%] md:pb-0">
+        {{-- Warna background main dipertahankan di sini --}}
 
         @php
             $hour = now()->hour;
@@ -42,198 +107,329 @@
             $message = $messages[array_rand($messages)];
         @endphp
 
-        <div class="px-8 py-6">
-            <h1 class="font-poppins text-3xl font-bold text-teks text-center
-                    bg-gradient-to-r from-primary-100 to-primary-50
-                    p-6 rounded-xl shadow-sm animate-fade-in">
-                {{ $greeting }}, <span class="text-primary-600">{{ Auth::user()->name }}</span>! 
-                Kamu sudah membaca banyak buku! <span class="animate-spin inline-block">🌟</span>
-                <p class="text-xl mt-2 font-medium text-gray-600">
+        {{-- Greeting Section --}}
+        <div class="mb-2 px-4 py-6 md:px-8 md:py-8">
+            <h1 class="font-poppins text-2xl md:text-3xl lg:text-4xl font-bold text-teks text-center
+                        bg-gradient-to-r from-primary-100 to-primary-50
+                        p-6 rounded-2xl shadow-lg animate-fade-in">
+                {{ $greeting }}, <span class="text-primary-600">{{ Auth::user()->name }}</span>!
+                <span class="inline-block mt-2 text-xl md:text-2xl font-medium text-gray-700 block">
+                    Kamu sudah membaca banyak buku! <span class="animate-spin inline-block">🌟</span>
+                </span>
+                <p class="text-base md:text-lg mt-2 font-normal text-gray-600">
                     {{ $message }}
                 </p>
             </h1>
         </div>
 
+        {{-- Terakhir Dibaca Section --}}
+        <div class="px-4 md:px-8 py-1 space-y-6">
+            <div class="bg-white rounded-2xl p-4 md:p-6 shadow-md">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg md:text-xl lg:text-2xl font-bold text-teks font-poppins">Terakhir Dibaca</h2>
+                    <a href="{{ route('histori.list', ['type' => 'reading']) }}" class="text-primary-500 hover:text-primary-700 font-semibold flex items-center gap-1 transition-colors duration-200 text-sm md:text-base">
+                        Lihat Semua <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
 
-        {{-- <div class="px-8 py-6">
-            <h1 class="font-poppins text-3xl font-bold text-teks text-center
-                    bg-gradient-to-r from-primary-100 to-primary-50
-                    p-6 rounded-xl shadow-sm animate-fade-in">
-                Wah, <span class="text-primary-600">{{ Auth::user()->name }}</span>, kamu sudah membaca banyak buku! 
-                <span class="animate-spin inline-block">🌟</span>
-                <p class="text-xl mt-2 font-medium text-gray-600">
-                    Yuk lihat kembali jejak petualanganmu di Pulau Kelinci 📖🐇  
-                    Setiap cerita adalah langkah menuju dunia baru.
-                </p>
-            </h1>
-        </div> --}}
-
-        <div class="px-8 py-6">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-bold text-teks font-poppins">Terakhir Dibaca</h2>
-                <a href="{{ route('histori.list', ['type' => 'reading']) }}" class="text-primary-500 hover:underline font-medium">Lihat Semua</a>
-            </div>
-        
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-                <!-- Buku Card -->
-                
-                @foreach ($histories as $history)
-                    @php 
-                        $buku = $history->buku;
-                        $colorPairs = [
-                            ['bg-red-100', 'text-red-600'],
-                            ['bg-green-100', 'text-green-600'],
-                            ['bg-blue-100', 'text-blue-600'],
-                            ['bg-yellow-100', 'text-yellow-600'],
-                            ['bg-purple-100', 'text-purple-600'],
-                            ['bg-pink-100', 'text-pink-600'],
-                            ['bg-indigo-100', 'text-indigo-600'],
-                        ];
-                        $selected = $colorPairs[array_rand($colorPairs)];
-                    @endphp
-                    <div class="bg-white rounded-xl shadow-md transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg cursor-pointer"
-                    onclick="openModalDetailBuku(this)"
-                    data-slug="{{ $buku->slug }}"
-                    data-level="{{ $buku->level_required }}"
-                    data-judul="{{ $buku->judul }}"
-                    data-penulis="{{ $buku->penulis }}"
-                    data-genre="{{ $buku->genre->nama_genre }}"
-                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
-                    data-sinopsis="{{ $buku->sinopsis }}"
-                    data-status="{{ $history->status }}"
-                    >
-                        <div class="h-48 overflow-hidden">
-                            <img src="{{ asset('storage/' . $buku->cover_path) }}" alt="Book Cover" class="rounded-xl w-full h-full object-cover">
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-poppins font-semibold text-base text-teks mb-2 truncate">{{ $buku->judul }}</h3>
-                            <span class="{{ $selected[0] }} {{ $selected[1] }} text-xs px-2 py-1 rounded-full">{{ $buku->genre->nama_genre ?? '-' }}</span>
-                            <p class="text-sec text-sm mt-2 font-poppins">{{ $buku->penulis }}</p>
-                        </div>
+                @if($histories->isEmpty())
+                    <div class="text-center py-8 text-gray-500">
+                        <p class="text-lg mb-4">Belum ada buku yang kamu baca baru-baru ini.</p>
+                        <a href="{{ route('buku.beranda') }}" class="inline-flex items-center px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors">
+                            Jelajahi Buku <i class="bi bi-book ml-2"></i>
+                        </a>
                     </div>
-                @endforeach
+                @else
+                    <div class="relative mt-4"> {{-- Added relative for positioning buttons --}}
+                        <div class="carousel-container md:carousel-grid lg:carousel-grid px-2 md:px-0">
+                            <div class="carousel-wrapper flex gap-4 transition-transform duration-300 min-w-full p-2 md:gap-6 md:p-4">
+                                @foreach ($histories as $history)
+                                    @php
+                                        $buku = $history->buku;
+                                        // Removed random color pairs from here, as the modal has more robust genre color mapping
+                                    @endphp
+                                    <div class="carousel-item flex-none w-40 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg cursor-pointer overflow-hidden"
+                                    onclick="openModalDetailBuku(this)"
+                                    data-slug="{{ $buku->slug }}"
+                                    data-level="{{ $buku->level_required }}"
+                                    data-judul="{{ $buku->judul }}"
+                                    data-penulis="{{ $buku->penulis }}"
+                                    data-genre="{{ $buku->genre->nama_genre }}"
+                                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
+                                    data-sinopsis="{{ $buku->sinopsis }}"
+                                    data-status="{{ $history->status }}"
+                                    >
+                                        <div class="h-40 md:h-48 lg:h-56 overflow-hidden">
+                                            <img src="{{ asset('storage/' . $buku->cover_path) }}" alt="Book Cover" class="w-full h-full object-cover rounded-t-xl">
+                                        </div>
+                                        <div class="p-3 md:p-4">
+                                            <h3 class="font-poppins font-semibold text-sm md:text-base text-teks mb-2 truncate">{{ $buku->judul }}</h3>
+                                            {{-- Genre color will be handled by JS for consistency with modal --}}
+                                            <span class="text-xs px-2 py-1 rounded-full inline-block"
+                                                id="genre-tag-{{ $buku->slug }}"
+                                                data-genre-name="{{ $buku->genre->nama_genre ?? 'Umum' }}">
+                                                {{ $buku->genre->nama_genre ?? '-' }}
+                                            </span>
+                                            <p class="text-sec text-xs md:text-sm mt-2 font-poppins">{{ $buku->penulis }}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <button onclick="scrollCarousel(event, 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -ml-1
+                                hidden md:block md:p-2 md:-ml-2">
+                            <i class="bi bi-chevron-left text-lg md:text-xl text-gray-600"></i>
+                        </button>
+                        <button onclick="scrollCarousel(event, 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -mr-1
+                                hidden md:block md:p-2 md:-mr-2">
+                            <i class="bi bi-chevron-right text-lg md:text-xl text-gray-600"></i>
+                        </button>
+                    </div>
+                @endif
+            </div>
+
+            {{-- Selesai Dibaca Section --}}
+            <div class="bg-white rounded-2xl p-4 md:p-6 shadow-md mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg md:text-xl lg:text-2xl font-bold text-teks font-poppins">Selesai Dibaca</h2>
+                    <a href="{{ route('histori.list', ['type' => 'completed']) }}" class="text-primary-500 hover:text-primary-700 font-semibold flex items-center gap-1 transition-colors duration-200 text-sm md:text-base">
+                        Lihat Semua <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+
+                @if($bukusDone->isEmpty())
+                    <div class="text-center py-8 text-gray-500">
+                        <p class="text-lg mb-4">Belum ada buku yang selesai kamu baca. Ayo selesaikan bacaanmu!</p>
+                        <a href="{{ route('buku.beranda') }}" class="inline-flex items-center px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors">
+                            Mulai Baca <i class="bi bi-book-half ml-2"></i>
+                        </a>
+                    </div>
+                @else
+                    <div class="relative mt-4"> {{-- Added relative for positioning buttons --}}
+                        <div class="carousel-container md:carousel-grid lg:carousel-grid px-2 md:px-0">
+                            <div class="carousel-wrapper flex gap-4 transition-transform duration-300 min-w-full p-2 md:gap-6 md:p-4">
+                                @foreach ($bukusDone as $done)
+                                    @php $buku = $done->buku; @endphp
+                                    <div class="carousel-item flex-none w-40 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg cursor-pointer overflow-hidden"
+                                    onclick="openModalDetailBuku(this)"
+                                    data-slug="{{ $buku->slug }}"
+                                    data-level="{{ $buku->level_required }}"
+                                    data-judul="{{ $buku->judul }}"
+                                    data-penulis="{{ $buku->penulis }}"
+                                    data-genre="{{ $buku->genre->nama_genre }}"
+                                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
+                                    data-sinopsis="{{ $buku->sinopsis }}"
+                                    data-status="{{ $done->status }}"
+                                    >
+                                        <div class="h-40 md:h-48 lg:h-56 overflow-hidden">
+                                            <img src="{{ asset('storage/' . $buku->cover_path) }}" alt="Book Cover" class="w-full h-full object-cover rounded-t-xl">
+                                        </div>
+                                        <div class="p-3 md:p-4">
+                                            <h3 class="font-poppins font-semibold text-sm md:text-base text-teks mb-2 truncate">{{ $buku->judul }}</h3>
+                                            {{-- Genre color will be handled by JS for consistency with modal --}}
+                                            <span class="text-xs px-2 py-1 rounded-full inline-block"
+                                                id="genre-tag-{{ $buku->slug }}-done"
+                                                data-genre-name="{{ $buku->genre->nama_genre ?? 'Umum' }}">
+                                                {{ $buku->genre->nama_genre ?? '-' }}
+                                            </span>
+                                            <p class="text-sec text-xs md:text-sm mt-2 font-poppins">{{ $buku->penulis }}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <button onclick="scrollCarousel(event, 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -ml-1
+                                hidden md:block md:p-2 md:-ml-2">
+                            <i class="bi bi-chevron-left text-lg md:text-xl text-gray-600"></i>
+                        </button>
+                        <button onclick="scrollCarousel(event, 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -mr-1
+                                hidden md:block md:p-2 md:-mr-2">
+                            <i class="bi bi-chevron-right text-lg md:text-xl text-gray-600"></i>
+                        </button>
+                    </div>
+                @endif
             </div>
         </div>
 
-        <div class="px-8 py-6">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-bold text-teks font-poppins">Selesai Dibaca</h2>
-                <a href="{{ route('histori.list', ['type' => 'completed']) }}" class="text-primary-500 hover:underline font-medium">Lihat Semua</a>
-            </div>
-        
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-                <!-- Buku Card -->
-                @foreach ($bukusDone as $done)
-                    @php $buku = $done->buku; @endphp
-                    <div class="bg-white rounded-xl shadow-md transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg cursor-pointer"
-                    onclick="openModalDetailBuku(this)"
-                    data-slug="{{ $buku->slug }}"
-                    data-level="{{ $buku->level_required }}"
-                    data-judul="{{ $buku->judul }}"
-                    data-penulis="{{ $buku->penulis }}"
-                    data-genre="{{ $buku->genre->nama_genre }}"
-                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
-                    data-sinopsis="{{ $buku->sinopsis }}"
-                    data-status="{{ $done->status }}"
-                    >
-                        <div class="h-48 overflow-hidden">
-                            <img src="{{ asset('storage/' . $buku->cover_path) }}" alt="Book Cover" class="rounded-xl w-full h-full object-cover">
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-poppins font-semibold text-base text-teks mb-2 truncate">{{ $buku->judul }}</h3>
-                            <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">{{ $buku->genre->nama_genre ?? '-' }}</span>
-                            <p class="text-sec text-sm mt-2 font-poppins">{{ $buku->penulis }}</p>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-        
     </main>
-    <!-- Modal Buku Detail -->
+
+    {{-- Modal Buku Detail --}}
     <div id="modalBuku"
-    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+        onclick="closeModalDetailBuku()">
+        <div id="modalContentBuku"
+            class="relative rounded-2xl p-6 md:p-8 w-full max-w-lg bg-white shadow-xl transform transition-all duration-300 modal-transition-enter"
+            onclick="event.stopPropagation()">
 
-    <div id="modalContentBuku" class="relative rounded-2xl p-8 w-[90%] max-w-xl bg-white shadow-xl">
-        
-        <!-- Tombol close -->
-        <button onclick="closeModalDetailBuku()"
-            class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">
-            &times;
-        </button>
-        
-        <!-- Gambar Cover -->
-        <div class="flex justify-center mb-4">
-            <img id="modalCover" src="" alt="Cover Buku" class="w-40 h-60 object-cover rounded-md shadow-md">
-        </div>
+            {{-- Close Button --}}
+            <button onclick="closeModalDetailBuku()"
+                class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold leading-none transition-transform duration-200 hover:rotate-90"
+                aria-label="Tutup">
+                &times;
+            </button>
 
-        <!-- Judul Buku -->
-        <h2 id="modalJudul" class="text-2xl font-bold text-center text-teks mb-2"></h2>
+            {{-- Book Info --}}
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-6 mb-6">
+                <img id="modalCover" src="" alt="Cover Buku"
+                    class="w-32 h-48 md:w-40 md:h-60 object-cover rounded-md shadow-md flex-shrink-0">
+                <div class="text-center md:text-left flex-grow">
+                    <h2 id="modalJudul" class="text-xl md:text-2xl font-bold text-teks mb-2 leading-tight"></h2>
+                    <p class="text-gray-600 font-medium mb-1 text-sm md:text-base">
+                        Penulis: <span id="modalPenulis" class="font-normal"></span>
+                    </p>
+                    <p class="mb-4">
+                        <span id="modalGenre" class="text-xs md:text-sm rounded-full inline-block px-3 py-1 font-semibold">
+                        </span>
+                    </p>
+                    <div class="flex items-center justify-center md:justify-start gap-2 text-sm text-gray-600">
+                        <i class="bi bi-award-fill text-yellow-500"></i>
+                        Level Dibutuhkan: <span id="modalLevel" class="font-semibold"></span>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Penulis dan Genre -->
-        <p class="text-center text-gray-600 font-medium mb-2">
-            Penulis: <span id="modalPenulis"></span>
-        </p>
-        <p class="text-center mb-4">
-            <span id="modalGenre" class="bg-green-100 text-green-600 text-sm rounded-full inline-block px-3 py-1">
-            </span>
-        </p>
+            {{-- Sinopsis --}}
+            <div class="text-justify text-gray-700 mb-6 max-h-48 md:max-h-60 overflow-y-auto custom-scrollbar pr-2">
+                <h3 class="font-bold text-lg mb-2 text-teks">Sinopsis:</h3>
+                <p id="modalSinopsis" class="text-sm md:text-base leading-relaxed"></p>
+            </div>
 
-        <!-- Sinopsis -->
-        <div class="text-justify text-gray-700 mb-6 max-h-40 overflow-y-auto">
-            <p id="modalSinopsis"></p>
-        </div>
-
-        <!-- Tombol Baca -->
-        <div class="flex justify-center">
-            <a id="modalLinkBaca" href="#"
-                class="px-6 py-3 rounded-xl text-white font-bold text-lg bg-[#34A853] shadow-[0_6px_0_#2C8E46] 
-                    hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all">
-                LANJUT BACA
-            </a>
+            {{-- Read Button --}}
+            <div class="flex justify-center">
+                <a id="modalLinkBaca" href="#"
+                    class="px-6 py-3 rounded-xl text-white font-bold text-base md:text-lg
+                            shadow-[0_6px_0_rgba(0,0,0,0.2)]
+                            hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all duration-200">
+                    LANJUT BACA
+                </a>
+            </div>
         </div>
     </div>
-    </div>
+
+    {{-- Navigasi Samping Kanan --}}
     <x-utama.navsideRight></x-utama.navsideRight>
 
     <script>
+        // Fungsi untuk menggulir carousel
+        function scrollCarousel(event, direction) {
+            event.preventDefault(); // Mencegah perilaku default tombol
+            // Cari elemen .carousel-container yang paling dekat dari tombol yang diklik
+            let carouselContainer = event.target.closest('.relative').querySelector('.carousel-container');
+            // Check if carouselContainer exists before trying to scroll
+            if (!carouselContainer) {
+                console.error("Carousel container not found for scrolling.");
+                return;
+            }
+            const scrollAmount = carouselContainer.offsetWidth / 2; // Gulir setengah lebar container
+
+            if (direction === 'left') {
+                carouselContainer.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+            } else {
+                carouselContainer.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Object untuk mapping warna genre
+        const genreColors = {
+            'Fantasi': { bg: 'bg-purple-100', text: 'text-purple-600' },
+            'Petualangan': { bg: 'bg-yellow-100', text: 'text-yellow-600' },
+            'Misteri': { bg: 'bg-gray-100', text: 'text-gray-600' },
+            'Horor': { bg: 'bg-red-100', text: 'text-red-600' },
+            'Fiksi Ilmiah': { bg: 'bg-blue-100', text: 'text-blue-600' },
+            'Romansa': { bg: 'bg-pink-100', text: 'text-pink-600' },
+            'Edukasi': { bg: 'bg-green-100', text: 'text-green-600' },
+            'Drama': { bg: 'bg-orange-100', text: 'text-orange-600' },
+            'Sejarah': { bg: 'bg-amber-100', text: 'text-amber-600' },
+            'Biografi': { bg: 'bg-cyan-100', text: 'text-cyan-600' },
+            'Umum': { bg: 'bg-indigo-100', text: 'text-indigo-600' }, // Default fallback
+        };
+
+        // Fungsi untuk apply warna genre ke tag span
+        function applyGenreColors() {
+            document.querySelectorAll('[data-genre-name]').forEach(tag => {
+                const genreName = tag.dataset.genreName;
+                const selectedGenreColor = genreColors[genreName] || genreColors['Umum'];
+                tag.classList.add(selectedGenreColor.bg, selectedGenreColor.text);
+            });
+        }
+
+        // Panggil fungsi saat DOM selesai dimuat
+        document.addEventListener('DOMContentLoaded', applyGenreColors);
+
+
         function openModalDetailBuku(el) {
             document.getElementById('modalJudul').innerText = el.dataset.judul;
             document.getElementById('modalPenulis').innerText = el.dataset.penulis;
             document.getElementById('modalSinopsis').innerText = el.dataset.sinopsis;
             document.getElementById('modalCover').src = el.dataset.cover;
+            document.getElementById('modalLevel').innerText = el.dataset.level; // Set level
+
             let status = el.dataset.status;
+            let genreName = el.dataset.genre;
+            let modalGenre = document.getElementById('modalGenre');
 
-            // Genre tag
-            let modalgenre = document.getElementById('modalGenre');
-            modalgenre.innerText = el.dataset.genre;
+            modalGenre.innerText = genreName;
+            // Clear existing classes and add default ones
+            modalGenre.className = 'text-xs md:text-sm rounded-full inline-block px-3 py-1 font-semibold';
 
-            
+            const selectedGenreColor = genreColors[genreName] || genreColors['Umum'];
+            modalGenre.classList.add(selectedGenreColor.bg, selectedGenreColor.text);
+
 
             const tombol = document.getElementById('modalLinkBaca');
+            // Remove existing specific color/shadow classes before adding new ones
             tombol.classList.remove('bg-[#34A853]', 'bg-[#FBB45E]', 'shadow-[0_6px_0_#2C8E46]', 'shadow-[0_6px_0_#D9963D]');
 
-            if (status == "completed") {
+            if (status === "completed") {
                 tombol.innerText = "BACA ULANG";
-                tombol.classList.add('bg-[#FBB45E]', 'shadow-[0_6px_0_#D9963D]');
+                tombol.classList.add('bg-[#FBB45E]', 'shadow-[0_6px_0_#D9963D]'); // Orange color for replay
             } else {
                 tombol.innerText = "LANJUT BACA";
-                tombol.classList.add('bg-[#34A853]', 'shadow-[0_6px_0_#2C8E46]');
+                tombol.classList.add('bg-[#34A853]', 'shadow-[0_6px_0_#2C8E46]'); // Green color for continue
             }
 
-            // Link baca
             let slug = el.dataset.slug;
             let bacaUrl = `{{ url('baca-buku') }}/${slug}`;
             document.getElementById('modalLinkBaca').href = bacaUrl;
 
-            
-            // Tampilkan modal
-            document.getElementById('modalBuku').classList.remove('hidden');
+            // Show modal with transition
+            const modal = document.getElementById('modalBuku');
+            const modalContent = document.getElementById('modalContentBuku');
+
+            modal.classList.remove('hidden');
+            modalContent.classList.remove('modal-transition-leave-active');
+            modalContent.classList.add('modal-transition-enter-active', 'modal-transition-enter');
+
+            // Trigger reflow to apply initial state before transition
+            void modalContent.offsetWidth;
+            modalContent.classList.remove('modal-transition-enter');
         }
-        
+
         function closeModalDetailBuku() {
-            document.getElementById('modalBuku').classList.add('hidden');
+            const modal = document.getElementById('modalBuku');
+            const modalContent = document.getElementById('modalContentBuku');
+
+            modalContent.classList.remove('modal-transition-enter-active');
+            modalContent.classList.add('modal-transition-leave-active');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalContent.classList.remove('modal-transition-leave-active'); // Clean up class after animation
+            }, 300); // Matches transition duration
         }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && !document.getElementById('modalBuku').classList.contains('hidden')) {
+                closeModalDetailBuku();
+            }
+        });
     </script>
 </body>
 </html>

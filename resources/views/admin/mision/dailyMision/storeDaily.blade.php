@@ -2,7 +2,7 @@
     <x-slot name="header">Buat Daily Mission Baru</x-slot>
 
     {{-- Tombol kembali --}}
-    <a href="{{ route('tableDaily') }}"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
+    <a href="{{ route('tableDaily') }}" class="hidden md:block"><i class="bi bi-arrow-left text-4xl hover:text-primary transition-colors duration-200"></i></a>
 
     {{-- Tampilkan error validasi --}}
     @if ($errors->any())
