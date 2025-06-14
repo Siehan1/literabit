@@ -17,6 +17,7 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\BacaBukuController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\achievmentsController;
+use App\Http\Controllers\StreakController;
 
 
 // route to landing page
@@ -151,3 +152,6 @@ Route::post('/record-reading/{userId}/{bookId}', [BacaBukuController::class, 're
 // pencapaian
 Route::get('/pencapaian', [achievmentsController::class,'index'])->name('pencapaian.index');
 Route::middleware('auth')->get('/pencapaian/badge', [achievmentsController::class, 'showAchievments'])->name('pencapaian.show');
+
+// streak
+Route::get('/streak',[StreakController::class,'streak'])->name('streak');

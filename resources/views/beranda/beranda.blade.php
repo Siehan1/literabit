@@ -1,5 +1,5 @@
 @props(['bukus'])
-@props(['userMisions'])
+@props(['userMissions'])
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,344 +9,376 @@
     <title>Beranda | LittleRabbit</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
-<body class="flex min-h-screen">
-        <script>
-            const bukuDibaca = @json($dibacaSlugs); // jadi array JS
-        </script>
-        <x-utama.navside></x-utama.navside>
+<body class="flex flex-col min-h-screen md:flex-row"> {{-- Base is flex-col for mobile, md:flex-row for larger screens --}}
+    <script>
+        const bukuDibaca = @json($dibacaSlugs); // jadi array JS
+    </script>
 
-        <main class="w-[60%] ml-[20%] mr-[20%] bg-primary-100">
-            <div class="px-8 py-6">
-                <h1 class="font-poppins text-3xl font-bold text-teks text-center
-                           bg-gradient-to-r from-primary-100 to-primary-50
-                           p-6 rounded-xl shadow-sm
-                           animate-fade-in">
-                    Selamat datang kembali 
-                    <span class="text-primary-600">{{ Auth::user()->name }}</span>
-                    di Pulau Kelinci! <span class="animate-bounce inline-block">🐇</span>
-                    <p class="text-xl mt-2 font-medium text-gray-600">
-                        Ayo lanjutkan Progress Membaca mu
-                    </p>
-                </h1>
-            </div>
-        
-            <div class="mx-3 mt-2 bg-white p-4 rounded-2xl">
-                <div class="flex flex-row gap-4 items-center" >
-                    <div class=" bg-secondary-200 flex items-center justify-center h-10 w-10 rounded-full">
-                        <i class="bi bi-star-fill text-secondary-600 text-[24px] w-full text-center"></i>
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <h1 class="text-[18px] font-poppins text-teks font-medium">Level Penjelajah huruf</h1>
-                        <p class="text-[14px] text-sec font-poppins">Baru mulai mengenal dunia membaca. Setiap kata adalah petualangan baru.</p>
-                    </div>
-                    <div class="ml-auto flex items-center gap-4">
-                        <div class="px-4 py-2 bg-gradient-to-r from-green-50 to-green-100 
-                                  rounded-full shadow-sm hover:shadow-md transition-all duration-300
-                                  flex items-center gap-2">
-                            <i class="bi bi-book text-green-600"></i>
-                            <div class="text-sm font-poppins font-medium text-gray-700">
-                                {{ Auth::user()->histories()->where('status', 'completed')->count() }}
-                                <span class="text-green-600 font-semibold">/</span>
-                                {{ $bukus->where('level_required', 0)->count() }}
-                                <span class="text-gray-600">Buku</span>
-                            </div>
+    {{-- Sidebar component (will act as bottom nav on mobile) --}}
+    {{-- Ensure this component itself has classes like 'fixed bottom-0 left-0 w-full md:relative md:block' for responsive bottom nav on mobile --}}
+    <x-utama.navside></x-utama.navside>
+
+    {{-- Main content area --}}
+    <main class="flex-grow pb-20 px-4 py-4 md:px-8 md:py-6 bg-primary-100
+                 md:ml-[20%] md:mr-[20%] md:w-[60%] md:pb-0"> 
+        <div class="mb-4">
+            <h1 class="font-poppins text-xl font-bold text-teks text-center
+                        bg-gradient-to-r from-primary-100 to-primary-50
+                        p-4 rounded-xl shadow-sm animate-fade-in
+                        md:text-3xl md:p-6">
+                Selamat datang kembali
+                <span class="text-primary-600">{{ Auth::user()->name }}</span>
+                di Pulau Kelinci! <span class="animate-bounce inline-block">🐇</span>
+                <p class="text-sm mt-1 font-medium text-gray-600
+                          md:text-xl md:mt-2">
+                    Ayo lanjutkan Progress Membaca mu
+                </p>
+            </h1>
+        </div>
+
+        {{-- Level 0 section --}}
+        <div class="mx-3 mt-2 bg-white p-4 rounded-2xl mb-4">
+            <div class="flex flex-col gap-2 items-start
+                        md:flex-row md:gap-4 md:items-center">
+                <div class="bg-secondary-200 flex items-center justify-center h-8 w-8 rounded-full flex-shrink-0
+                            md:h-10 md:w-10">
+                    <i class="bi bi-star-fill text-secondary-600 text-[20px] md:text-[24px]"></i>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-base font-poppins text-teks font-medium md:text-[18px]">Level Penjelajah huruf</h1>
+                    <p class="text-xs text-sec font-poppins md:text-[14px]">Baru mulai mengenal dunia membaca. Setiap kata adalah petualangan baru.</p>
+                </div>
+                <div class="ml-auto flex items-center gap-2 mt-2
+                            md:gap-4 md:mt-0">
+                    <div class="px-3 py-1 bg-gradient-to-r from-green-50 to-green-100
+                                 rounded-full shadow-sm hover:shadow-md transition-all duration-300
+                                 flex items-center gap-1
+                                 md:px-4 md:py-2 md:gap-2">
+                        <i class="bi bi-book text-green-600 text-sm md:text-base"></i>
+                        <div class="text-xs font-poppins font-medium text-gray-700 md:text-sm">
+                            {{ Auth::user()->histories()->where('status', 'completed')->whereHas('buku', function($query) { $query->where('level_required', 0); })->count() }}
+                            <span class="text-green-600 font-semibold">/</span>
+                            {{ $bukus->where('level_required', 0)->count() }}
+                            <span class="text-gray-600">Buku</span>
                         </div>
                     </div>
                 </div>
-                <!-- Carousel container -->
-                <div class="relative mt-6 px-4">
-                    <!-- Carousel track -->
-                    <div class="overflow-x-auto scrollbar-hide" style="-ms-overflow-style: none; scrollbar-width: none;">
-                        <div class="flex gap-6 transition-transform duration-300 min-w-full p-4" style="-webkit-overflow-scrolling: touch;">
-                            @foreach ($bukus as $buku)
-                                @if ($buku->level_required == 0)
-                                    <div class="flex-none w-64 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
-                                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer"
-                                        onclick="openModalDetailBuku(this)"
-                                        data-slug="{{ $buku->slug }}"
-                                        data-level="{{ $buku->level_required }}"
-                                        data-judul="{{ $buku->judul }}"
-                                        data-penulis="{{ $buku->penulis }}"
-                                        data-genre="{{ $buku->genre->nama_genre }}"
-                                        data-cover="{{ asset('storage/' . $buku->cover_path) }}"
-                                        data-sinopsis="{{ $buku->sinopsis }}"
-                                        >
-                                            <div class="h-48 overflow-hidden">
-                                                <img src="{{asset('storage/'. $buku->cover_path)}}" alt="Book Cover" class="w-full h-full object-cover">
+            </div>
+            <div class="relative mt-4 px-2 md:px-4">
+                <div class="overflow-x-auto scrollbar-hide" style="-ms-overflow-style: none; scrollbar-width: none;">
+                    <div class="flex gap-4 transition-transform duration-300 min-w-full p-2
+                                md:gap-6 md:p-4" style="-webkit-overflow-scrolling: touch;">
+                        @foreach ($bukus as $buku)
+                            @if ($buku->level_required == 0)
+                                <div class="flex-none w-40 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105
+                                            md:w-64">
+                                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer"
+                                    onclick="openModalDetailBuku(this)"
+                                    data-slug="{{ $buku->slug }}"
+                                    data-level="{{ $buku->level_required }}"
+                                    data-judul="{{ $buku->judul }}"
+                                    data-penulis="{{ $buku->penulis }}"
+                                    data-genre="{{ $buku->genre->nama_genre }}"
+                                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
+                                    data-sinopsis="{{ $buku->sinopsis }}"
+                                    >
+                                        <div class="h-32 overflow-hidden md:h-48">
+                                            <img src="{{asset('storage/'. $buku->cover_path)}}" alt="Book Cover" class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="p-2 md:p-4">
+                                            <h3 class="font-poppins font-semibold text-sm text-teks mb-1 truncate md:text-lg md:mb-2">{{$buku->judul}}</h3>
+                                            <div class="flex items-center gap-1 mb-1 md:gap-2 md:mb-2">
+                                                <span class="bg-green-100 text-green-600 text-xs px-1.5 py-0.5 rounded-full md:px-2 md:py-1">{{$buku->genre->nama_genre}}</span>
                                             </div>
-                                            <div class="p-4">
-                                                <h3 class="font-poppins font-semibold text-lg text-teks mb-2 truncate">{{$buku->judul}}</h3>
-                                                <div class="flex items-center gap-2 mb-2">
-                                                    <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">{{$buku->genre->nama_genre}}</span>
-                                                </div>
-                                                <p class="text-sec text-sm font-poppins">{{$buku->penulis}}</p>
-                                            </div>
+                                            <p class="text-sec text-xs font-poppins md:text-sm">{{$buku->penulis}}</p>
                                         </div>
                                     </div>
-                                @endif
-                            @endforeach
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+
+                <button onclick="scrollCarousel(event, 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -ml-1
+                                md:p-2 md:-ml-2 hidden md:block">
+                    <i class="bi bi-chevron-left text-lg md:text-xl text-gray-600"></i>
+                </button>
+                <button onclick="scrollCarousel(event, 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -mr-1
+                                md:p-2 md:-mr-2 hidden md:block">
+                    <i class="bi bi-chevron-right text-lg md:text-xl text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+
+        {{-- Level 1 section --}}
+        <div class="mx-3 mt-2 {{ Auth::user()->level >= 1 ? 'bg-white' : 'bg-white/50' }} p-4 rounded-2xl relative mb-4">
+            <div class="absolute inset-0 bg-gray-100/80 backdrop-blur-[2px] rounded-2xl
+                        flex flex-col items-center justify-center z-20
+                        {{ Auth::user()->level >= 1 ? 'hidden' : '' }}">
+                <i class="bi bi-lock-fill text-3xl mb-2 md:text-4xl md:mb-3 text-yellow-400"></i>
+                <p class="text-sm text-gray-600 font-poppins text-center px-4 md:text-base">
+                    Selesaikan level sebelumnya untuk membuka konten ini
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-2 items-start opacity-50 {{ Auth::user()->level >= 1 ? 'opacity-100' : '' }}
+                        md:flex-row md:gap-4 md:items-center">
+                <div class="bg-yellow-100 flex items-center justify-center h-8 w-8 rounded-full flex-shrink-0 md:h-10 md:w-10">
+                    <i class="bi bi-star-fill text-yellow-300 text-[20px] md:text-[24px]"></i>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-base font-poppins text-teks font-medium md:text-[18px]">Pembaca pemula</h1>
+                    <p class="text-xs text-sec font-poppins md:text-[14px]">Mulai menyelami halaman demi halaman. Buku-buku tipis jadi sahabat setia.</p>
+                </div>
+                <div class="ml-auto flex items-center gap-2 mt-2 md:gap-4 md:mt-0">
+                    <div class="px-3 py-1 bg-gradient-to-r from-yellow-50 to-yellow-100
+                                 rounded-full shadow-sm hover:shadow-md transition-all duration-300
+                                 flex items-center gap-1 md:px-4 md:py-2 md:gap-2">
+                        <i class="bi bi-book text-yellow-600 text-sm md:text-base"></i>
+                        <div class="text-xs font-poppins font-medium text-gray-700 md:text-sm">
+                            {{ Auth::user()->histories()->where('status', 'completed')->whereHas('buku', function($query) { $query->where('level_required', 1); })->count() }}
+                            <span class="text-yellow-600 font-semibold">/</span>
+                            {{ $bukus->where('level_required', 1)->count() }}
+                            <span class="text-gray-600">Buku</span>
                         </div>
                     </div>
-
-                    <!-- Navigation buttons -->
-                    <button onclick="scrollCarousel('left')" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md z-10 -ml-2">
-                        <i class="bi bi-chevron-left text-xl text-gray-600"></i>
-                    </button>
-                    <button onclick="scrollCarousel('right')" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md z-10 -mr-2">
-                        <i class="bi bi-chevron-right text-xl text-gray-600"></i>
-                    </button>
                 </div>
             </div>
 
-            <!-- level 1 -->
-            <div class="mx-3 mt-2 {{ Auth::user()->level >= 1 ? 'bg-white' : 'bg-white/50' }} p-4 rounded-2xl relative">
-                <!-- Locked overlay -->
-                <div class="absolute inset-0 bg-gray-100/80 backdrop-blur-[2px] rounded-2xl 
-                           flex flex-col items-center justify-center z-20
-                           {{ Auth::user()->level >= 1 ? 'hidden' : '' }}">
-                    <i class="bi bi-lock-fill text-4xl text-yellow-400 mb-3"></i>
-                    <p class="text-gray-600 font-poppins text-center px-4">
-                        Selesaikan level sebelumnya untuk membuka konten ini
-                    </p>
-                </div>
-
-                <div class="flex flex-row gap-4 items-center opacity-50 {{ Auth::user()->level >= 1 ? 'opacity-100' : '' }}">
-                    <div class="bg-yellow-100 flex items-center justify-center h-10 w-10 rounded-full">
-                        <i class="bi bi-star-fill text-yellow-300 text-[24px] w-full text-center"></i>
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <h1 class="text-[18px] font-poppins text-teks font-medium">Pembaca pemula</h1>
-                        <p class="text-[14px] text-sec font-poppins">Mulai menyelami halaman demi halaman. Buku-buku tipis jadi sahabat setia.</p>
-                    </div>
-                    <div class="ml-auto flex items-center gap-4">
-                        <div class="px-4 py-2 bg-gradient-to-r from-yellow-50 to-yellow-100 
-                                  rounded-full shadow-sm hover:shadow-md transition-all duration-300
-                                  flex items-center gap-2">
-                            <i class="bi bi-book text-yellow-600"></i>
-                            <div class="text-sm font-poppins font-medium text-gray-700">
-                                {{ Auth::user()->bukus ? Auth::user()->bukus->where('level_required', 1)->count() : 0 }}
-                                <span class="text-yellow-600 font-semibold">/</span>
-                                {{ $bukus->where('level_required', 1)->count() }}
-                                <span class="text-gray-600">Buku</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Carousel container -->
-                <div class="relative mt-6 px-4">
-                    <!-- Carousel track -->
-                    <div class="overflow-x-auto scrollbar-hide" style="-ms-overflow-style: none; scrollbar-width: none;">
-                        <div class="flex gap-6 transition-transform duration-300 min-w-full p-4" style="-webkit-overflow-scrolling: touch;">
-                            @foreach ($bukus as $buku)
-                                @if ($buku->level_required == 1)
-                                    <div class="flex-none w-64 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
-                                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer"
-                                        onclick="openModalDetailBuku(this)"
-                                        data-slug="{{ $buku->slug }}"
-                                        data-level="{{ $buku->level_required }}"
-                                        data-judul="{{ $buku->judul }}"
-                                        data-penulis="{{ $buku->penulis }}"
-                                        data-genre="{{ $buku->genre->nama_genre }}"
-                                        data-cover="{{ asset('storage/' . $buku->cover_path) }}"
-                                        data-sinopsis="{{ $buku->sinopsis }}"
-                                        >
-                                            <div class="h-48 overflow-hidden">
-                                                <img src="{{asset('storage/'. $buku->cover_path)}}" alt="Book Cover" class="w-full h-full object-cover filter {{ Auth::user()->level >= 1 ? '' : 'grayscale' }}">
+            <div class="relative mt-4 px-2 md:px-4">
+                <div class="overflow-x-auto scrollbar-hide" style="-ms-overflow-style: none; scrollbar-width: none;">
+                    <div class="flex gap-4 transition-transform duration-300 min-w-full p-2 md:gap-6 md:p-4" style="-webkit-overflow-scrolling: touch;">
+                        @foreach ($bukus as $buku)
+                            @if ($buku->level_required == 1)
+                                <div class="flex-none w-40 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 md:w-64">
+                                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer"
+                                    onclick="openModalDetailBuku(this)"
+                                    data-slug="{{ $buku->slug }}"
+                                    data-level="{{ $buku->level_required }}"
+                                    data-judul="{{ $buku->judul }}"
+                                    data-penulis="{{ $buku->penulis }}"
+                                    data-genre="{{ $buku->genre->nama_genre }}"
+                                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
+                                    data-sinopsis="{{ $buku->sinopsis }}"
+                                    >
+                                        <div class="h-32 overflow-hidden md:h-48">
+                                            <img src="{{asset('storage/'. $buku->cover_path)}}" alt="Book Cover" class="w-full h-full object-cover filter {{ Auth::user()->level >= 1 ? '' : 'grayscale' }}">
+                                        </div>
+                                        <div class="p-2 md:p-4">
+                                            <h3 class="font-poppins font-semibold text-sm text-teks mb-1 truncate md:text-lg md:mb-2">{{$buku->judul}}</h3>
+                                            <div class="flex items-center gap-1 mb-1 md:gap-2 md:mb-2">
+                                                <span class="bg-yellow-100 text-yellow-400 text-xs px-1.5 py-0.5 rounded-full md:px-2 md:py-1">{{$buku->genre->nama_genre}}</span>
                                             </div>
-                                            <div class="p-4">
-                                                <h3 class="font-poppins font-semibold text-lg text-teks mb-2 truncate">{{$buku->judul}}</h3>
-                                                <div class="flex items-center gap-2 mb-2">
-                                                    <span class="bg-yellow-50 text-yellow-400 text-xs px-2 py-1 rounded-full">{{$buku->genre->nama_genre}}</span>
-                                                </div>
-                                                <p class="text-sec text-sm font-poppins">{{$buku->penulis}}</p>
-                                            </div>
+                                            <p class="text-sec text-xs font-poppins md:text-sm">{{$buku->penulis}}</p>
                                         </div>
                                     </div>
-                                @endif
-                            @endforeach
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+
+                <button onclick="scrollCarousel(event, 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -ml-1
+                                md:p-2 md:-ml-2 hidden md:block">
+                    <i class="bi bi-chevron-left text-lg md:text-xl text-gray-600"></i>
+                </button>
+                <button onclick="scrollCarousel(event, 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -mr-1
+                                md:p-2 md:-mr-2 hidden md:block">
+                    <i class="bi bi-chevron-right text-lg md:text-xl text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+
+        {{-- Level 2 section --}}
+        <div class="mx-3 mt-2 mb-4 bg-white p-4 rounded-2xl relative
+                    md:mb-0 {{ Auth::user()->level >= 2 ? 'bg-white' : 'bg-white/50' }}">
+            <div class="absolute inset-0 bg-gray-100/80 backdrop-blur-[2px] rounded-2xl
+                        flex flex-col items-center justify-center z-20
+                        {{ Auth::user()->level >= 2 ? 'hidden' : '' }}">
+                <i class="bi bi-lock-fill text-3xl mb-2 md:text-4xl md:mb-3 text-blue-400"></i>
+                <p class="text-sm text-gray-600 font-poppins text-center px-4 md:text-base">
+                    Selesaikan level sebelumnya untuk membuka konten ini
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-2 items-start opacity-50 {{ Auth::user()->level >= 2 ? 'opacity-100' : '' }}
+                        md:flex-row md:gap-4 md:items-center">
+                <div class="bg-blue-100 flex items-center justify-center h-8 w-8 rounded-full flex-shrink-0 md:h-10 md:w-10">
+                    <div class="flex -gap-1 md:-gap-2">
+                        <i class="bi bi-star-fill text-blue-300 text-[20px] md:text-[24px]"></i>
+                        <i class="bi bi-star-fill text-blue-300 text-[20px] md:text-[24px]"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-base font-poppins text-teks font-medium md:text-[18px]">Pembaca ahli</h1>
+                    <p class="text-xs text-sec font-poppins md:text-[14px]">Mulai menyelami halaman demi halaman. Buku-buku tebal jadi sahabat setia.</p>
+                </div>
+                <div class="ml-auto flex items-center gap-2 mt-2 md:gap-4 md:mt-0">
+                    <div class="px-3 py-1 bg-gradient-to-r from-blue-50 to-blue-100
+                                 rounded-full shadow-sm hover:shadow-md transition-all duration-300
+                                 flex items-center gap-1 md:px-4 md:py-2 md:gap-2">
+                        <i class="bi bi-book text-blue-600 text-sm md:text-base"></i>
+                        <div class="text-xs font-poppins font-medium text-gray-700 md:text-sm">
+                            {{ Auth::user()->histories()->where('status', 'completed')->whereHas('buku', function($query) { $query->where('level_required', 2); })->count() }}
+                            <span class="text-blue-600 font-semibold">/</span>
+                            {{ $bukus->where('level_required', 2)->count() }}
+                            <span class="text-gray-600">Buku</span>
                         </div>
                     </div>
-
-                    <!-- Navigation buttons -->
-                    <button onclick="scrollCarousel('left')" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md z-10 -ml-2">
-                        <i class="bi bi-chevron-left text-xl text-gray-600"></i>
-                    </button>
-                    <button onclick="scrollCarousel('right')" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md z-10 -mr-2">
-                        <i class="bi bi-chevron-right text-xl text-gray-600"></i>
-                    </button>
                 </div>
             </div>
-                
 
-            <!-- level 2 -->
-            <div class="mx-3 mt-2 {{ Auth::user()->level >= 2 ? 'bg-white' : 'bg-white/50' }} p-4 rounded-2xl relative">
-                <!-- Locked overlay -->
-                <div class="absolute inset-0 bg-gray-100/80 backdrop-blur-[2px] rounded-2xl 
-                           flex flex-col items-center justify-center z-20
-                           {{ Auth::user()->level >= 2 ? 'hidden' : '' }}">
-                    <i class="bi bi-lock-fill text-4xl text-blue-400 mb-3"></i>
-                    <p class="text-gray-600 font-poppins text-center px-4">
-                        Selesaikan level sebelumnya untuk membuka konten ini
-                    </p>
-                </div>
-
-                <div class="flex flex-row gap-4 items-center opacity-50 {{ Auth::user()->level >= 2 ? 'opacity-100' : '' }}">
-                    <div class="bg-blue-100 flex items-center justify-center h-10 w-10 rounded-full">
-                        <div class="flex -gap-2">
-                            <i class="bi bi-star-fill text-blue-300 text-[24px]"></i>
-                            <i class="bi bi-star-fill text-blue-300 text-[24px]"></i>
-                        </div>
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <h1 class="text-[18px] font-poppins text-teks font-medium">Pembaca pemula</h1>
-                        <p class="text-[14px] text-sec font-poppins">Mulai menyelami halaman demi halaman. Buku-buku tipis jadi sahabat setia.</p>
-                    </div>
-                    <div class="ml-auto flex items-center gap-4">
-                        <div class="px-4 py-2 bg-gradient-to-r from-blue-50 to-blue-100 
-                                  rounded-full shadow-sm hover:shadow-md transition-all duration-300
-                                  flex items-center gap-2">
-                            <i class="bi bi-book text-blue-600"></i>
-                            <div class="text-sm font-poppins font-medium text-gray-700">
-                                {{ Auth::user()->bukus ? Auth::user()->bukus->where('level_required', 2)->count() : 0 }}
-                                <span class="text-blue-600 font-semibold">/</span>
-                                {{ $bukus->where('level_required', 2)->count() }}
-                                <span class="text-gray-600">Buku</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Carousel container -->
-                <div class="relative mt-6 px-4">
-                    <!-- Carousel track -->
-                    <div class="overflow-x-auto scrollbar-hide" style="-ms-overflow-style: none; scrollbar-width: none;">
-                        <div class="flex gap-6 transition-transform duration-300 min-w-full p-4" style="-webkit-overflow-scrolling: touch;">
-                            @foreach ($bukus as $buku)
-                                @if ($buku->level_required == 2)
-                                    <div class="flex-none w-64 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
-                                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer">
-                                            <div class="h-48 overflow-hidden">
-                                                <img src="{{asset('storage/'. $buku->cover_path)}}" alt="Book Cover" class="w-full h-full object-cover filter {{ Auth::user()->level >= 2 ? '' : 'grayscale' }}">
+            <div class="relative mt-4 px-2 md:px-4">
+                <div class="overflow-x-auto scrollbar-hide" style="-ms-overflow-style: none; scrollbar-width: none;">
+                    <div class="flex gap-4 transition-transform duration-300 min-w-full p-2 md:gap-6 md:p-4" style="-webkit-overflow-scrolling: touch;">
+                        @foreach ($bukus as $buku)
+                            @if ($buku->level_required == 2)
+                                <div class="flex-none w-40 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 md:w-64">
+                                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer"
+                                    onclick="openModalDetailBuku(this)"
+                                    data-slug="{{ $buku->slug }}"
+                                    data-level="{{ $buku->level_required }}"
+                                    data-judul="{{ $buku->judul }}"
+                                    data-penulis="{{ $buku->penulis }}"
+                                    data-genre="{{ $buku->genre->nama_genre }}"
+                                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
+                                    data-sinopsis="{{ $buku->sinopsis }}"
+                                    >
+                                        <div class="h-32 overflow-hidden md:h-48">
+                                            <img src="{{asset('storage/'. $buku->cover_path)}}" alt="Book Cover" class="w-full h-full object-cover filter {{ Auth::user()->level >= 2 ? '' : 'grayscale' }}">
+                                        </div>
+                                        <div class="p-2 md:p-4">
+                                            <h3 class="font-poppins font-semibold text-sm text-teks mb-1 truncate md:text-lg md:mb-2">{{$buku->judul}}</h3>
+                                            <div class="flex items-center gap-1 mb-1 md:gap-2 md:mb-2">
+                                                <span class="bg-blue-50 text-blue-400 text-xs px-1.5 py-0.5 rounded-full md:px-2 md:py-1">{{$buku->genre->nama_genre}}</span>
                                             </div>
-                                            <div class="p-4">
-                                                <h3 class="font-poppins font-semibold text-lg text-teks mb-2 truncate">{{$buku->judul}}</h3>
-                                                <div class="flex items-center gap-2 mb-2">
-                                                    <span class="bg-blue-50 text-blue-400 text-xs px-2 py-1 rounded-full">{{$buku->genre->nama_genre}}</span>
-                                                </div>
-                                                <p class="text-sec text-sm font-poppins">{{$buku->penulis}}</p>
-                                            </div>
+                                            <p class="text-sec text-xs font-poppins md:text-sm">{{$buku->penulis}}</p>
                                         </div>
                                     </div>
-                                @endif
-                            @endforeach
-                        </div>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
-
-                    <!-- Navigation buttons -->
-                    <button onclick="scrollCarousel('left')" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md z-10 -ml-2">
-                        <i class="bi bi-chevron-left text-xl text-gray-600"></i>
-                    </button>
-                    <button onclick="scrollCarousel('right')" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md z-10 -mr-2">
-                        <i class="bi bi-chevron-right text-xl text-gray-600"></i>
-                    </button>
                 </div>
+
+                <button onclick="scrollCarousel(event, 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -ml-1
+                                md:p-2 md:-ml-2 hidden md:block">
+                    <i class="bi bi-chevron-left text-lg md:text-xl text-gray-600"></i>
+                </button>
+                <button onclick="scrollCarousel(event, 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -mr-1
+                                md:p-2 md:-mr-2 hidden md:block">
+                    <i class="bi bi-chevron-right text-lg md:text-xl text-gray-600"></i>
+                </button>
             </div>
+        </div>
+    </main>
 
-        </main>
-        <!-- Modal Buku Detail -->
-        <div id="modalBuku"
-        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    {{-- Modal Buku Detail --}}
+    <div id="modalBuku"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
 
-        <div id="modalContentBuku" class="relative rounded-2xl p-8 w-[90%] max-w-xl bg-white shadow-xl">
-            
-            <!-- Tombol close -->
+        <div id="modalContentBuku" class="relative rounded-2xl p-6 w-full max-w-sm bg-white shadow-xl overflow-y-auto max-h-[90vh]
+                                          md:p-8 md:max-w-xl">
+
             <button onclick="closeModalDetailBuku()"
-                class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">
+                class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl font-bold
+                       md:top-4 md:right-4 md:text-2xl">
                 &times;
             </button>
-            
-            <!-- Gambar Cover -->
-            <div class="flex justify-center mb-4">
-                <img id="modalCover" src="" alt="Cover Buku" class="w-40 h-60 object-cover rounded-md shadow-md">
+
+            <div class="flex justify-center mb-3 md:mb-4">
+                <img id="modalCover" src="" alt="Cover Buku" class="w-32 h-48 object-cover rounded-md shadow-md md:w-40 md:h-60">
             </div>
 
-            <!-- Judul Buku -->
-            <h2 id="modalJudul" class="text-2xl font-bold text-center text-teks mb-2"></h2>
+            <h2 id="modalJudul" class="text-xl font-bold text-center text-teks mb-1 leading-tight md:text-2xl md:mb-2"></h2>
 
-            <!-- Penulis dan Genre -->
-            <p class="text-center text-gray-600 font-medium mb-2">
+            <p class="text-center text-gray-600 font-medium text-sm mb-1 md:text-base md:mb-2">
                 Penulis: <span id="modalPenulis"></span>
             </p>
-            <p class="text-center mb-4">
-                <span id="modalGenre" class="text-white bg-green-500 text-sm rounded-full inline-block px-3 py-1">
+            <p class="text-center mb-3 md:mb-4">
+                <span id="modalGenre" class="text-white bg-green-500 text-xs rounded-full inline-block px-2 py-0.5 md:text-sm md:px-3 md:py-1">
                 </span>
             </p>
 
-            <!-- Sinopsis -->
-            <div class="text-justify text-gray-700 mb-6 max-h-40 overflow-y-auto">
+            <div class="text-justify text-gray-700 text-sm mb-4 max-h-32 overflow-y-auto md:text-base md:mb-6 md:max-h-40">
                 <p id="modalSinopsis"></p>
             </div>
 
-            <!-- Tombol Baca -->
             <div class="flex justify-center">
                 <a id="modalLinkBaca" href="#"
-                    class="px-6 py-3 rounded-xl text-white font-bold text-lg bg-[#34A853] shadow-[0_6px_0_#2C8E46] 
-                        hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all">
+                    class="px-5 py-2 rounded-xl text-white font-bold text-base bg-[#34A853] shadow-[0_4px_0_#2C8E46]
+                           hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all
+                           md:px-6 md:py-3 md:text-lg md:shadow-[0_6px_0_#2C8E46]">
                     MULAI BACA
                 </a>
             </div>
         </div>
-        </div>
-        
-        <x-utama.navsideRight />
-        <script>
-            function openModalDetailBuku(el) {
-                document.getElementById('modalJudul').innerText = el.dataset.judul;
-                document.getElementById('modalPenulis').innerText = el.dataset.penulis;
-                document.getElementById('modalSinopsis').innerText = el.dataset.sinopsis;
-                document.getElementById('modalCover').src = el.dataset.cover;
+    </div>
 
-                // Genre tag
-                let modalgenre = document.getElementById('modalGenre');
-                modalgenre.innerText = el.dataset.genre;
+    {{-- NavsideRight component --}}
+    {{-- Assuming navsideRight is only for desktop, or has its own responsive logic --}}
+    <x-utama.navsideRight />
 
-                // Reset kelas warna sebelumnya
-                modalgenre.classList.remove('bg-green-500', 'bg-yellow-500', 'bg-blue-500');
+    <script>
+        function scrollCarousel(event, direction) {
+            event.preventDefault();
+            let carouselTrack = event.target.closest('.relative').querySelector('.overflow-x-auto > div');
+            const scrollAmount = 300;
 
-                let level = el.dataset.level;
-                if (level == "1") {
-                    modalgenre.classList.add('bg-yellow-500');
-                } else if (level == "2") {
-                    modalgenre.classList.add('bg-blue-500');
-                } else {
-                    modalgenre.classList.add('bg-green-500');
-                }
-
-                // Link baca
-                let slug = el.dataset.slug;
-                let bacaUrl = `{{ url('baca-buku') }}/${slug}`;
-                document.getElementById('modalLinkBaca').href = bacaUrl;
-
-                const tombol = document.getElementById('modalLinkBaca');
-                tombol.classList.remove('bg-[#34A853]', 'bg-[#FBB45E]', 'shadow-[0_6px_0_#2C8E46]', 'shadow-[0_6px_0_#D9963D]');
-
-                if (bukuDibaca.includes(slug)) {
-                    tombol.innerText = "LANJUT BACA";
-                    tombol.classList.add('bg-[#FBB45E]', 'shadow-[0_6px_0_#D9963D]');
-                } else {
-                    tombol.innerText = "MULAI BACA";
-                    tombol.classList.add('bg-[#34A853]', 'shadow-[0_6px_0_#2C8E46]');
-                }
-                // Tampilkan modal
-                document.getElementById('modalBuku').classList.remove('hidden');
+            if (direction === 'left') {
+                carouselTrack.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+            } else {
+                carouselTrack.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
             }
-            
-            function closeModalDetailBuku() {
-                document.getElementById('modalBuku').classList.add('hidden');
-            }
-        </script>
-            
+        }
 
+        function openModalDetailBuku(el) {
+            document.getElementById('modalJudul').innerText = el.dataset.judul;
+            document.getElementById('modalPenulis').innerText = el.dataset.penulis;
+            document.getElementById('modalSinopsis').innerText = el.dataset.sinopsis;
+            document.getElementById('modalCover').src = el.dataset.cover;
+
+            let modalgenre = document.getElementById('modalGenre');
+            modalgenre.innerText = el.dataset.genre;
+
+            modalgenre.classList.remove('bg-green-500', 'bg-yellow-500', 'bg-blue-500');
+
+            let level = el.dataset.level;
+            if (level == "1") {
+                modalgenre.classList.add('bg-yellow-500');
+            } else if (level == "2") {
+                modalgenre.classList.add('bg-blue-500');
+            } else {
+                modalgenre.classList.add('bg-green-500');
+            }
+
+            let slug = el.dataset.slug;
+            let bacaUrl = `{{ url('baca-buku') }}/${slug}`;
+            document.getElementById('modalLinkBaca').href = bacaUrl;
+
+            const tombol = document.getElementById('modalLinkBaca');
+            tombol.classList.remove('bg-[#34A853]', 'shadow-[0_4px_0_#2C8E46]', 'bg-[#FBB45E]', 'shadow-[0_4px_0_#D9963D]');
+            tombol.classList.remove('md:shadow-[0_6px_0_#2C8E46]', 'md:shadow-[0_6px_0_#D9963D]');
+
+            if (bukuDibaca.includes(slug)) {
+                tombol.innerText = "LANJUT BACA";
+                tombol.classList.add('bg-[#FBB45E]', 'shadow-[0_4px_0_#D9963D]', 'md:shadow-[0_6px_0_#D9963D]');
+            } else {
+                tombol.innerText = "MULAI BACA";
+                tombol.classList.add('bg-[#34A853]', 'shadow-[0_4px_0_#2C8E46]', 'md:shadow-[0_6px_0_#2C8E46]');
+            }
+            document.getElementById('modalBuku').classList.remove('hidden');
+        }
+
+        function closeModalDetailBuku() {
+            document.getElementById('modalBuku').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>

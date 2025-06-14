@@ -15,7 +15,7 @@
 </head>
 <body class="bg-gray-100 font-poppins">
     <div class="min-h-screen flex">
-        <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/20 z-30 hidden lg:hidden"></div>
 
         <aside id="sidebar" class="bg-primary-600 text-white w-64 px-4 py-6 fixed h-full shadow-xl z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
             <div class="mb-8">
