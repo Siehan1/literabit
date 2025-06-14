@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\History;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProfilController extends Controller
 {
@@ -36,35 +37,32 @@ class ProfilController extends Controller
         $user->name = $request->name;
         $user->save();
 
-        return redirect()->route('profil')->with(['success' => true, 'message' => 'Profil berhasil diperbarui.']);
+        return redirect()->route('profil')->with('success', 'Profil berhasil diperbarui.');
     }
 
     public function updateAvatar(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|image|max:2048',
+            'avatar' => 'required|image|max:2048', // maksimal 2MB
         ]);
-
+    
         $user = Auth::user();
-
+    
         // Hapus file lama jika ada
-        if ($user->profil && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->profil)) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($user->profil);
+        if ($user->profil && Storage::disk('public')->exists($user->profil)) {
+            Storage::disk('public')->delete($user->profil);
         }
-
+    
         // Simpan file baru
-        $path = $request->file('avatar')->store('avatars', 'public');
-
-        // Update kolom 'profil' di database
-        $user->update([
-            'profil' => $path,
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'profil_path' => $path,
-            'profil_url' => asset('storage/' . $path),
-            'message' => 'Foto profil berhasil diperbarui.'
-        ]);
+        $path = $request->file('avatar');
+        $profil_name = time() . '.' . $path->getClientOriginalExtension();
+        $path->storeAs('profil',$profil_name,'public');
+        $path = "profil/{$profil_name}";
+    
+        // Update user
+        $user->profil = $path;
+        $user->save();
+    
+        return redirect()->back()->with('success', 'Foto profil berhasil diperbarui!');
     }
 }

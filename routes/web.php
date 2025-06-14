@@ -3,7 +3,6 @@
 use App\Http\Controllers\AsignmentMision;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KuisController;
@@ -12,13 +11,14 @@ use App\Http\Controllers\badgesController;
 use App\Http\Controllers\quizController;
 use App\Http\Controllers\LevelTresholdController;
 use App\Http\Controllers\misionTemplate;
-use App\Http\Controllers\dailyMision; // Import dailyMision controller
+use App\Http\Controllers\dailyMision; 
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\BacaBukuController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\achievmentsController;
 use App\Http\Controllers\StreakController;
 use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\ResumeController;
 
 
 // route to landing page
@@ -130,7 +130,11 @@ Route::middleware('auth')->group(function () {
     Route::view('/kuis/gagal/{slug}', 'kuis.gagal')->name('kuis.gagal');
 });
 
-
+Route::middleware(['auth'])->group(function () {
+    // route resume
+    Route::get('/resume/{slug}', [ResumeController::class, 'index'])->name('resume');
+    Route::post('/resume/{slug}', [ResumeController::class, 'store'])->name('resume.store');
+});
 
 // route profil
 Route::get('/profil', [ProfilController::class, 'index'])->name('profil');

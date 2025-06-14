@@ -4,7 +4,7 @@
             <div
                 class="book-container relative w-[800px] h-[600px] bg-white rounded-xl shadow-lg flex flex-col items-center justify-center p-6">
                 <!-- Tombol tutup -->
-                <a href="{{ route('buku.beranda') }}"
+                <a href="/beranda"
                     class="cancel absolute top-3 right-3 bg-red-500 hover:bg-red-700 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold">
                     &times;
                 </a>
@@ -21,10 +21,17 @@
                     <button id="next-page" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">Selanjutnya</button>
                 </div>
                 <div class="absolute bottom-4 bg-white flex flex-row justify-center gap-2 items-center">
+                    @if ($sudahResume)
                     <a href="{{ route('buku.beranda') }}" id="keBeranda"
                         class="hidden transform bg-green-600 hover:bg-green-700 text-white px-8 py-2 rounded-lg font-semibold">
                         ke beranda
                     </a>
+                    @else
+                    <a href="{{ route('resume', $buku->slug) }}" id="keBeranda"
+                        class="hidden transform bg-green-600 hover:bg-green-700 text-white px-8 py-2 rounded-lg font-semibold">
+                        Buat Resume
+                    </a>
+                    @endif
 
                     <!-- Tombol Selesai -->
                     @if (!$sudahKuis)

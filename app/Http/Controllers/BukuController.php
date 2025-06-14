@@ -21,12 +21,35 @@ class BukuController extends Controller
         $bukus = Buku::with('genre')->latest()->get();
         return view('index', compact('bukus'));
     }
-    public function beranda(){
-        $bukus = Buku::with('genre')->latest()->get();
-        $histories = History::where('user_id', Auth::id())->get(['buku_id']);
 
-        $dibacaSlugs = Buku::whereIn('id', $histories->pluck('buku_id'))->pluck('slug');
-        return view('beranda.beranda', compact('bukus', 'dibacaSlugs'));
+    public function beranda(Request $request)
+    {
+        $query = Buku::with('genre')->latest();
+        $keyword = "";
+
+        
+        // Jika ada input pencarian
+        if ($request->has('search') && $request->search != '') {
+            $keyword = $request->search;
+            $query->where(function($q) use ($request) {
+                $q->where('judul', 'like', '%' . $request->search . '%')->where('level_required', '<=', Auth::user()->level)
+                  ->orWhere('penulis', 'like', '%' . $request->search . '%')
+                  ->where('level_required', '<=', Auth::user()->level);
+            });
+        }
+
+        $bukus = $query->get();
+
+        $histories = History::where('user_id', Auth::id())->get();
+        // $dibacaSlugs = Buku::whereIn('id', $histories->pluck('buku_id'))->pluck('slug');
+        $dibacaSlugs = History::with('buku')->where('user_id', Auth::id())->get()->pluck('buku.slug');
+        $selesaiSlugs = History::with('buku')->where('user_id', Auth::id())->where('status', 'completed')->get()->pluck('buku.slug');
+        // $selesaiSlugs = Buku::whereIn('id', $histories->pluck('buku_id'))->where('status', 'completed')->pluck('slug');
+        
+        if ($request->has('search') && $request->search != ''){
+            return view('beranda.search', compact('bukus', 'dibacaSlugs', 'keyword'));
+        }
+        return view('beranda.beranda', compact('bukus', 'dibacaSlugs', 'keyword'));
     }
 
     public function showBuku(){
@@ -127,6 +150,7 @@ class BukuController extends Controller
             'penulis' => 'required|string|max:255',
             'sinopsis' => 'required|string',
             'genre' => 'required|exists:genres,id',
+            'level' => 'required',
         ]);
 
         // Ambil buku berdasarkan slug
@@ -137,6 +161,7 @@ class BukuController extends Controller
         $buku->penulis = $request->penulis;
         $buku->sinopsis = $request->sinopsis;
         $buku->genre_id = $request->genre;
+        $buku->level_required = $request->level;
 
         // Update slug jika judul berubah
         $buku->slug = Str::slug($request->judul);

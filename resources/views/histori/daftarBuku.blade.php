@@ -36,7 +36,7 @@
                 Wah, <span class="text-primary-600">{{ Auth::user()->name }}</span>, kamu sudah membaca banyak buku! 
                 <span class="animate-spin inline-block">🌟</span>
                 <p class="text-xl mt-2 font-medium text-gray-600">
-                    @if ($type == "Terakhir Baca")
+                    @if ($type == "Terakhir Dibaca")
                     {{$readingText}}
                     @else
                     {{$finishedText}}

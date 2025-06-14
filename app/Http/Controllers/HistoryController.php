@@ -58,7 +58,7 @@ class HistoryController extends Controller
             $histories = History::where('user_id', $userId)->where('status', 'reading')
             ->latest() // supaya urutan terbaru muncul dulu
             ->get();
-            $type = "Terakhir Baca";
+            $type = "Terakhir Dibaca";
         }else{
             $histories = History::where('user_id', $userId)->where('status', 'completed')
             ->latest() // supaya urutan terbaru muncul dulu

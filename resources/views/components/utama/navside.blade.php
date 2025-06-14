@@ -12,7 +12,7 @@
 
         <div class="hidden lg:block border-b-2 border-gray-200 py-4 w-full">
             <div class="flex flex-row gap-4 justify-start items-center group">
-                <img src="{{ asset('profile_penulis/pro1.svg') }}" alt="foto_pengguna" class="w-17 rounded-full ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all">
+                <img src="{{ asset(Auth::user()->profil ? 'storage/' . Auth::user()->profil : 'profile_penulis/pro1.svg') }}" alt="foto_pengguna" class="w-17 rounded-full ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all">
                 <div class="flex flex-col">
                     <span class="text-teks font-medium">{{ Auth::user()->name }}</span>
                     <span class="text-sec text-[14px] opacity-75">Level {{$user->level}}</span>
@@ -29,10 +29,13 @@
             </div>
         </div>
 
-        <div class="relative group hidden lg:block w-full">
-            <input type="text" placeholder="Search..." class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all">
-            <i class="bi bi-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-primary/70 transition-colors"></i>
-        </div>
+            <!-- search bar -->
+            <form action="{{ route('buku.beranda') }}" method="GET">
+                <div class="relative group hidden lg:block w-full">
+                    <input type="text" placeholder="Cari buku atau Penulis" name="search" value="{{ request('search') }}" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all">
+                    <i class="bi bi-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-primary/70 transition-colors"></i>
+                </div>
+            </form>
 
         <div class="flex flex-row justify-around items-center w-full lg:flex-col lg:flex-grow lg:gap-1.5">
             <a href="{{ route('buku.beranda') }}" class="flex flex-col items-center gap-1 text-teks hover:bg-primary/10 rounded-xl transition-all duration-200 px-2 py-1 active:scale-95 active:bg-primary/20 lg:w-full lg:flex-row lg:gap-3.5 lg:px-4 lg:py-3 lg:hover:pl-5">

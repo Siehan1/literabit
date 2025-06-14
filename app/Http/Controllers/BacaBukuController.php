@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\History;
 use App\Models\HasilKuis;
+use App\Models\Resume;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -19,9 +20,10 @@ class BacaBukuController extends Controller
         $buku = Buku::where('slug', $slug)->firstOrFail();
         $history = History::where('user_id', Auth::id())->where('buku_id', $buku->id)->first();
         $sudahKuis = HasilKuis::where('user_id', Auth::id())->where('buku_id', $buku->id)->exists();
+        $sudahResume = Resume::where('user_id', Auth::id())->where('buku_id', $buku->id)->first();
         $lastPage = $history?->hal_terakhir ?? 1;
 
-        return view('buku.bacaBuku', compact('buku', 'lastPage', 'sudahKuis'));
+        return view('buku.bacaBuku', compact('buku', 'lastPage', 'sudahKuis', 'sudahResume'));
     }
 
     public function getPdf($slug)

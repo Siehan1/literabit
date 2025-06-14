@@ -38,4 +38,8 @@ class Buku extends Model
     {
         return $this->hasMany(HasilKuis::class);
     }
+    public function resumes()
+    {
+        return $this->hasMany(Resume::class);
+    }
 }
