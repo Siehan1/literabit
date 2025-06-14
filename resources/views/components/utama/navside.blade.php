@@ -52,6 +52,11 @@
                 <span class="font-medium text-xs lg:text-base">Profil</span>
             </a>
 
+            <a href="{{route('leaderboard')}}" class="hidden lg:flex flex-col items-center gap-1 text-teks hover:bg-primary/10 rounded-xl transition-all duration-200 px-2 py-1 active:scale-95 active:bg-primary/20 lg:w-full lg:flex-row lg:gap-3.5 lg:px-4 lg:py-3 lg:hover:pl-5">
+                <i class="bi bi-trophy-fill text-xl text-primary/80 lg:text-2xl"></i>
+                <span class="font-medium text-xs lg:text-base">Leaderboard</span>
+            </a>
+
             <button onclick="toggleMobileMenu()" id="mobileMenuButton" class="flex flex-col items-center gap-1 text-teks hover:bg-primary/10 rounded-xl transition-all duration-200 px-2 py-1 active:scale-95 active:bg-primary/20 lg:hidden">
                 <i id="mobileMenuIcon" class="bi bi-three-dots text-xl text-primary/80 transition-transform duration-200"></i>
                 <span class="font-medium text-xs">More</span>
@@ -71,47 +76,52 @@
 </div>
 
 <div id="mobileMenuOverlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden opacity-0 pointer-events-none lg:hidden items-center justify-center transition-opacity duration-300 ease-out">
-    <div id="mobileMenuContent" class="bg-white rounded-lg shadow-xl p-6 m-4 w-full max-w-sm relative flex flex-col items-center gap-4 transform translate-y-full opacity-0 transition-all duration-300 ease-out">
-        <button onclick="toggleMobileMenu()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl active:scale-90">&times;</button>
+    <div id="mobileMenuContent" class="bg-white rounded-lg shadow-xl p-4 mx-4 w-[90%] max-w-[280px] relative flex flex-col items-center gap-3 transform translate-y-full opacity-0 transition-all duration-300 ease-out">
+        <button onclick="toggleMobileMenu()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-xl active:scale-90">&times;</button>
 
-        <div class="flex flex-col items-center gap-3 pt-4 pb-4 border-b-2 border-b-gray-200 w-full">
-            <img src="{{ asset('asset/images/icon.svg') }}" alt="" class="w-16 hover:scale-105 transition-transform">
+        <div class="flex flex-col items-center gap-2 pt-2 pb-3 border-b-2 border-b-gray-200 w-full">
+            <img src="{{ asset('asset/images/icon.svg') }}" alt="" class="w-12 hover:scale-105 transition-transform">
             <div class="flex flex-col gap-0.5 text-center">
-                <span class="text-primary font-bold text-2xl tracking-tight">LittleRabbit</span>
-                <span class="text-primary/80 font-medium text-sm">Little Reading Habbit</span>
+                <span class="text-primary font-bold text-lg tracking-tight">LittleRabbit</span>
+                <span class="text-primary/80 font-medium text-xs">Little Reading Habbit</span>
             </div>
         </div>
 
-        <div class="border-b-2 border-gray-200 py-4 w-full text-center">
-            <div class="flex flex-col items-center gap-2">
-                <img src="{{ asset('profile_penulis/pro1.svg') }}" alt="foto_pengguna" class="w-20 rounded-full ring-2 ring-primary/20">
+        <div class="border-b-2 border-gray-200 py-3 w-full text-center">
+            <div class="flex flex-col items-center gap-1.5">
+                <img src="{{ asset('profile_penulis/pro1.svg') }}" alt="foto_pengguna" class="w-16 rounded-full ring-2 ring-primary/20">
                 <div class="flex flex-col">
-                    <span class="text-teks font-medium text-lg">{{ Auth::user()->name }}</span>
-                    <span class="text-sec text-sm opacity-75">Level {{$user->level}}</span>
+                    <span class="text-teks font-medium text-base">{{ Auth::user()->name }}</span>
+                    <span class="text-sec text-xs opacity-75">Level {{$user->level}}</span>
                 </div>
             </div>
-            <div class="mt-4 px-4">
-                <div class="w-full bg-gray-100 rounded-full h-3">
-                    <div class="bg-primary h-3 rounded-full" style="width: {{ $progress }}%"></div>
+            <div class="mt-3 px-2">
+                <div class="w-full bg-gray-100 rounded-full h-2.5">
+                    <div class="bg-primary h-2.5 rounded-full" style="width: {{ $progress }}%"></div>
                 </div>
-                <div class="flex justify-between text-xs mt-2">
+                <div class="flex justify-between text-[10px] mt-1.5">
                     <span class="text-sec font-medium">Level {{$user->level}}</span>
                     <span class="text-sec">{{$user->xp}} / {{$nextThreshold->required_xp ?? 'MAX'}} XP</span>
                 </div>
             </div>
         </div>
 
-        <div class="relative group w-full px-4">
-            <input type="text" placeholder="Search..." class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all">
-            <i class="bi bi-search absolute right-7 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        <div class="relative group w-full px-2">
+            <input type="text" placeholder="Search..." class="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all">
+            <i class="bi bi-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
         </div>
 
-        <div class="w-full">
+        <a href="{{route('leaderboard')}}" class="w-full flex items-center justify-center gap-2 text-teks hover:bg-primary/10 rounded-xl transition-all duration-200 px-2 py-2 active:scale-95 active:bg-primary/20">
+            <i class="bi bi-trophy-fill text-lg text-primary/80"></i>
+            <span class="font-medium text-sm">Leaderboard</span>
+        </a>
+
+        <div class="w-full px-2">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="flex items-center gap-3.5 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl transition-all duration-200 hover:pl-5 group w-full text-left justify-center active:scale-95 active:bg-red-100">
-                    <i class="bi bi-box-arrow-left text-2xl group-hover:rotate-12 transition-transform"></i>
-                    <span class="font-medium">Logout</span>
+                <button type="submit" class="flex items-center justify-center gap-2 py-2 text-red-500 hover:bg-red-50 rounded-xl transition-all duration-200 group w-full active:scale-95 active:bg-red-100">
+                    <i class="bi bi-box-arrow-left text-lg group-hover:rotate-12 transition-transform"></i>
+                    <span class="font-medium text-sm">Logout</span>
                 </button>
             </form>
         </div>

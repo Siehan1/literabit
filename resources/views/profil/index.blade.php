@@ -128,29 +128,36 @@
 
             // Fungsi untuk upload avatar ke server
             function uploadAvatar(file) {
-                const formData = new FormData();
-                formData.append('avatar', file);
-                formData.append('_token', '{{ csrf_token() }}');
-                formData.append('_method', 'PUT');
+    const formData = new FormData();
+    formData.append('avatar', file); // Jangan tambah _method
 
-                fetch('{{ route("profile.avatar") }}', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Jika berhasil, tampilkan notifikasi
-                            showNotification('Foto profil berhasil diubah!', 'success');
-                        } else {
-                            showNotification('Gagal mengubah foto profil', 'error');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        showNotification('Terjadi kesalahan saat mengunggah', 'error');
-                    });
+    fetch('{{ route("profile.avatar") }}', {
+        method: 'POST', // sesuai dengan definisi route kamu
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('Foto profil berhasil diubah!', 'success');
+
+            // Update preview
+            const avatarImg = document.getElementById('avatar-preview');
+            if (avatarImg && data.profil_url) {
+                avatarImg.src = data.profil_url + '?t=' + new Date().getTime();
             }
+        } else {
+            showNotification('Gagal mengubah foto profil', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Terjadi kesalahan saat mengunggah', 'error');
+    });
+}
+
 
             // Tampilkan form edit nama
             document.getElementById('edit-name-btn').addEventListener('click', function() {
@@ -201,83 +208,87 @@
 
 
             // streak fetch
-            document.addEventListener('DOMContentLoaded', function () {
-    // Function to determine box size based on screen width
-    function getBoxSize() {
-        const width = window.innerWidth;
-        if (width < 640) { // Mobile
-            return 'w-10 h-10';
-        } else if (width < 768) { // Tablet
-            return 'w-14 h-14';
-        }
-        return 'w-20 h-20'; // Desktop
-    }
+            document.addEventListener('DOMContentLoaded', function() {
+                // Function to determine box size based on screen width
+                function getBoxSize() {
+                    const width = window.innerWidth;
+                    if (width < 640) { // Mobile
+                        return 'w-10 h-10';
+                    } else if (width < 768) { // Tablet
+                        return 'w-14 h-14';
+                    }
+                    return 'w-20 h-20'; // Desktop
+                }
 
-    // Update box sizes when window resizes
-    window.addEventListener('resize', function() {
-        const boxes = document.querySelectorAll('.streak-box');
-        const newSize = getBoxSize();
-        boxes.forEach(box => {
-            // Remove old size classes and add new one
-            box.className = box.className.replace(/w-\d+ h-\d+/, '').replace(/\s+/g, ' ').trim(); // Remove previous w-X h-Y
-            box.classList.add(...newSize.split(' ')); // Add new w-X h-Y
-        });
-    });
+                // Update box sizes when window resizes
+                window.addEventListener('resize', function() {
+                    const boxes = document.querySelectorAll('.streak-box');
+                    const newSize = getBoxSize();
+                    boxes.forEach(box => {
+                        // Remove old size classes and add new one
+                        box.className = box.className.replace(/w-\d+ h-\d+/, '').replace(/\s+/g, ' ').trim(); // Remove previous w-X h-Y
+                        box.classList.add(...newSize.split(' ')); // Add new w-X h-Y
+                    });
+                });
 
-    fetch('{{route("streak")}}')
-        .then(res => {
-            if (!res.ok) { // Check if response was successful
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-            return res.json();
-        })
-        .then(data => {
-            const container = document.getElementById('streak-visual');
-            const info = document.getElementById('streak-info');
-            container.innerHTML = ''; // Clear previous content
+                fetch('{{route("streak")}}')
+                    .then(res => {
+                        if (!res.ok) { // Check if response was successful
+                            throw new Error(`HTTP error! status: ${res.status}`);
+                        }
+                        return res.json();
+                    })
+                    .then(data => {
+                        const container = document.getElementById('streak-visual');
+                        const info = document.getElementById('streak-info');
+                        container.innerHTML = ''; // Clear previous content
 
-            const today = new Date();
-            const activeDates = data.date; // Assuming data.date is an array of date strings
-            const streak = data.streak;
+                        const today = new Date();
+                        const activeDates = data.date; // Assuming data.date is an array of date strings
+                        const streak = data.streak;
 
-            info.innerHTML = `🔥 Kamu aktif selama <span class="font-bold">${streak}</span> hari berturut-turut`;
+                        info.innerHTML = `🔥 Kamu aktif selama <span class="font-bold">${streak}</span> hari berturut-turut`;
 
-            for (let i = 6; i >= 0; i--) { // Loop for the last 7 days
-                const date = new Date(today);
-                date.setDate(today.getDate() - i);
-                const dateStr = date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
-                const isActive = activeDates.includes(dateStr);
+                        for (let i = 6; i >= 0; i--) { // Loop for the last 7 days
+                            const date = new Date(today);
+                            date.setDate(today.getDate() - i);
+                            const dateStr = date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
+                            const isActive = activeDates.includes(dateStr);
 
-                const div = document.createElement('div');
-                div.className = `
+                            const div = document.createElement('div');
+                            div.className = `
                     streak-box ${getBoxSize()} rounded-md flex items-center justify-center
                     text-xs sm:text-sm font-semibold
                     border shadow-sm
                     hover:scale-105 transition transform duration-200 ease-out
                     ${isActive ? 'is-active bg-orange-400 text-white border-orange-500' : 'bg-gray-200 text-gray-500 border-gray-300'}
                 `;
-                div.title = date.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' });
-                div.textContent = date.getDate();
+                            div.title = date.toLocaleDateString('id-ID', {
+                                weekday: 'short',
+                                day: 'numeric',
+                                month: 'short'
+                            });
+                            div.textContent = date.getDate();
 
-                // Add flame SVG for active boxes
-                if (isActive) {
-                    const flameSvg = `
+                            // Add flame SVG for active boxes
+                            if (isActive) {
+                                const flameSvg = `
                         <svg class="flame-icon" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2C9 2 6 5 6 9c0 3.99 3.01 7 6 7s6-3.01 6-7c0-4-3-7-6-7zM12 14c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
                         </svg>
                     `;
-                    div.innerHTML += flameSvg; // Append the SVG to the div's inner HTML
-                }
+                                div.innerHTML += flameSvg; // Append the SVG to the div's inner HTML
+                            }
 
 
-                container.appendChild(div);
-            }
-        })
-        .catch(err => {
-            document.getElementById('streak-info').textContent = '⚠️ Gagal mengambil data streak';
-            console.error('Error fetching streak:', err);
-        });
-});
+                            container.appendChild(div);
+                        }
+                    })
+                    .catch(err => {
+                        document.getElementById('streak-info').textContent = '⚠️ Gagal mengambil data streak';
+                        console.error('Error fetching streak:', err);
+                    });
+            });
         </script>
 </body>
 

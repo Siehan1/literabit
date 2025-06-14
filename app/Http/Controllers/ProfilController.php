@@ -31,27 +31,40 @@ class ProfilController extends Controller
         $request->validate([
             'name' => 'required|string|max:255'
         ]);
-        
+
         $user = Auth::user();
         $user->name = $request->name;
         $user->save();
 
         return redirect()->route('profil')->with(['success' => true, 'message' => 'Profil berhasil diperbarui.']);
-}
+    }
 
     public function updateAvatar(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|image|max:2048'
+            'avatar' => 'required|image|max:2048',
         ]);
 
+        $user = Auth::user();
+
+        // Hapus file lama jika ada
+        if ($user->profil && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->profil)) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($user->profil);
+        }
+
+        // Simpan file baru
         $path = $request->file('avatar')->store('avatars', 'public');
-        
-        Auth::user()->update([
-            'avatar' => $path
+
+        // Update kolom 'profil' di database
+        $user->update([
+            'profil' => $path,
         ]);
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'profil_path' => $path,
+            'profil_url' => asset('storage/' . $path),
+            'message' => 'Foto profil berhasil diperbarui.'
+        ]);
     }
-    
 }
