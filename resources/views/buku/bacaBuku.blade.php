@@ -1,45 +1,50 @@
 <x-buku.layout-buku>
     @section('content')
-        <div class="min-h-screen bg-[#FEE8CD] flex items-center justify-center py-10">
+        <div class="min-h-screen bg-[#FEE8CD] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8">
             <div
-                class="book-container relative w-[800px] h-[600px] bg-white rounded-xl shadow-lg flex flex-col items-center justify-center p-6">
-                <!-- Tombol tutup -->
+                class="book-container relative w-full max-w-[800px] h-[calc(100vh-80px)] sm:h-[600px] bg-white rounded-xl shadow-lg flex flex-col items-center justify-between p-4 sm:p-6">
                 <a href="/beranda"
-                    class="cancel absolute top-3 right-3 bg-red-500 hover:bg-red-700 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold">
+                    class="absolute top-3 right-3 bg-red-500 hover:bg-red-700 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold z-10">
                     &times;
                 </a>
 
-                <!-- Halaman -->
-                <div class="page flex-1 w-full flex items-center justify-center overflow-hidden">
+                <div class="page flex-1 w-full flex items-center justify-center overflow-hidden mb-4">
                     <canvas id="pdf-render" class="max-w-full max-h-full object-contain"></canvas>
                 </div>
 
-                <!-- Navigasi Halaman -->
-                <div class="flex items-center justify-between w-full mt-4">
-                    <button id="prev-page" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">Sebelumnya</button>
-                    <span>Halaman <span id="page-num">1</span> / <span id="page-count">-</span></span>
-                    <button id="next-page" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">Selanjutnya</button>
-                </div>
-                <div class="absolute bottom-4 bg-white flex flex-row justify-center gap-2 items-center">
-                    @if ($sudahResume)
-                    <a href="{{ route('buku.beranda') }}" id="keBeranda"
-                        class="hidden transform bg-green-600 hover:bg-green-700 text-white px-8 py-2 rounded-lg font-semibold">
-                        ke beranda
-                    </a>
-                    @else
-                    <a href="{{ route('resume', $buku->slug) }}" id="keBeranda"
-                        class="hidden transform bg-green-600 hover:bg-green-700 text-white px-8 py-2 rounded-lg font-semibold">
-                        Buat Resume
-                    </a>
-                    @endif
+                <div class="w-full flex flex-col items-center gap-4 mt-auto">
+                    <div class="flex items-center justify-between w-full max-w-sm mx-auto gap-6">
+                        <button id="prev-page" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg text-sm sm:text-base">
+                            <span class="hidden sm:inline">Sebelumnya</span>
+                            <span class="sm:hidden">&lt;</span>
+                        </button>
+                        <span class="text-sm sm:text-base text-center">Halaman <span id="page-num">1</span> / <span id="page-count">-</span></span>
+                        <button id="next-page" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg text-sm sm:text-base">
+                            <span class="hidden sm:inline">Selanjutnya</span>
+                            <span class="sm:hidden">&gt;</span>
+                        </button>
+                    </div>
 
-                    <!-- Tombol Selesai -->
-                    @if (!$sudahKuis)
-                        <a href="{{ route('kuis.intro', $buku->slug) }}" id="selesai-btn"
-                            class="hidden transform bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-semibold">
-                            Kerjakan Kuis
-                        </a>
-                    @endif
+                    <div class="w-full flex flex-col sm:flex-row justify-center gap-3">
+                        @if ($sudahResume)
+                            <a href="{{ route('buku.beranda') }}" id="keBeranda"
+                                class="hidden transform bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold text-center text-sm sm:text-base">
+                                ke beranda
+                            </a>
+                        @else
+                            <a href="{{ route('resume', $buku->slug) }}" id="keBeranda"
+                                class="hidden transform bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold text-center text-sm sm:text-base">
+                                Buat Resume
+                            </a>
+                        @endif
+
+                        @if (!$sudahKuis)
+                            <a href="{{ route('kuis.intro', $buku->slug) }}" id="selesai-btn"
+                                class="hidden transform bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-semibold text-center text-sm sm:text-base">
+                                Kerjakan Kuis
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -133,92 +138,84 @@
 
             const updateProgress = (page, status = 'reading') => {
                 fetch("{{ route('bacaBuku.progress') }}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                    },
-                    body: JSON.stringify({
-                        buku_id: {{ $buku->id }},
-                        halaman: page,
-                        status: status
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            buku_id: {{ $buku->id }},
+                            halaman: page,
+                            status: status
+                        })
                     })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        console.error('Failed to save progress');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Progress saved:', data);
+                    .then(response => {
+                        if (!response.ok) {
+                            console.error('Failed to save progress');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Progress saved:', data);
 
-                    // Jika selesai membaca (mencapai halaman terakhir)
-                    if (status === 'completed') {
-                        recordBookRead({{ auth()->id() }}, {{ $buku->id }});
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+                        if (status === 'completed') {
+                            recordBookRead({{ auth()->id() }}, {{ $buku->id }});
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             };
 
-            // FUNGSI YANG DIPERBAIKI untuk mencatat pembacaan buku
             function recordBookRead(userId, bookId) {
                 console.log('Recording book read for user:', userId, 'book:', bookId);
-                
-                // OPSI 1: Jika route menggunakan parameter URL
+
                 const recordUrl = `/record-reading/${userId}/${bookId}`;
-                
+
                 fetch(recordUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({}) // Body kosong karena data ada di URL
-                })
-                .then(response => {
-                    console.log('Response status:', response.status);
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        console.log('Book reading recorded successfully:', data);
-                        
-                        // Tampilkan notifikasi jika ada misi yang terupdate
-                        if (data.data && data.data.updated_missions_count > 0) {
-                            showMissionUpdateNotification(data.data.updated_missions_count);
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({})
+                    })
+                    .then(response => {
+                        console.log('Response status:', response.status);
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            console.log('Book reading recorded successfully:', data);
+
+                            if (data.data && data.data.updated_missions_count > 0) {
+                                showMissionUpdateNotification(data.data.updated_missions_count);
+                            }
+                        } else {
+                            console.error('Error recording book read:', data.message);
                         }
-                    } else {
-                        console.error('Error recording book read:', data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error in recordBookRead:', error);
-                });
+                    })
+                    .catch(error => {
+                        console.error('Error in recordBookRead:', error);
+                    });
             }
 
-            // Fungsi untuk menampilkan notifikasi
             function showMissionUpdateNotification(count) {
-                // Buat elemen notifikasi
                 const notification = document.createElement('div');
-                notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
+                notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-x-full';
                 notification.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span>Selamat! ${count} misi harian telah terupdate!</span>
-                    </div>
-                `;
-                
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Selamat! ${count} misi harian telah terupdate!</span>
+                        </div>
+                    `;
+
                 document.body.appendChild(notification);
-                
-                // Animasi masuk
+
                 setTimeout(() => {
                     notification.style.transform = 'translateX(0)';
                 }, 100);
-                
-                // Hilangkan notifikasi setelah 4 detik
+
                 setTimeout(() => {
                     notification.style.transform = 'translateX(100%)';
                     setTimeout(() => {
@@ -228,7 +225,6 @@
                     }, 300);
                 }, 4000);
             }
-
         </script>
     @endsection
 </x-buku.layout-buku>

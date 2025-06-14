@@ -160,67 +160,77 @@
             </a> --}}
             <div class="flex justify-center">
                 <a id="" href="{{ route('buku.beranda') }}"
-                    class="px-4 py-2 rounded-lg text-white font-bold text-lg bg-[#FBB45E] shadow-[0_6px_0_#D9963D] 
+                    class="px-4 py-2 rounded-lg text-white font-bold text-lg bg-[#FBB45E] shadow-[0_6px_0_#D9963D]
                         transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105">
                         Jelajahi Buku Sekarang
                 </a>
             </div>
         </div>
         @else
-        <div class="px-8 py-6">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-bold text-teks font-poppins">Terakhir Dibaca</h2>
-                <a href="{{ route('histori.list', ['type' => 'reading']) }}" class="text-primary-500 hover:underline font-medium">Lihat Semua</a>
-            </div>
-        
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-                <!-- Buku Card -->
-                
-                @foreach ($histories as $history)
-                    @php 
-                        $buku = $history->buku;
-                        $colorPairs = [
-                            ['bg-red-100', 'text-red-600'],
-                            ['bg-green-100', 'text-green-600'],
-                            ['bg-blue-100', 'text-blue-600'],
-                            ['bg-yellow-100', 'text-yellow-600'],
-                            ['bg-purple-100', 'text-purple-600'],
-                            ['bg-pink-100', 'text-pink-600'],
-                            ['bg-indigo-100', 'text-indigo-600'],
-                        ];
-                        $selected = $colorPairs[array_rand($colorPairs)];
-                    @endphp
-                    <div class="bg-white rounded-xl shadow-md transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg cursor-pointer"
-                    onclick="openModalDetailBuku(this)"
-                    data-slug="{{ $buku->slug }}"
-                    data-level="{{ $buku->level_required }}"
-                    data-judul="{{ $buku->judul }}"
-                    data-penulis="{{ $buku->penulis }}"
-                    data-genre="{{ $buku->genre->nama_genre }}"
-                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
-                    data-sinopsis="{{ $buku->sinopsis }}"
-                    data-status="{{ $history->status }}"
-                    >
-                        <div class="h-48 overflow-hidden">
-                            <img src="{{ asset('storage/' . $buku->cover_path) }}" alt="Book Cover" class="rounded-xl w-full h-full object-cover">
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-poppins font-semibold text-base text-teks mb-2 truncate">{{ $buku->judul }}</h3>
-                            <span class="{{ $selected[0] }} {{ $selected[1] }} text-xs px-2 py-1 rounded-full">{{ $buku->genre->nama_genre ?? '-' }}</span>
-                            <p class="text-sec text-sm mt-2 font-poppins">{{ $buku->penulis }}</p>
-                        </div>
+        <div class="px-2 {{ $histories->isEmpty() ? 'hidden' : '' }}">
+            <div class="bg-white rounded-2xl p-4 md:p-6 shadow-md mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg md:text-xl lg:text-2xl font-bold text-teks font-poppins">Lanjutkan Membaca</h2>
+                    <a href="{{ route('histori.list', ['type' => 'reading']) }}" class="text-primary-500 hover:text-primary-700 font-semibold flex items-center gap-1 transition-colors duration-200 text-sm md:text-base">
+                        Lihat Semua <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+
+                @if($histories->isEmpty())
+                    <div class="text-center py-8 text-gray-500">
+                        <p class="text-lg mb-4">Belum ada buku yang sedang kamu baca. Yuk mulai petualangan baru!</p>
+                        <a href="{{ route('buku.beranda') }}" class="inline-flex items-center px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors">
+                            Mulai Baca <i class="bi bi-book-half ml-2"></i>
+                        </a>
                     </div>
-                @endforeach
+                @else
+                    <div class="relative mt-4">
+                        <div class="carousel-container px-2 md:px-0">
+                            <div class="carousel-wrapper flex gap-4 transition-transform duration-300 min-w-full p-2 md:gap-6 md:p-4">
+                                @foreach ($histories as $history)
+                                    @php $buku = $history->buku; @endphp
+                                    <div class="carousel-item flex-none w-40 md:w-48 lg:w-56 xl:w-64 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg cursor-pointer overflow-hidden bg-white rounded-xl shadow
+                                        flex flex-col"
+                                        onclick="openModalDetailBuku(this)"
+                                        data-slug="{{ $buku->slug }}"
+                                        data-level="{{ $buku->level_required }}"
+                                        data-judul="{{ $buku->judul }}"
+                                        data-penulis="{{ $buku->penulis }}"
+                                        data-genre="{{ $buku->genre->nama_genre }}"
+                                        data-cover="{{ asset('storage/' . $buku->cover_path) }}"
+                                        data-sinopsis="{{ $buku->sinopsis }}"
+                                        data-status="{{ $history->status }}"
+                                    >
+                                        <div class="h-40 md:h-48 lg:h-56 xl:h-64 overflow-hidden flex-shrink-0">
+                                            <img src="{{ asset('storage/' . $buku->cover_path) }}" alt="Book Cover" class="w-full h-full object-cover rounded-t-xl">
+                                        </div>
+                                        <div class="p-3 md:p-4 flex flex-col flex-grow">
+                                            <h3 class="font-poppins font-semibold text-sm md:text-base text-teks mb-2 truncate">{{ $buku->judul }}</h3>
+                                            <span class="text-xs px-2 py-1 rounded-full inline-block mb-1 max-w-[120px] md:max-w-[140px] lg:max-w-[160px] truncate"
+                                                id="genre-tag-{{ $buku->slug }}-reading"
+                                                data-genre-name="{{ $buku->genre->nama_genre ?? 'Umum' }}">
+                                                {{ $buku->genre->nama_genre ?? '-' }}
+                                            </span>
+                                            <p class="text-sec text-xs md:text-sm mt-auto font-poppins truncate">{{ $buku->penulis }}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <button onclick="scrollCarousel(event, 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -ml-1
+                            hidden md:block md:p-2 md:-ml-2">
+                            <i class="bi bi-chevron-left text-lg md:text-xl text-gray-600"></i>
+                        </button>
+                        <button onclick="scrollCarousel(event, 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-md z-10 -mr-1
+                            hidden md:block md:p-2 md:-mr-2">
+                            <i class="bi bi-chevron-right text-lg md:text-xl text-gray-600"></i>
+                        </button>
+                    </div>
+                @endif
             </div>
         </div>
-        
-        <div class="px-8 py-6 {{ $bukusDone->isEmpty() ? 'hidden' : '' }}">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-bold text-teks font-poppins">Selesai Dibaca</h2>
-                <a href="{{ route('histori.list', ['type' => 'completed']) }}" class="text-primary-500 hover:underline font-medium">Lihat Semua</a>
-            </div>
 
-            {{-- Selesai Dibaca Section --}}
+        <div class="px-2 {{ $bukusDone->isEmpty() ? 'hidden' : '' }}">
             <div class="bg-white rounded-2xl p-4 md:p-6 shadow-md mb-6">
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-lg md:text-xl lg:text-2xl font-bold text-teks font-poppins">Selesai Dibaca</h2>
@@ -237,34 +247,34 @@
                         </a>
                     </div>
                 @else
-                    <div class="relative mt-4"> {{-- Added relative for positioning buttons --}}
-                        <div class="carousel-container md:carousel-grid lg:carousel-grid px-2 md:px-0">
+                    <div class="relative mt-4">
+                        <div class="carousel-container px-2 md:px-0">
                             <div class="carousel-wrapper flex gap-4 transition-transform duration-300 min-w-full p-2 md:gap-6 md:p-4">
                                 @foreach ($bukusDone as $done)
                                     @php $buku = $done->buku; @endphp
-                                    <div class="carousel-item flex-none w-40 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg cursor-pointer overflow-hidden"
-                                    onclick="openModalDetailBuku(this)"
-                                    data-slug="{{ $buku->slug }}"
-                                    data-level="{{ $buku->level_required }}"
-                                    data-judul="{{ $buku->judul }}"
-                                    data-penulis="{{ $buku->penulis }}"
-                                    data-genre="{{ $buku->genre->nama_genre }}"
-                                    data-cover="{{ asset('storage/' . $buku->cover_path) }}"
-                                    data-sinopsis="{{ $buku->sinopsis }}"
-                                    data-status="{{ $done->status }}"
+                                    <div class="carousel-item flex-none w-40 md:w-48 lg:w-56 xl:w-64 transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:shadow-lg cursor-pointer overflow-hidden bg-white rounded-xl shadow
+                                        flex flex-col"
+                                        onclick="openModalDetailBuku(this)"
+                                        data-slug="{{ $buku->slug }}"
+                                        data-level="{{ $buku->level_required }}"
+                                        data-judul="{{ $buku->judul }}"
+                                        data-penulis="{{ $buku->penulis }}"
+                                        data-genre="{{ $buku->genre->nama_genre }}"
+                                        data-cover="{{ asset('storage/' . $buku->cover_path) }}"
+                                        data-sinopsis="{{ $buku->sinopsis }}"
+                                        data-status="{{ $done->status }}"
                                     >
-                                        <div class="h-40 md:h-48 lg:h-56 overflow-hidden">
+                                        <div class="h-40 md:h-48 lg:h-56 xl:h-64 overflow-hidden flex-shrink-0">
                                             <img src="{{ asset('storage/' . $buku->cover_path) }}" alt="Book Cover" class="w-full h-full object-cover rounded-t-xl">
                                         </div>
-                                        <div class="p-3 md:p-4">
+                                        <div class="p-3 md:p-4 flex flex-col flex-grow">
                                             <h3 class="font-poppins font-semibold text-sm md:text-base text-teks mb-2 truncate">{{ $buku->judul }}</h3>
-                                            {{-- Genre color will be handled by JS for consistency with modal --}}
-                                            <span class="text-xs px-2 py-1 rounded-full inline-block"
+                                            <span class="text-xs px-2 py-1 rounded-full inline-block mb-1 max-w-[120px] md:max-w-[140px] lg:max-w-[160px] truncate"
                                                 id="genre-tag-{{ $buku->slug }}-done"
                                                 data-genre-name="{{ $buku->genre->nama_genre ?? 'Umum' }}">
                                                 {{ $buku->genre->nama_genre ?? '-' }}
                                             </span>
-                                            <p class="text-sec text-xs md:text-sm mt-2 font-poppins">{{ $buku->penulis }}</p>
+                                            <p class="text-sec text-xs md:text-sm mt-auto font-poppins truncate">{{ $buku->penulis }}</p>
                                         </div>
                                     </div>
                                 @endforeach

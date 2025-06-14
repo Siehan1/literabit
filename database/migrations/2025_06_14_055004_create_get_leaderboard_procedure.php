@@ -11,7 +11,7 @@ class CreateGetLeaderboardProcedure extends Migration
             DROP PROCEDURE IF EXISTS GetLeaderboard;
             CREATE PROCEDURE GetLeaderboard()
             BEGIN
-                SELECT id, name, xp,
+                SELECT id, name, xp, profil,
                        RANK() OVER (ORDER BY xp DESC) AS ranking
                 FROM users
                 ORDER BY xp DESC
@@ -25,4 +25,3 @@ class CreateGetLeaderboardProcedure extends Migration
         DB::unprepared("DROP PROCEDURE IF EXISTS GetLeaderboard;");
     }
 }
-
