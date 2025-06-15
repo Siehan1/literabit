@@ -12,7 +12,7 @@
 
         <div class="hidden lg:block border-b-2 border-gray-200 py-4 w-full">
             <div class="flex flex-row gap-4 justify-start items-center group">
-                <img src="{{ asset(Auth::user()->profil ? 'storage/' . Auth::user()->profil : 'profile_penulis/pro1.svg') }}" alt="foto_pengguna" class="w-17 rounded-full ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all">
+                <img src="{{ asset(Auth::user()->profil ? 'storage/' . Auth::user()->profil : 'profile_penulis/pro1.svg') }}" alt="foto_pengguna" class="w-17 h-17 rounded-full ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all object-cover">
                 <div class="flex flex-col">
                     <span class="text-teks font-medium">{{ Auth::user()->name }}</span>
                     <span class="text-sec text-[14px] opacity-75">Level {{$user->level}}</span>

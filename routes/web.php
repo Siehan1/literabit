@@ -11,7 +11,7 @@ use App\Http\Controllers\badgesController;
 use App\Http\Controllers\quizController;
 use App\Http\Controllers\LevelTresholdController;
 use App\Http\Controllers\misionTemplate;
-use App\Http\Controllers\dailyMision; 
+use App\Http\Controllers\dailyMision;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\BacaBukuController;
 use App\Http\Controllers\HistoryController;
@@ -164,3 +164,6 @@ Route::get('/streak',[StreakController::class,'streak'])->name('streak');
 // leaderboard
 Route::get('/leaderboad',[LeaderboardController::class,'index'])->name('leaderboard');
 Route::get('/leaderboad-get',[LeaderboardController::class,'getLeaderboard'])->name('getLeaderboard');
+
+// badge reward
+    Route::get('/badge-reward', [badgesController::class, 'terimaBadge'])->name('badge.reward');
