@@ -71,6 +71,7 @@ Route::middleware(['auth', 'admin'])->group(function (){
     Route::get('/tableBadges',[badgesController::class,'index'])->name('tableBadges');
     Route::delete('/badges/{id}', [badgesController::class, 'destroy'])->name('badge.destroy');
     Route::get('/badges/{id}/edit', [badgesController::class, 'edit'])->name('badge.edit');
+    Route::post('/badges/{id}/edit', [badgesController::class, 'update'])->name('badge.edit');
 });
 
 

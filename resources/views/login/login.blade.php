@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - LittleRabbit</title>
+    <link rel="icon" href="{{ asset('asset/images/icon.svg') }}" type="image/svg+xml">
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="font-poppins text-teks bg-wave min-h-screen flex items-center justify-center">
@@ -36,7 +37,7 @@
                                 @endforeach
                         </div>
                     @endif
-                    
+
                     <form class="space-y-4" action="{{ route('login.post') }}" method="POST">
                         @csrf
                         <div class="flex flex-col gap-2">
@@ -75,7 +76,7 @@
                         </button>
 
                         <p class="text-center text-sm">
-                            Belum punya akun? 
+                            Belum punya akun?
                             <a href="{{ route('register.show') }}" class="text-primary hover:text-hover transition-colors duration-200">Daftar sekarang</a>
                         </p>
                     </form>
