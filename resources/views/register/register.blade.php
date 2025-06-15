@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrasi - LittleRabbit</title>
+    <link rel="icon" href="{{ asset('asset/images/icon.svg') }}" type="image/svg+xml">
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="font-poppins text-teks bg-wave min-h-screen flex items-center justify-center">
@@ -44,7 +45,7 @@
                             <label for="name" class="text-sm font-medium">Nama</label>
                             <input type="text" id="name" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="Nama Lengkap" autofocus name="name">
                         </div>
-                        
+
                         <div class="flex flex-col gap-2">
                             <label for="username" class="text-sm font-medium">Username</label>
                             <input type="text" id="username" required class="w-full px-4 py-2 rounded-xl border-2 border-teks focus:outline-none focus:border-primary transition-colors duration-200" placeholder="Username" autofocus name="username">
@@ -84,7 +85,7 @@
                         </button>
 
                         <p class="text-center text-sm">
-                            Sudah punya akun? 
+                            Sudah punya akun?
                             <a href="{{ route('login') }}" class="text-primary hover:text-hover transition-colors duration-200">Login!</a>
                         </p>
                     </form>

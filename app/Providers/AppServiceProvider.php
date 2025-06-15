@@ -59,8 +59,8 @@ class AppServiceProvider extends ServiceProvider
 
         //     $view->with(compact('user', 'currentThreshold', 'nextThreshold', 'progress'));
         // });
-        
-        
+
+
         View::composer('components.utama.navside', function ($view) {
             $userId = Auth::id();
             // $user = Auth::user();
@@ -96,7 +96,6 @@ class AppServiceProvider extends ServiceProvider
             } elseif ($currentThreshold && !$nextThreshold) {
                 $progress = 100; // sudah level tertinggi
             }
-
             $view->with(compact('user', 'currentThreshold', 'nextThreshold', 'progress'));
         });
 

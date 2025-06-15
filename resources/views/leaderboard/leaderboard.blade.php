@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard | LittleRabbit</title>
+    <link rel="icon" href="{{ asset('asset/images/icon.svg') }}" type="image/svg+xml">
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 
@@ -14,7 +15,7 @@
     <main class="flex-grow pb-20 px-4 py-6 md:px-8 md:py-8 md:ml-[20%] md:mr-[20%] md:w-[60%] md:pb-0 font-poppins">
         <div class="bg-white p-4 rounded-3xl flex items-center justify-around shadow-md mb-6" id="user-info" data-user-id="{{ auth()->user()->id }}">
             <div class="flex flex-col items-center text-center text-[#8B4513]">
-                <img src="{{asset('asset/icons/trophy.png')}}" alt="Top 1 Icon" class="w-10 h-10 md:w-12 md:h-12 mb-1" id="trophy-icon" style="display: none;">
+                <img src="" alt="Top 1 Icon" class="w-10 h-10 md:w-12 md:h-12 mb-1" id="trophy-icon" style="display: none;">
                 <span id="juara" class="text-lg md:text-xl font-semibold">Loading...</span>
             </div>
             <div class="border-l-2 border-[#8B4513] h-12"></div>
@@ -97,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (userRank === 3) {
                 juara.textContent = `Juara 3`;
                 if (trophyIcon) {
-                    trophyIcon.src = "{{ asset('asset/icons/trophy_bronze.png') }}";
+                    trophyIcon.src = "{{ asset('asset/icons/thropy_bronze.png') }}";
                     trophyIcon.style.display = 'inline-block';
                 }
             } else {

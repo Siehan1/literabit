@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Beranda | LittleRabbit</title>
+    <link rel="icon" href="{{ asset('asset/images/icon.svg') }}" type="image/svg+xml">
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="flex min-h-screen">
@@ -16,13 +17,13 @@
         <x-utama.navside></x-utama.navside>
 
         <main class="w-[60%] ml-[20%] mr-[20%] bg-primary-100">
-            
+
             <div class="px-8 py-6">
                 <h1 class="font-poppins text-3xl font-bold text-teks text-center bg-gradient-to-r from-primary-100 to-primary-50 p-6 rounded-xl shadow-sm animate-fade-in">
                     Hasil pencarian untuk
                     <span class="text-primary-600">{{$keyword}}</span>
                     <span class="animate-bounce inline-block">🔍</span>
-                    
+
                 </h1>
             </div>
 
@@ -47,7 +48,7 @@
                 </div>
             @else
             <div class="mx-3 mt-2 bg-white p-4 rounded-2xl">
-            
+
                 <!-- Carousel container -->
                 <div class="relative mt-6 px-4">
                     <!-- Carousel track -->
@@ -98,13 +99,13 @@
         class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
 
         <div id="modalContentBuku" class="relative rounded-2xl p-8 w-[90%] max-w-xl bg-white shadow-xl">
-            
+
             <!-- Tombol close -->
             <button onclick="closeModalDetailBuku()"
                 class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">
                 &times;
             </button>
-            
+
             <!-- Gambar Cover -->
             <div class="flex justify-center mb-4">
                 <img id="modalCover" src="" alt="Cover Buku" class="w-40 h-60 object-cover rounded-md shadow-md">
@@ -130,14 +131,14 @@
             <!-- Tombol Baca -->
             <div class="flex justify-center">
                 <a id="modalLinkBaca" href="#"
-                    class="px-6 py-3 rounded-xl text-white font-bold text-lg bg-[#34A853] shadow-[0_6px_0_#2C8E46] 
+                    class="px-6 py-3 rounded-xl text-white font-bold text-lg bg-[#34A853] shadow-[0_6px_0_#2C8E46]
                         hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all">
                     MULAI BACA
                 </a>
             </div>
         </div>
         </div>
-        
+
         <x-utama.navsideRight />
         <script>
             function openModalDetailBuku(el) {
@@ -180,12 +181,12 @@
                 // Tampilkan modal
                 document.getElementById('modalBuku').classList.remove('hidden');
             }
-            
+
             function closeModalDetailBuku() {
                 document.getElementById('modalBuku').classList.add('hidden');
             }
         </script>
-            
+
 
 </body>
 </html>
